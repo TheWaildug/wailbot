@@ -26,8 +26,8 @@ module.exports = {
     }
 
     //Get the highest role of user for compare
-    let authorHighestRole =  message.author.roles.highest;
-    let mentionHighestRole = mentionMember.roles.highest;
+    let authorHighestRole =  message.author.roles.cache.highest;
+    let mentionHighestRole = mentionMember.roles.cache.highest;
 
     //If mention user have same or higher role, so show this error msg
     if(mentionHighestRole >= authorHighestRole) {
