@@ -25,14 +25,14 @@ client.once('ready', () => {
 });
 
 client.on('guildMemberAdd', member =>{
-    console.log(`${member} joined the server.`)
+    console.log(`${member.displayName} joined the server.`)
     const channel = member.guild.channels.cache.find(channel => channel.name === `${welcomeChannel}`);
    if(!channel) return;
    channel.send(`Welcome to Fluff Studios ${member}! Please read ${ member.guild.channels.cache.get('721090307696885823').toString()}`); 
 })
 
 client.on('guildMemberRemove', member =>{
-    console.log(`${member} left the server.`)
+    console.log(`${member.displayName} left the server.`)
     const channel = member.guild.channels.cache.find(channel => channel.name === "hi-bye")
     if (!channel) return;
     channel.send(`It's sad to see you go ${member}.`)
