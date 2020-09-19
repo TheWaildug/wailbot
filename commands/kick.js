@@ -9,10 +9,6 @@ module.exports = {
         return;
     };
 
-    if(!args[2]){
-        message.channel.send('Please have a reason!');
-        return;
-    };
 
     //Then check if user have permissions to do that
     if(!message.member.hasPermission('KICK_MEMBERS')) {
@@ -24,7 +20,7 @@ module.exports = {
     let mentionMember = message.mentions.members.first();
     //If user dont mention a member, that show him this error msg
     if(!mentionMember) {
-        message.channel.send('pls mention member witch you need to kick');
+        message.channel.send('You need to mention a member to kick!');
         return;
     }
 
@@ -35,8 +31,14 @@ module.exports = {
         return
     };
 
+    
+    if(!args[1]){
+        message.channel.send('Please have a reason!');
+        return;
+    };
+
     //If all steps are completed successfully try kick this user
-    mentionMember.kick()
+    mentionMember.kick(args[2])
         .then(() => console.log(`Kicked ${member.displayName}`))
         .catch(console.error);    
     }
