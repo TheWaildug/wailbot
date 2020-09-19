@@ -38,7 +38,7 @@ module.exports = {
     };
 
     //If all steps are completed successfully try kick this user
-    mentionMember.kick(args[2])
+    mentionMember.kick(args[1])
         .then(() => console.log(`Kicked ${member.displayName}`))
         .catch(console.error);    
     }
