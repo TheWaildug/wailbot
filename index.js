@@ -3,7 +3,7 @@ const client = new Discord.Client();
  
 const prefix = 'w!';
 
-const fs = require('fs');
+const fs = require('fs');   
  
 client.Commands = new Discord.Collection();
 
@@ -12,7 +12,7 @@ const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith(
 for(const file of commandFiles){
     const command = require(`./commands/${file}`);
 
-    client.commands.set(comand.name, command);
+    client.Commands.set(comand.name, command);
 }
 
 
@@ -44,10 +44,10 @@ client.on('message', message =>{
     const command = args.shift().toLowerCase();
  
     if(command === 'ping'){
-       client.commands.get('ping').execute(message,args);
+       client.Commands.get('ping').execute(message,args);
     } 
     else if(command === 'kick'){
-      client.commands.get('kick').execute(message,args); 
+      client.Commands.get('kick').execute(message,args); 
     } 
 });
  
