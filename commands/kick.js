@@ -9,6 +9,11 @@ module.exports = {
         return;
     };
 
+    if(!args[2]){
+        message.channel.send('Please have a reason!');
+        return;
+    };
+
     //Then check if user have permissions to do that
     if(!message.member.hasPermission('KICK_MEMBERS')) {
         message.channel.send('You have no permissions to do that');
