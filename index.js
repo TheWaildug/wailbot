@@ -2,6 +2,8 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
  
 const prefix = 'w!';
+
+const fs = require('fs');
  
 client.Commands = new Discord.Collection();
 
@@ -12,7 +14,7 @@ for(const file of commandFiles){
 
     client.commands.set(comand.name, command);
 }
-const fs = require('fs');
+
 
 const welcomeChannel = `hi-bye`
 
