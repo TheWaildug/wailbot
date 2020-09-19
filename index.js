@@ -3,6 +3,15 @@ const client = new Discord.Client();
  
 const prefix = 'w!';
  
+client.Commands = new Discord.Collection();
+
+const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
+
+for(const file of commandFiles){
+    const command = require(`./commands/${file}`);
+
+    client.commands.set(comand.name, command);
+}
 const fs = require('fs');
 
 const welcomeChannel = `hi-bye`
@@ -33,9 +42,8 @@ client.on('message', message =>{
     const command = args.shift().toLowerCase();
  
     if(command === 'ping'){
-        console.log('Ping Command Sent.')
-        return message.channel.send('Pong!');    
-    }
+       client.commands.get('ping').execute(message,args);
+    } 
     else if(command === 'kick'){
        console.log('Kick Command Sent.') 
         if(!args[1]) return message.channel.send('You need to specify a player!');
