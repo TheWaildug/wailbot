@@ -48,6 +48,9 @@ client.on('message', message =>{
     } 
     else if(command === 'kick'){
       client.Commands.get('kick').execute(message,args); 
+    }
+    else if(command === 'ban'){
+        client.Commands.get('ban').execute(message,args);  
     } 
 });
  
