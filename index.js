@@ -45,16 +45,7 @@ client.on('message', message =>{
        client.commands.get('ping').execute(message,args);
     } 
     else if(command === 'kick'){
-       console.log('Kick Command Sent.') 
-        if(!args[1]) return message.channel.send('You need to specify a player!');
-        if(!args[2]) return message.channel.send('You need to have a reason!')
-        const user = message.mentions.users.first();
-        if(user){
-            const member = member.guild.member(user);
-            if(member){
-                member.kick(`You were kicked from this server! Reason: ${args[2]}.`)
-            }
-        }
+      client.commands.get('kick').execute(message,args); 
     } 
 });
  
