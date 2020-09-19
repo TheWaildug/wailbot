@@ -25,19 +25,11 @@ module.exports = {
         return;
     }
 
-    //Get the highest role of user for compare
-    let authorHighestRole =  message.author.roles.cache.highest;
-    let mentionHighestRole = mentionMember.roles.cache.highest;
-
-    //If mention user have same or higher role, so show this error msg
-    if(mentionHighestRole >= authorHighestRole) {
-        message.channel.send('You can`t kick members with equal or higher position');
-        return;
-    };
+   
 
     //Check if your bot can`t kick this user, so that show this error msg 
     if(!mentionMember.kickable) {
-        message.channel.send('I have no permissions to kick this user');
+        message.channel.send('I have no permissions to kick this user.');
         return
     };
 
