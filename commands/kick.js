@@ -3,6 +3,7 @@ module.exports = {
     description: 'This command kicks the player;',
     execute(message, args){
       console.log('kick command sent')
+
       if(message.channel.type === 'DM') {
         //Fist check if message channel is not direct message, because you cant kick out of guide 
         message.channel.send('This command can use only in guide');
@@ -40,6 +41,7 @@ module.exports = {
     //If all steps are completed successfully try kick this user
     mentionMember.kick(args[1])
         .then(() => console.log(`Kicked ${member.displayName}`))
+        member.send(`You have been kicked! Reason: ${args[1]}`)
         .catch(console.error);    
     }
 }
