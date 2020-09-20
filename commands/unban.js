@@ -28,7 +28,6 @@
     //If all steps are completed successfully try kick this user
     message.guild.members.unban(mentionMember)
         .then(() => console.log(`UnBanned ${mentionMember.displayName} for ${args[1]} by ${message.author}`))
-        mentionMember.send(`You have been unbanned from ${message.channel.guild}. Reason: ${args[1]}`)
         message.channel.send(`Sucessfully UnBanned ${mentionMember.displayName} for ${args[1]}`)
         .catch(console.error);    
     }
