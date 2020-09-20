@@ -65,7 +65,7 @@ client.on('message', message =>{
 
         if(!message.member.hasPermission('KICK_MEMBERS')) return message.reply('You do not have permission.')
         if(!mentionmember.kickable) return message.reply('This user cannot be muted!')
-        const muterole = message.guild.roles.find(role => role.name === "Muted");
+        const muterole = message.guild.roles.cache.find(role => role.name === "Muted");
         if(!muterole) return message.reply("I couldn't find the mute role!");
 
         const time = args[2]
