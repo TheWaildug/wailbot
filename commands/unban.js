@@ -1,8 +1,8 @@
         module.exports = {
-    name: 'ban',
-    description: 'This command bans the player;',
+    name: 'unban',
+    description: 'This command unbans the player;',
     execute(message, args){
-      console.log('ban command sent')
+      console.log('unban command sent')
 
       if(message.channel.type === 'DM') {
         //Fist check if message channel is not direct message, because you cant kick out of guide 
@@ -27,11 +27,7 @@
 
    
 
-    //Check if your bot can`t kick this user, so that show this error msg 
-    if(!mentionMember.bannable) {
-        message.channel.send('I have no permissions to ban this user.');
-        return
-    };
+    
 
     
     if(!args[1]){
@@ -40,10 +36,10 @@
     };
 
     //If all steps are completed successfully try kick this user
-    message.guild.members.ban(mentionMember(args[1]))
-        .then(() => console.log(`Banned ${mentionMember.displayName}  for ${args[1]} by ${message.author}`))
-        mentionMember.send(`You have been banned from ${message.channel.guild}. Reason: ${args[1]}`)
-        message.channel.send(`Sucessfully Banned ${mentionMember.displayName} for ${args[1]}`)
+    message.guild.members.unban(mentionMember)
+        .then(() => console.log(`UnBanned ${mentionMember.displayName} for ${args[1]} by ${message.author}`))
+        mentionMember.send(`You have been unbanned from ${message.channel.guild}. Reason: ${args[1]}`)
+        message.channel.send(`Sucessfully UnBanned ${mentionMember.displayName} for ${args[1]}`)
         .catch(console.error);    
     }
 }
