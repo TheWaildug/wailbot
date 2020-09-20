@@ -63,7 +63,7 @@ client.on('message', message =>{
         const mentionmember = message.guild.member(message.mentions.users.first());
         if(!mentionmember)return message.reply('You need to mention a member to mute!') ;
 
-        if(!message.author.hasPermission('KICK_MEMBERS')) return message.reply('You do not have permission.')
+        if(!message.member.hasPermission('KICK_MEMBERS')) return message.reply('You do not have permission.')
         if(!mentionmember.kickable) return message.reply('This user cannot be muted!')
         const muterole = message.guild.roles.find(role => role.name === "Muted");
         if(!muterole) return message.reply("I couldn't find the mute role!");
@@ -72,7 +72,7 @@ client.on('message', message =>{
         if(!time) return message.reply('Please specify a time!');
 
         mentionmember.addRole(muterole.id)
-        .then(() =>  console.log(`Muted ${mentionMember.displayName}  for ${ms(ms(time))} by ${message.author} Reason: ${args[1]}`)) 
+        .then(() =>  console.log(`Muted ${mentionMember.displayName}  for ${ms(ms(time))} by ${message.member.displayName} Reason: ${args[1]}`)) 
         message.channel.send(`Sucessfully muted ${mentionmember.displayName} for ${ms(ms(time))} hours. Reason: ${args[1]}`)
         mentionmember.send(`You have been muted in ${message.guild.name} for ${ms(ms(time))} hours. Reason: ${args[1]}`)
         mentionmember.addRole(muterole.id)
