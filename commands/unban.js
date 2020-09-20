@@ -14,11 +14,6 @@
 
     //const a member, wich you need yo kick (its fist mention message member)
     let mentionMember = message.mentions.members.first();
-    //If user dont mention a member, that show him this error msg
-    if(!mentionMember) {
-        message.channel.send('You need to mention a member to ban!!');
-        return;
-    }
 
    
 
