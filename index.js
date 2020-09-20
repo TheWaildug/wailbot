@@ -72,7 +72,7 @@ client.on('message', message =>{
         if(!args[1]) return message.reply('Please have a reason!')
         const time = args[2]
         if(!time) return message.reply('Please specify a time!');
-        if(mentionMember.roles.cache.some(role => role.name === 'Muted')) return message.reply("This user is already muted!")
+        if(mentionmember.roles.cache.some(role => role.name === 'Muted')) return message.reply("This user is already muted!")
         mentionmember.roles.add(muterole)
         .then(() =>  console.log(`Muted ${mentionmember.displayName}  for ${ms(ms(time))} by ${message.member.displayName} Reason: ${args[1]}`)) 
         message.channel.send(`Sucessfully muted ${mentionmember.displayName} for ${ms(ms(time))}. Reason: ${args[1]}`)
