@@ -59,7 +59,7 @@ client.on('message', message =>{
         client.Commands.get('unban').execute(message,args); 
     }
     else if(command === 'mute'){
-        console.log(`mute command sent by ${message.author.displayName}.`)
+        console.log(`mute command sent.`)
         const mentionmember = message.guild.member(message.mentions.users.first());
         if(!mentionmember)return message.reply('You need to mention a member to mute!') ;
 
