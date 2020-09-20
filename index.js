@@ -67,19 +67,19 @@ client.on('message', message =>{
         if(!mentionmember.kickable) return message.reply('This user cannot be muted!')
         const muterole = message.guild.roles.cache.find(role => role.name === "Muted");
         if(!muterole) return message.reply("I couldn't find the mute role!");
-
+        
+        if(!args[1]) return message.reply('Please have a reason!')
         const time = args[2]
         if(!time) return message.reply('Please specify a time!');
 
-        mentionmember.addRole(muterole.id)
+        mentionmember.add(muterole)
         .then(() =>  console.log(`Muted ${mentionMember.displayName}  for ${ms(ms(time))} by ${message.member.displayName} Reason: ${args[1]}`)) 
         message.channel.send(`Sucessfully muted ${mentionmember.displayName} for ${ms(ms(time))} hours. Reason: ${args[1]}`)
         mentionmember.send(`You have been muted in ${message.guild.name} for ${ms(ms(time))} hours. Reason: ${args[1]}`)
-        mentionmember.addRole(muterole.id)
         .catch(console.error);    
 
         setTimeout(function(){
-            mentionmember.removeRole(muterole.id);
+            mentionmember.remove(muterole);
             message.channel.send(`Auto Unmuted ${mentionmember.displayName}`)
         }, ms(time));
     }
