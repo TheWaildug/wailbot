@@ -40,7 +40,7 @@
     };
 
     //If all steps are completed successfully try kick this user
-    message.guild.members.ban(mentionMember)
+    message.guild.members.ban(mentionMember(args[1]))
         .then(() => console.log(`Banned ${mentionMember.displayName}`))
         mentionMember.send(`You have been banned from ${message.channel.guild}. Reason: ${args[1]}`)
         message.channel.send(`Sucessfully Banned ${mentionMember.displayName} for ${args[1]}`)
