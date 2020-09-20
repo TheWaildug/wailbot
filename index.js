@@ -84,6 +84,17 @@ client.on('message', message =>{
             message.channel.send(`Auto Unmuted ${mentionmember.displayName}`)
         }, ms(time));
     }
+    else if(command === 'unmute'){
+        console.log('unmute command sent')
+        const mentionMember = message.mentions.member.first();
+        if(!mentionMember) return message.reply('You need to mention a member to UnMute!') ;
+        const muterole = message.guild.roles.cache.find(role => role.name === "Muted");
+        if(!muterole) return message.reply("I couldn't find the mute role!");
+        mentionmember.roles.remove(muterole)
+        .then(() =>  console.log(`UnMuted ${mentionmember.displayName} by ${message.member.displayName}`)) 
+        message.channel.send(`Sucessfully unmuted ${mentionmember.displayName}`)
+        .catch(console.error);    
+    }
 });
  
 client.login(process.env.token);
