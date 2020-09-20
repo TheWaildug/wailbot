@@ -60,7 +60,7 @@ client.on('message', message =>{
     }
     else if(command === 'mute'){
         console.log(`mute command sent.`)
-        const mentionmember = message.guild.member(message.mentions.users.first());
+        const mentionmember = message.mentions.users.first();
         console.log(mentionmember.displayName)
         if(!mentionmember)return message.reply('You need to mention a member to mute!') ;
 
