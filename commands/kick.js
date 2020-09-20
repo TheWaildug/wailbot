@@ -4,16 +4,12 @@ module.exports = {
     execute(message, args){
       console.log('kick command sent')
 
-      if(message.channel.type === 'DM') {
-        //Fist check if message channel is not direct message, because you cant kick out of guide 
-        message.channel.send('This command can use only in guide');
-        return;
-    };
+     
 
 
     //Then check if user have permissions to do that
     if(!message.member.hasPermission('KICK_MEMBERS')) {
-        message.channel.send('You have no permissions to do that');
+        message.reply('You have no permissions to do that');
         return;
     };
 
@@ -21,7 +17,7 @@ module.exports = {
     let mentionMember = message.mentions.members.first();
     //If user dont mention a member, that show him this error msg
     if(!mentionMember) {
-        message.channel.send('You need to mention a member to kick!');
+        message.reply('You need to mention a member to kick!');
         return;
     }
 
@@ -29,13 +25,13 @@ module.exports = {
 
     //Check if your bot can`t kick this user, so that show this error msg 
     if(!mentionMember.kickable) {
-        message.channel.send('I have no permissions to kick this user.');
+        message.reply('I have no permissions to kick this user.');
         return
     };
 
     
     if(!args[1]){
-        message.channel.send('Please have a reason!');
+        message.reply('Please have a reason!');
         return;
     };
 
@@ -43,7 +39,7 @@ module.exports = {
     mentionMember.kick(args[1])
         .then(() => console.log(`Kicked ${mentionMember.displayName}`))
         mentionMember.send(`You have been kicked from ${message.channel.guild}. Reason: ${args[1]}`)
-        message.channel.send(`Sucessfully Kicked ${mentionMember.displayName} for ${args[1]}`)
+        message.reply(`Sucessfully Kicked ${mentionMember.displayName} for ${args[1]}`)
         .catch(console.error);    
     }
 }

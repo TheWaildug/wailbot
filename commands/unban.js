@@ -4,12 +4,7 @@
     execute(message, args){
       console.log('unban command sent')
 
-      if(message.channel.type === 'DM') {
-        //Fist check if message channel is not direct message, because you cant kick out of guide 
-        message.channel.send('This command can use only in guide');
-        return;
-    };
-
+     
 
     //Then check if user have permissions to do that
     if(!message.member.hasPermission('BAN_MEMBERS')) {

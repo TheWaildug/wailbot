@@ -3,7 +3,10 @@ const client = new Discord.Client();
  
 const prefix = 'w!';
 
+const ms = require('ms');
+
 const fs = require('fs');   
+const { setTimeout } = require('timers');
  
 client.Commands = new Discord.Collection();
 
@@ -52,8 +55,33 @@ client.on('message', message =>{
     else if(command === 'ban'){
         client.Commands.get('ban').execute(message,args);  
     } 
-    else if(command == 'unban'){
-        client.Commands.get('unban').execute(message,args);
+    else if(command === 'unban'){
+        client.Commands.get('unban').execute(message,args); 
+    }
+    else if(command === 'mute'){
+        console.log(`mute command sent by ${message.author.displayName}.`)
+        const mentionmember = message.guild.member(message.mentions.users.first());
+        if(!mentionmember)return message.reply('You need to mention a member to mute!') ;
+
+        if(!message.author.hasPermission('KICK_MEMBERS')) return message.reply('You do not have permission.')
+        if(!mentionmember.kickable) return message.reply('This user cannot be muted!')
+        const muterole = message.guild.roles.find(role => role.name === "Muted");
+        if(!muterole) return message.reply("I couldn't find the mute role!");
+
+        const time = args[2]
+        if(!time) return message.reply('Please specify a time!');
+
+        mentionmember.addRole(muterole.id)
+        .then(() =>  console.log(`Muted ${mentionMember.displayName}  for ${ms(ms(time))} by ${message.author} Reason: ${args[1]}`)) 
+        message.channel.send(`Sucessfully muted ${mentionmember.displayName} for ${ms(ms(time))} hours. Reason: ${args[1]}`)
+        mentionmember.send(`You have been muted in ${message.guild.name} for ${ms(ms(time))} hours. Reason: ${args[1]}`)
+        mentionmember.addRole(muterole.id)
+        .catch(console.error);    
+
+        setTimeout(function(){
+            mentionmember.removeRole(muterole.id);
+            message.channel.send(`Auto Unmuted ${mentionmember.displayName}`)
+        }, ms(time));
     }
 });
  
