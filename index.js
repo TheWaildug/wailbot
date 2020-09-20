@@ -72,14 +72,14 @@ client.on('message', message =>{
         const time = args[2]
         if(!time) return message.reply('Please specify a time!');
 
-        mentionmember.add(muterole)
+        mentionmember.roles.add(muterole)
         .then(() =>  console.log(`Muted ${mentionMember.displayName}  for ${ms(ms(time))} by ${message.member.displayName} Reason: ${args[1]}`)) 
         message.channel.send(`Sucessfully muted ${mentionmember.displayName} for ${ms(ms(time))} hours. Reason: ${args[1]}`)
         mentionmember.send(`You have been muted in ${message.guild.name} for ${ms(ms(time))} hours. Reason: ${args[1]}`)
         .catch(console.error);    
 
         setTimeout(function(){
-            mentionmember.remove(muterole);
+            mentionmember.roles.remove(muterole);
             message.channel.send(`Auto Unmuted ${mentionmember.displayName}`)
         }, ms(time));
     }
