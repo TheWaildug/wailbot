@@ -1,4 +1,4 @@
-module.exports = {
+        module.exports = {
     name: 'ban',
     description: 'This command bans the player;',
     execute(message, args){
@@ -12,7 +12,7 @@ module.exports = {
 
 
     //Then check if user have permissions to do that
-    if(!message.member.hasPermission('Ban_MEMBERS')) {
+    if(!message.member.hasPermission('BAN_MEMBERS')) {
         message.channel.send('You must have the permission "Ban Members".');
         return;
     };
@@ -40,7 +40,7 @@ module.exports = {
     };
 
     //If all steps are completed successfully try kick this user
-    mentionMember.ban(args[1])
+    message.guild.members.ban(mentionMember)
         .then(() => console.log(`Banned ${mentionMember.displayName}`))
         mentionMember.send(`You have been banned from ${message.channel.guild}. Reason: ${args[1]}`)
         message.channel.send(`Sucessfully Banned ${mentionMember.displayName} for ${args[1]}`)
