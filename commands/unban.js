@@ -12,7 +12,8 @@
         return;
     };
 
-
+    //const a member, wich you need yo kick (its fist mention message member)
+    let mentionMember = message.mentions.members.first();
 
    
 
@@ -21,7 +22,7 @@
   
 
     //If all steps are completed successfully try kick this user
-    message.guild.members.unban(args[0])
+    message.guild.members.unban(mentionMember)
         .then(() => console.log(`UnBanned ${mentionMember.displayName} by ${message.author}`))
         message.channel.send(`Sucessfully UnBanned ${mentionMember.displayName}`)
         .catch(console.error);    
