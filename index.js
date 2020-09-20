@@ -61,6 +61,7 @@ client.on('message', message =>{
     else if(command === 'mute'){
         console.log(`mute command sent.`)
         const mentionmember = message.guild.member(message.mentions.users.first());
+        console.log(mentionmember.displayName)
         if(!mentionmember)return message.reply('You need to mention a member to mute!') ;
 
         if(!message.member.hasPermission('KICK_MEMBERS')) return message.reply('You do not have permission.')
@@ -73,7 +74,7 @@ client.on('message', message =>{
         if(!time) return message.reply('Please specify a time!');
 
         mentionmember.roles.add(muterole)
-        .then(() =>  console.log(`Muted ${mentionMember.displayName}  for ${ms(ms(time))} by ${message.member.displayName} Reason: ${args[1]}`)) 
+        .then(() =>  console.log(`Muted ${mentionmember.displayName}  for ${ms(ms(time))} by ${message.member.displayName} Reason: ${args[1]}`)) 
         message.channel.send(`Sucessfully muted ${mentionmember.displayName} for ${ms(ms(time))} hours. Reason: ${args[1]}`)
         mentionmember.send(`You have been muted in ${message.guild.name} for ${ms(ms(time))} hours. Reason: ${args[1]}`)
         .catch(console.error);    
