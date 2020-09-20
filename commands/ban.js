@@ -3,7 +3,7 @@
     description: 'This command bans the player;',
     execute(message, args){
       console.log('ban command sent')
-
+        const memberto
       if(message.channel.type === 'DM') {
         //Fist check if message channel is not direct message, because you cant kick out of guide 
         message.channel.send('This command can use only in guide');
@@ -25,7 +25,7 @@
         return;
     }
     else if(mentionMember){
-        const memberto = message.guild.members.cache.get(mentionMember.id)
+        memberto = message.guild.members.cache.get(mentionMember.id)
     }
 
    
