@@ -24,6 +24,9 @@
         message.channel.send('You need to mention a member to ban!!');
         return;
     }
+    else if(mentionMember){
+        const memberto = message.guild.members.cache.get(mentionMember.id)
+    }
 
    
 
@@ -41,7 +44,7 @@
 
 
     //If all steps are completed successfully try kick this user
-    message.channel.guild.members.mentionMember.ban(args[1])
+    memberto.ban(args[1])
         .then(() => console.log(`Banned ${mentionMember.displayName}  for ${args[1]} by ${message.author}`))
         mentionMember.send(`You have been banned from ${message.channel.guild}. Reason: ${args[1]}`)
         message.channel.send(`Sucessfully Banned ${mentionMember.displayName} for ${args[1]}`)
