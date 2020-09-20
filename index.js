@@ -72,7 +72,7 @@ client.on('message', message =>{
         if(!args[1]) return message.reply('Please have a reason!')
         const time = args[2]
         if(!time) return message.reply('Please specify a time!');
-
+        if(mentionMember.roles.cache.some(role => role.name === 'Muted')) return message.reply("This user is already muted!")
         mentionmember.roles.add(muterole)
         .then(() =>  console.log(`Muted ${mentionmember.displayName}  for ${ms(ms(time))} by ${message.member.displayName} Reason: ${args[1]}`)) 
         message.channel.send(`Sucessfully muted ${mentionmember.displayName} for ${ms(ms(time))}. Reason: ${args[1]}`)
@@ -86,10 +86,11 @@ client.on('message', message =>{
     }
     else if(command === 'unmute'){
         console.log('unmute command sent')
-        const mentionMember = message.mentions.member.first();
+        const mentionMember = message.mentions.members.first();
         if(!mentionMember) return message.reply('You need to mention a member to UnMute!') ;
         const muterole = message.guild.roles.cache.find(role => role.name === "Muted");
         if(!muterole) return message.reply("I couldn't find the mute role!");
+        if(!mentionMember.roles.cache.some(role => role.name === 'Muted')) return message.reply("This user isn't muted!")
         mentionmember.roles.remove(muterole)
         .then(() =>  console.log(`UnMuted ${mentionmember.displayName} by ${message.member.displayName}`)) 
         message.channel.send(`Sucessfully unmuted ${mentionmember.displayName}`)
