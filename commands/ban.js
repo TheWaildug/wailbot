@@ -39,7 +39,7 @@
     };
 
 
-    //If all steps are completed successfully try kick this user
+    //If all steps are completed successfully try kick this user e
     memberto.ban({ days: 7, reason: args[1] })
         .then(() => console.log(`Banned ${mentionMember.displayName}  for ${args[1]} by ${message.member.displayName}`))
         mentionMember.send(`You have been banned from ${message.channel.guild}. Reason: ${args[1]}`)
