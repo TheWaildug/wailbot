@@ -25,7 +25,7 @@
         return;
     }
     else if(mentionMember){
-        memberto = message.guild.members.cache.get(mentionMember.id)
+        const memberto = message.guild.members.cache.get(mentionMember.id)
     }
 
    
