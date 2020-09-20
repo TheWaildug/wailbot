@@ -8,14 +8,14 @@
         //Fist check if message channel is not direct message, because you cant kick out of guide 
         message.channel.send('This command can use only in guide');
         return;
-    };
-
-
-    //Then check if user have permissions to do that
-    if(!message.member.hasPermission('BAN_MEMBERS')) {
+      }
+    else if(!message.member.hasPermission('BAN_MEMBERS')) {
         message.channel.send('You must have the permission "Ban Members".');
         return;
     };
+
+
+    
 
     //const a member, wich you need yo kick (its fist mention message member)
     let mentionMember = message.mentions.members.first();
