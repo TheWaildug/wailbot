@@ -41,7 +41,7 @@
 
     //If all steps are completed successfully try kick this user
     memberto.ban({ days: 7, reason: args[1] })
-        .then(() => console.log(`Banned ${mentionMember.displayName}  for ${args[1]} by ${message.author}`))
+        .then(() => console.log(`Banned ${mentionMember.displayName}  for ${args[1]} by ${message.member.displayName}`))
         mentionMember.send(`You have been banned from ${message.channel.guild}. Reason: ${args[1]}`)
         message.reply(`Sucessfully Banned ${mentionMember.displayName} for ${args[1]}`)
         .catch(console.error);    
