@@ -91,9 +91,9 @@ client.on('message', message =>{
         const muterole = message.guild.roles.cache.find(role => role.name === "Muted");
         if(!muterole) return message.reply("I couldn't find the mute role!");
         if(!mentionMember.roles.cache.some(role => role.name === 'Muted')) return message.reply("This user isn't muted!")
-        mentionmember.roles.remove(muterole)
-        .then(() =>  console.log(`UnMuted ${mentionmember.displayName} by ${message.member.displayName}`)) 
-        message.channel.send(`Sucessfully unmuted ${mentionmember.displayName}`)
+        mentionMember.roles.remove(muterole)
+        .then(() =>  console.log(`UnMuted ${mentionMember.displayName} by ${message.member.displayName}`)) 
+        message.channel.send(`Sucessfully unmuted ${mentionMember.displayName}`)
         .catch(console.error);    
     }
 });
