@@ -24,7 +24,7 @@ const welcomeChannel = `hi-bye`
 client.once('ready', () => {
     console.log('Wail Bot is online!');
     client.user.setStatus('online')
-    client.user.setPresence({ activity: { name: 'Coming Soon...' }});
+    client.user.setPresence({ activity: { name: 'Prefix: w!' }});
 });
 
 client.on('guildMemberAdd', member =>{
