@@ -22,7 +22,7 @@
 
     //If all steps are completed successfully try kick this user
     message.guild.members.unban(args[0])
-        .then(() => console.log(`UnBanned ${args[0]} by ${message.author}`))
+        .then(() => console.log(`UnBanned ${args[0]} by ${message.member.displayName}`))
         message.channel.send(`Sucessfully UnBanned ${args[0]}`)
         .catch(console.error);    
     }
