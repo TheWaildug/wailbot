@@ -78,14 +78,16 @@ client.on('message', message =>{
         message.channel.send(`Sucessfully muted ${mentionmember.displayName} for ${ms(ms(time))}. Reason: ${args[1]}`)
         mentionmember.send(`You have been muted in ${message.guild.name} for ${ms(ms(time))}. Reason: ${args[1]}`)
         const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
-        if (!channel) return;
-        channel.send(`${mentionmember.displayName} has been muted by ${message.member.displayName} for ${time}. Reason: ${args[1]}`)
-        .catch(console.error);    
+        .catch(console.error);
+        if(channel){channel.send(`${mentionmember.displayName} has been muted by ${message.member.displayName} for ${time}. Reason: ${args[1]}`)};
+        
+           
 
         setTimeout(function(){
             mentionmember.roles.remove(muterole);
+            if(channel){channel.send(`Auto Unmuted ${mentionmember.displayName}`)};
             console.log(`Auto Unmuted ${mentionmember.displayName}`)
-            channel.send(`Auto Unmuted ${mentionmember.displayName}`)
+            
         }, ms(time));
     }
     else if(command === 'unmute'){
@@ -99,6 +101,8 @@ client.on('message', message =>{
         .then(() =>  console.log(`UnMuted ${mentionMember.displayName} by ${message.member.displayName}`)) 
         message.channel.send(`Sucessfully unmuted ${mentionMember.displayName}`)
         .catch(console.error);    
+        const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
+        if(channel){channel.send(`${mentionmember.displayName} has been muted by ${message.member.displayName} for ${time}. Reason: ${args[1]}`)};
     }
 });
  
