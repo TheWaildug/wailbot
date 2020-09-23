@@ -37,12 +37,23 @@
         message.reply('Please have a reason!');
         return;
     };
+    const exampleEmbed = new Discord.MessageEmbed()
+	.setColor('#FF0000')
+	.setTitle('Moderation')
+	.setDescription("New Ban!")
+	.addFields(
+		{ name: 'Offender', value: `${memberto.displayName}` },
+		{ name: "Sender:", value: `${message.member.displayName}` },
+		{ name: 'Reason: ', value: `${args[1]}`},
+	)
+	.setTimestamp();
 
-
-    //If all steps are completed successfully try kick this user e
+    const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
+    //If all steps are comconst channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
     memberto.ban({ days: 7, reason: args[1] })
         .then(() => console.log(`Banned ${mentionMember.displayName}  for ${args[1]} by ${message.member.displayName}`))
         mentionMember.send(`You have been banned from ${message.channel.guild}. Reason: ${args[1]}`)
-        message.reply(`Sucessfully Banned ${mentionMember.displayName} for ${args[1]}`)
+        channel.send(exampleEmbed)
+        message.reply(`Sucessfully Banned ${mentionMember.displayName} for ${args[1]}`) 
     }
 }
