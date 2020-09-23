@@ -84,7 +84,8 @@ client.on('message', message =>{
 
         setTimeout(function(){
             mentionmember.roles.remove(muterole);
-            message.channel.send(`Auto Unmuted ${mentionmember.displayName}`)
+            console.log(`Auto Unmuted ${mentionmember.displayName}`)
+            channel.send(`Auto Unmuted ${mentionmember.displayName}`)
         }, ms(time));
     }
     else if(command === 'unmute'){
