@@ -78,8 +78,8 @@ client.on('message', message =>{
         message.channel.send(`Sucessfully muted ${mentionmember.displayName} for ${ms(ms(time))}. Reason: ${args[1]}`)
         mentionmember.send(`You have been muted in ${message.guild.name} for ${ms(ms(time))}. Reason: ${args[1]}`)
         const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
-        .catch(console.error);
-        if(channel){channel.send(`${mentionmember.displayName} has been muted by ${message.member.displayName} for ${time}. Reason: ${args[1]}`)};
+        if(channel){channel.send(`${mentionmember.displayName} has been muted by ${message.member.displayName} for ${time}. Reason: ${args[1]}`)}
+
         
            
 
@@ -100,7 +100,6 @@ client.on('message', message =>{
         mentionMember.roles.remove(muterole)
         .then(() =>  console.log(`UnMuted ${mentionMember.displayName} by ${message.member.displayName}`)) 
         message.channel.send(`Sucessfully unmuted ${mentionMember.displayName}`)
-        .catch(console.error);    
         const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
         if(channel){channel.send(`${mentionmember.displayName} has been muted by ${message.member.displayName} for ${time}. Reason: ${args[1]}`)};
     }

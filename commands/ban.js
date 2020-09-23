@@ -44,6 +44,5 @@
         .then(() => console.log(`Banned ${mentionMember.displayName}  for ${args[1]} by ${message.member.displayName}`))
         mentionMember.send(`You have been banned from ${message.channel.guild}. Reason: ${args[1]}`)
         message.reply(`Sucessfully Banned ${mentionMember.displayName} for ${args[1]}`)
-        .catch(console.error);    
     }
 }
