@@ -112,11 +112,12 @@ client.on('message', message =>{
     }
     else if(command === 'mute'){
         console.log(`mute command sent.`)
+        if(!message.member.hasPermission('KICK_MEMBERS')) return message.reply('You do not have permission.')
         const mentionmember = message.mentions.members.first();
         console.log(mentionmember.displayName)
         if(!mentionmember)return message.reply('You need to mention a member to mute!') ;
 
-        if(!message.member.hasPermission('KICK_MEMBERS')) return message.reply('You do not have permission.')
+        
         if(!mentionmember.kickable) return message.reply('This user cannot be muted!')
         const muterole = message.guild.roles.cache.find(role => role.name === "Muted");
         if(!muterole) return message.reply("I couldn't find the mute role!");
