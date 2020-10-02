@@ -1,4 +1,3 @@
-const { Message } = require("discord.js");
 
 module.exports = {
     name: 'kick',

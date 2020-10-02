@@ -29,9 +29,7 @@ client.once('ready', () => {
 
 client.on('guildMemberAdd', member =>{
     console.log(`${member.displayName} joined the server.`)
-    const channel = member.guild.channels.cache.find(channel => channel.name === `${welcomeChannel}`);
-   if(!channel) return;
-   channel.send(`Welcome to Fluff Studios ${member}! Please read the rules!`); 
+    client.Commands.get('welcome').execute(member,Discord)
 })
 
 client.on('guildMemberRemove', member =>{
