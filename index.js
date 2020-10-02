@@ -153,7 +153,7 @@ client.on('message', message =>{
         .then(() =>  console.log(`UnMuted ${mentionMember.displayName} by ${message.member.displayName}`)) 
         message.channel.send(`Sucessfully unmuted ${mentionMember.displayName}`)
         const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
-        if(channel){channel.send(`${mentionmember.displayName} has been muted by ${message.member.displayName} for ${time}. Reason: ${args[1]}`)};
+
     }
     else if(command === 'invite'){
         console.log('invite command sent')
