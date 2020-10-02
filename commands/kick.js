@@ -37,11 +37,23 @@ module.exports = {
         return;
     };
 
+    const exampleEmbed = new Discord.MessageEmbed()
+        .setColor('#FF0000')
+        .setTitle('Moderation')
+        .setDescription("New Kick!")
+        .addFields(
+            { name: 'Offender', value: `${memberto.displayName}` },
+            { name: "Sender:", value: `${message.member.displayName}` },
+            { name: 'Reason: ', value: `${args[1]}`},
+        )
+        .setTimestamp();
+    const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
     //If all steps are completed successfully try kick this user
     mentionMember.kick(args[1])
         .then(() => console.log(`Kicked ${mentionMember.displayName} by ${message.member.displayName}`))
         mentionMember.send(`You have been kicked from ${message.channel.guild}. Reason: ${args[1]}`)
         message.reply(`Sucessfully Kicked ${mentionMember.displayName} for ${args[1]}`)
+        channel.send(exampleEmbed)
         .catch(console.error);    
     }
 }
