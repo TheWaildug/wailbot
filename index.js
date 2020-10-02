@@ -154,6 +154,11 @@ client.on('message', message =>{
         const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
         if(channel){channel.send(`${mentionmember.displayName} has been muted by ${message.member.displayName} for ${time}. Reason: ${args[1]}`)};
     }
+    else if(command === 'invite'){
+        console.log('invite command sent')
+        if(!message.member.hasPermission('ADMINISTRATOR')) return message.reply('You do not have permission to do this!')
+        message.channel.send('Invite the bot to your server! https://discord.com/oauth2/authorize?client_id=755781017889144903&scope=bot&permissions=8')
+    }
 });
  
 client.login(process.env.token);
