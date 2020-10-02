@@ -34,9 +34,7 @@ client.on('guildMemberAdd', member =>{
 
 client.on('guildMemberRemove', member =>{
     console.log(`${member.displayName} left the server.`)
-    const channel = member.guild.channels.cache.find(channel => channel.name === "hi-bye")
-    if (!channel) return;
-    channel.send(`It's sad to see you go ${member}.`)
+    client.Commands.get('goodbye').execute(member,Discord)
 })
 client.on('message', message =>{
     if(!message.content.startsWith(prefix) || message.author.bot) return;
