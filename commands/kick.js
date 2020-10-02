@@ -43,7 +43,7 @@ module.exports = {
         .addFields(
             { name: 'Offender', value: `${mentionMember.displayName}` },
             { name: "Sender:", value: `${message.member.displayName}` },
-            { name: 'Reason: ', value: `${args[1]}`},
+            { name: 'Reason: ', value: `${args[1]}`},   
         )
         .setTimestamp();
     const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
