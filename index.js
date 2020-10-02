@@ -50,8 +50,7 @@ client.on('message', message =>{
        client.Commands.get('ping').execute(message,args);
     } 
     else if(command === 'kick'){
-        console.log('ban command sent')
-        let memberto = ''
+        client.Commands.get('kick').execute(message,args);
     }
     else if(command === 'ban'){
         if(!message.member.hasPermission('BAN_MEMBERS')) {
