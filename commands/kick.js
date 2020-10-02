@@ -23,20 +23,19 @@ module.exports = {
         return;
     }
 
-   
-
-    //Check if your bot can`t kick this user, so that show this error msg 
-    if(!mentionMember.kickable) {
-        message.reply('I have no permissions to kick this user.');
-        return
-    };
-
-    
     if(!args[1]){
         message.reply('Please have a reason!');
         return;
     };
 
+    //Check if your bot can`t kick this user, so that show this error msg 
+    if(!mentionMember.kickable) {
+        message.reply('I have no permissions to kick this user.');
+        return;
+    };
+
+    
+  
     const exampleEmbed = new Discord.MessageEmbed()
         .setColor('#FF0000')
         .setTitle('Moderation')
