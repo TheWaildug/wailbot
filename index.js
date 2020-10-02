@@ -144,6 +144,7 @@ client.on('message', message =>{
     else if(command === 'unmute'){
         console.log('unmute command sent')
         const mentionMember = message.mentions.members.first();
+        if(!message.member.hasPermission('KICK_MEMBERS')) return message.reply('You do not have permission!')
         if(!mentionMember) return message.reply('You need to mention a member to UnMute!') ;
         const muterole = message.guild.roles.cache.find(role => role.name === "Muted");
         if(!muterole) return message.reply("I couldn't find the mute role!");
