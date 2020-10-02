@@ -41,7 +41,7 @@ module.exports = {
         .setTitle('Moderation')
         .setDescription("New Kick!")
         .addFields(
-            { name: 'Offender', value: `${memberto.displayName}` },
+            { name: 'Offender', value: `${mentionMember.displayName}` },
             { name: "Sender:", value: `${message.member.displayName}` },
             { name: 'Reason: ', value: `${args[1]}`},
         )
