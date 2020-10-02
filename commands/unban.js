@@ -23,7 +23,7 @@
     .setTitle('Moderation')
     .setDescription("New Unban!")
     .addFields(
-        { name: 'Offender', value: (`${User.username}`) },
+        { name: 'Offender', value: (`${User.name}`) },
         { name: "Sender:", value: `${message.member.displayName}` },
     )
     .setTimestamp();
@@ -34,7 +34,7 @@
     //If all steps are completed successfully try kick this user
     message.guild.members.unban(args[0])
         .then(() => console.log(`UnBanned ${args[0]} by ${message.member.displayName}`))
-        message.channel.send(`Sucessfully UnBanned ${User.username}`)
+        message.channel.send(`Sucessfully UnBanned ${User.name}`)
         channel.send(exampleEmbed)
         .catch(console.error);    
     }
