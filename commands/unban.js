@@ -31,7 +31,7 @@
 
     const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
   
-const banList = await message.guild.fetchBans();
+const banList = message.guild.fetchBans();
 
         if(!banList.find(user => user.id === args[0])) return message.reply("User is not banned!")
     //If all steps are completed successfully try kick this user
