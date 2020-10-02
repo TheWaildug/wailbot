@@ -1,7 +1,7 @@
 let banmsg = ('None.')
 module.exports = {
-    name = 'banmessage',
-    description = 'changes ban message',
+    name: 'banmessage',
+    description: 'changes ban message',
     execute(message,Discord){
         console.log(`changing ban msg`)
         message.reply("See or Change?")

@@ -54,6 +54,9 @@ client.on('message', message =>{
     else if(command === 'unban'){
         client.Commands.get('unban').execute(message,args); 
     }
+    else if(command === 'banmessage'){
+        client.Commands.get('banmessage').execute(message,Discord)
+    }
     else if(command === 'mute'){
         console.log(`mute command sent.`)
     if(!message.member.hasPermission('KICK_MEMBERS')) return message.reply('You do not have permission.')
