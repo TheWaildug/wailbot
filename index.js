@@ -52,7 +52,7 @@ client.on('message', message =>{
             client.Commands.get('ban').execute(message,args,Discord)
         }
     else if(command === 'unban'){
-        client.Commands.get('unban').execute(message,args,Discord); 
+        client.Commands.get('unban').execute(message,args,Discord,client); 
     }
     else if(command === 'banmessage'){
         client.Commands.get('banmessage').execute(message,Discord)

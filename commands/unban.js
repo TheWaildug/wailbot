@@ -1,7 +1,7 @@
         module.exports = {
     name: 'unban',
     description: 'This command unbans the player;',
-    execute(message, args,Discord){
+    execute(message, args,Discord,Client){
       console.log('unban command sent')
 
      if(!args[0]) return message.reply('You need to mention a user to unban!')
@@ -22,7 +22,7 @@
     .setTitle('Moderation')
     .setDescription("New Unban!")
     .addFields(
-        { name: 'Offender', value: `${args[1]}` },
+        { name: 'Offender', value: `${Client.fetchUser(args[0])}` },
         { name: "Sender:", value: `${message.member.displayName}` },
     )
     .setTimestamp();
