@@ -102,7 +102,7 @@ client.on('message', message =>{
             .then(() => console.log(`Banned ${mentionMember.displayName}  for ${args[1]} by ${message.member.displayName}`))
             mentionMember.send(`You have been banned from ${message.channel.guild}. Reason: ${args[1]}`)
             channel.send(exampleEmbed)
-            message.reply(`Sucessfully Banned ${mentionMember.displayName} for ${args[1]}`) 
+            message.channel.send(`Sucessfully Banned ${mentionMember.displayName} for ${args[1]}`) 
         }
     else if(command === 'unban'){
         client.Commands.get('unban').execute(message,args); 
