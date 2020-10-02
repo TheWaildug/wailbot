@@ -23,7 +23,7 @@
     .setTitle('Moderation')
     .setDescription("New Unban!")
     .addFields(
-        { name: 'Offender', value: (`User.username`) },
+        { name: 'Offender', value: (`${User.username}`) },
         { name: "Sender:", value: `${message.member.displayName}` },
     )
     .setTimestamp();
