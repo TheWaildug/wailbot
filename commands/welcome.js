@@ -10,7 +10,7 @@ module.exports = {
         .setTitle('Member Logs')
         .setDescription("New Player!")
         .addFields(
-            { name: 'Player', value: `${memberto.displayName}` },
+            { name: 'Player', value: `${member.displayName}` },
         )
         .setTimestamp();
        const memberlogs = member.guild.channels.cache.find(channel => channel.name === 'member-logs')
