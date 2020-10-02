@@ -1,7 +1,7 @@
         module.exports = {
     name: 'unban',
     description: 'This command unbans the player;',
-    execute(message, args){
+    execute(message, args,Discord){
       console.log('unban command sent')
 
      if(!args[0]) return message.reply('You need to mention a user to unban!')
