@@ -50,7 +50,7 @@ client.on('message', message =>{
        client.Commands.get('ping').execute(message,args);
     } 
     else if(command === 'kick'){
-        client.Commands.get('kick').execute(message,args);
+        client.Commands.get('kick').execute(message,args,Discord);
     }
     else if(command === 'ban'){
         if(!message.member.hasPermission('BAN_MEMBERS')) {

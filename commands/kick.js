@@ -3,7 +3,7 @@ const { Message } = require("discord.js");
 module.exports = {
     name: 'kick',
     description: 'This command kicks the player;',
-    execute(message, args){
+    execute(message, args, Discord){
       console.log('kick command sent')
 
      
