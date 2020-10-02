@@ -1,5 +1,3 @@
-const { BaseManager } = require("discord.js");
-const { execute } = require("./unban");
 
 module.exports ={
     name: 'ban',
