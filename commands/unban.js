@@ -17,13 +17,14 @@
    
     const User = Client.users.fetch(args[0]);
     console.log(User); // Some user object.
+    console.log(User.tag);
     
     const exampleEmbed = new Discord.MessageEmbed()
     .setColor('#FF0000')
     .setTitle('Moderation')
     .setDescription("New Unban!")
     .addFields(
-        { name: 'Offender', value: (`${User.name}`) },
+        { name: 'Offender', value: (`${User.tag}`) },
         { name: "Sender:", value: `${message.member.displayName}` },
     )
     .setTimestamp();
@@ -33,8 +34,8 @@
 
     //If all steps are completed successfully try kick this user
     message.guild.members.unban(args[0])
-        .then(() => console.log(`UnBanned ${args[0]} by ${message.member.displayName}`))
-        message.channel.send(`Sucessfully UnBanned ${User.name}`)
+        .then(() => console.log(`UnBanned ${User.tag} by ${message.member.displayName}`))
+        message.channel.send(`Sucessfully UnBanned ${User.tag}`)
         channel.send(exampleEmbed)
         .catch(console.error);    
     }
