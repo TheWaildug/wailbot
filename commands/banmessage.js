@@ -12,11 +12,13 @@ module.exports = {
             }
             else if(msg.content === "Change"){
                msg.reply('Please reply with the new ban message.')
-    
-               collector.on('collect',newmsg =>{
+               const collector2 = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 10000 });
+               collector2.on('collect',newmsg =>{
                     if(!newmsg.content === "Reset"){
+    
                         newmsg.reply(`You entered ${newmsg.content} is this correct?`)
-                        collector.on('collect',evennewer =>{
+                        const collector3 = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 10000 });
+                        collector3.on('collect',evennewer =>{
                             if(evennewer.content === "Yes"){
                                 banmsg = evennewer.content
                                 print(banmsg)
