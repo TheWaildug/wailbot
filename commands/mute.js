@@ -18,7 +18,7 @@ module.exports = {
             if(!time) return message.reply('Please specify a time!');
             if(mentionmember.roles.cache.some(role => role.name === 'Muted')) return message.reply("This user is already muted!")
             mentionmember.roles.add(muterole)
-            .then(() =>  console.log(`Muted ${mentionmember.displayName}  for ${ms(ms(time))} by ${message.member} Reason: ${args[1]}`)) 
+            .then(() =>  console.log(`Muted ${mentionmember.displayName}  for ${ms(ms(time))} by ${message.member.displayName} Reason: ${args[1]}`)) 
             message.channel.send(`Sucessfully muted ${mentionmember.displayName} for ${ms(ms(time))}. Reason: ${args[1]}`)
             mentionmember.send(`You have been muted in ${message.guild.name} for ${ms(ms(time))}. Reason: ${args[1]}`)
             const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")

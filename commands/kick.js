@@ -50,7 +50,7 @@ module.exports = {
     mentionMember.kick(args[1])
         .then(() => console.log(`Kicked ${mentionMember.displayName} by ${message.member.displayName}`))
         mentionMember.send(`You have been kicked from ${message.channel.guild}. Reason: ${args[1]}`)
-        message.reply(`Sucessfully Kicked ${mentionMember.displayName} for ${args[1]}`)
+        message.channel.send(`Sucessfully Kicked ${mentionMember.displayName} for ${args[1]}`)
         channel.send(exampleEmbed)
         .catch(console.error);    
     }
