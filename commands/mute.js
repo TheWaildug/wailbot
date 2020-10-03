@@ -22,7 +22,7 @@ module.exports = {
             message.channel.send(`Sucessfully muted ${mentionmember.displayName} for ${ms(ms(time))}. Reason: ${args[1]}`)
             mentionmember.send(`You have been muted in ${message.guild.name} for ${ms(ms(time))}. Reason: ${args[1]}`)
             const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
-            if(channel){channel.send(`${mentionmember.displayName} has been muted by ${message.member.displayName} for ${time}. Reason: ${args[1]}`)}
+            if(channel){channel.send(`${mentionmember.displayName} has been muted by ${message.member.tag} for ${time}. Reason: ${args[1]}`)}
     
             
                
