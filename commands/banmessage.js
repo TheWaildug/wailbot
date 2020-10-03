@@ -19,7 +19,7 @@ module.exports = {
                msg.reply('Please reply with the new ban message.')
                const collector2 = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 10000 });
                collector2.on('collect',newmsg =>{
-                   print('teqrewewtw')
+                   console.log('teqrewewtw')
                     if(!newmsg.content === "Reset"){
     
                         newmsg.reply(`You entered ${newmsg.content} is this correct?`)
