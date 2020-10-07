@@ -1,8 +1,8 @@
-var banmsg = require('./banmessage')
+
 module.exports ={
     name: 'ban',
     description: 'bans people',
-    execute(message,args,Discord){
+    execute(message,args,Discord,banmsg){
         console.log('ban command send')
         if(!message.member.hasPermission('BAN_MEMBERS')) {
             message.channel.send('You must have the permission "Ban Members".');

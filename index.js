@@ -5,6 +5,8 @@ const prefix = 'w!';
 
 const ms = require('ms');
 
+var banmsg = ('None.')
+
 const fs = require('fs');   
 const { setTimeout } = require('timers');
  
@@ -49,13 +51,50 @@ client.on('message', message =>{
         client.Commands.get('kick').execute(message,args,Discord);
     }
     else if(command === 'ban'){
-            client.Commands.get('ban').execute(message,args,Discord)
+            client.Commands.get('ban').execute(message,args,Discord,banmsg)
         }
     else if(command === 'unban'){
         client.Commands.get('unban').execute(message,args,Discord,client); 
     }
     else if(command === 'banmessage'){
-        client.Commands.get('banmessage').execute(message,Discord)
+        if(!message.member.hasPermission('BAN_MEMBERS')) {
+            message.reply('You have no permissions to do that');
+            return;
+        };
+            console.log(`changing ban msg`)
+            message.reply("See or Change?")
+            const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 10000 });
+            collector.on('collect',msg => {
+                if(msg.content === "See"){
+                    msg.reply(`Your current ban message is: ${banmsg}`) 
+                }
+                else if(msg.content === "Change"){
+                   msg.reply('Please reply with the new ban message.')
+                   const collector2 = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 10000 });
+                   collector2.on('collect',newmsg =>{
+                       console.log('teqrewewtw')
+                        if(!newmsg.content === "Reset"){
+                            
+                            newmsg.reply(`You entered ${newmsg.content} is this correct?`)
+                            const collector3 = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 10000 });
+                            collector3.on('collect',evennewer =>{
+                                if(evennewer.content === "Yes"){
+                                    banmsg = evennewer.content
+                                    print(banmsg)
+                                }
+                                else if(evennewer.content === "No"){
+                                    evennewer.reply('Please use the command again.')
+                                }
+                            })
+                        }
+                        
+                        else if(newmsg.content === "Reset"){
+                            newmsg.reply("Ban message reset.")
+                                banmsg = "None"
+                            }
+                   })
+                }
+            })
     }
     else if(command === 'mute'){
        client.Commands.get('mute').execute(message,args,Discord,ms)
