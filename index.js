@@ -73,8 +73,8 @@ client.on('message', message =>{
                    const collector2 = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 10000 });
                    collector2.on('collect',newmsg =>{
                        console.log('teqrewewtw')
-                        if(!newmsg.content === "Reset"){
-                            
+                        if(newmsg.content!="Reset"){
+                            console.log('ere')
                             newmsg.reply(`You entered ${newmsg.content} is this correct?`)
                             const collector3 = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 10000 });
                             collector3.on('collect',evennewer =>{
