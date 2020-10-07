@@ -79,8 +79,8 @@ client.on('message', message =>{
                             const collector3 = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 10000 });
                             collector3.on('collect',evennewer =>{
                                 if(evennewer.content === "Yes"){
-                                    banmsg = evennewer.content
-                                    print(banmsg)
+                                    banmsg = newmsg.content
+                                    console.log(banmsg)
                                 }
                                 else if(evennewer.content === "No"){
                                     evennewer.reply('Please use the command again.')
