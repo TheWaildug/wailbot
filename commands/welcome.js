@@ -6,6 +6,7 @@ module.exports = {
       const channel = member.guild.channels.cache.find(channel => channel.name === "hi-bye")
       channel.send(`Welcome to ${member.guild.name}, ${member}! Please read the rules.`)
       member.send(`Have a nice time here in ${member.guild.name}!`)
+      .catch(() => console.log(`I cannot send a DM to ${mentionMember}.`));   
       const exampleEmbed = new Discord.MessageEmbed()
         .setColor('#FF0000')
         .setTitle('Member Logs')
