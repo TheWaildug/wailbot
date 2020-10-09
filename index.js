@@ -72,10 +72,11 @@ client.on('message', message =>{
             const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 100 });
             collector.on('collect',msg => {
                 if(msg.content === "See"){
-                    msg.reply(`Your current ban message is: ${client.banmsg.get('banmsg')}`) 
+                    console.log('see')
+                    message.reply(`Your current ban message is: ${client.banmsg.get('banmsg')}`) 
                 }
                 if(msg.content === "Change"){
-                    msg.reply('Please tell me the new ban message.')
+                    message.reply('Please tell me the new ban message.')
                     const collector2 = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, {time: 100});
                     collector2.on('collect',msg2 =>{
                         if(msg2.content === "Reset"){
