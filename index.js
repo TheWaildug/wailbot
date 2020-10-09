@@ -53,6 +53,9 @@ client.on('message', message =>{
     else if(command === "restrict"){
         client.Commands.get('restrict').execute(message,args,Discord)
     }
+    else if(command === "unrestrict"){
+        client.Commands.get('unrestrict').execute(message,args,Discord)
+    }
     else if(command === 'ban'){
             client.Commands.get('ban').execute(message,args,Discord,banmsg)
         }
