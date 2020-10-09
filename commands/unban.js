@@ -3,15 +3,15 @@
     description: 'This command unbans the player;',
     execute(message, args,Discord,Client){
       console.log('unban command sent')
+   //Then check if user have permissions to do that
+   if(!message.member.hasPermission('BAN_MEMBERS')) {
+    message.reply('You have no permission to do this!');
+    return;
+};
 
      if(!args[0]) return message.reply('You need to mention a user to unban!')
 
-    //Then check if user have permissions to do that
-    if(!message.member.hasPermission('BAN_MEMBERS')) {
-        message.reply('You must have the permission "Ban Members".');
-        return;
-    };
-
+ 
     
 
    
