@@ -29,7 +29,7 @@ module.exports = {
 
         console.log(`DMed ${mentionMember.displayName} by ${message.member.displayName}. Message: ${args[1]}`)
         
-        message.channel.send(`Sucessfully DMed ${mentionMember.displayName}. Message ${args[1]}`)
+        message.channel.send(`Sucessfully DMed ${mentionMember.displayName}. Message: ${args[1]}`)
         .catch(console.error);    
     } 
 }
