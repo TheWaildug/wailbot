@@ -69,7 +69,7 @@ client.on('message', message =>{
         };
             console.log(`changing ban msg`)
             message.reply("See or Change?")
-            const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 100 });
+            const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 1000 });
             collector.on('collect',msg => {
                 if(msg.content === "See"){
                     console.log('see')
@@ -77,7 +77,7 @@ client.on('message', message =>{
                 }
                 if(msg.content === "Change"){
                     message.reply('Please tell me the new ban message.')
-                    const collector2 = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, {time: 100});
+                    const collector2 = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, {time: 1000});
                     collector2.on('collect',msg2 =>{
                         if(msg2.content === "Reset"){
                             msg2.reply('Resetting Ban Mesage...')
@@ -85,7 +85,7 @@ client.on('message', message =>{
                         } 
                         else{
                             msg2.reply(`You entered ${msg2.content}. Is that correct?`)
-                            const collector3 = new Discord.MessageCollector(message.channels, m => m.author.id === message.author.id, {time: 100});
+                            const collector3 = new Discord.MessageCollector(message.channels, m => m.author.id === message.author.id, {time: 1000});
                             collector3.on("collect",msg3 =>{
                                 if(msg3.content === "Yes"){
                                     client.banmsg.set('banmsg',msg2.content)
