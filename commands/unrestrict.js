@@ -38,7 +38,7 @@ module.exports ={
             .addFields(
                 { name: 'Offender', value: `${mentionMember.displayName}` },
                 { name: "Sender:", value: `${message.member.displayName}` },
-                { name: 'Reason: ', value: `${args[1]}`},   
+  
             )
             .setTimestamp();
             const restrictrole = message.guild.roles.cache.find(role => role.name === "Restricted");
@@ -46,9 +46,9 @@ module.exports ={
         const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
         //If all steps are completed successfully try kick this user
             mentionMember.roles.remove(restrictrole)
-            .then(() => console.log(`UjRestricted ${mentionMember.displayName} by ${message.member.displayName} for ${args[1]}.`))
+            .then(() => console.log(`UjRestricted ${mentionMember.displayName} by ${message.member.displayName}.`))
         
-            message.channel.send(`Sucessfully UnRestricted ${mentionMember.displayName} for ${args[1]}.`)
+            message.channel.send(`Sucessfully UnRestricted ${mentionMember.displayName}.`)
             channel.send(exampleEmbed)
             .catch(console.error);     
     }
