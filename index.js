@@ -79,19 +79,19 @@ client.on('message', message =>{
                     const collector2 = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, {time: 100});
                     collector2.on('collect',msg2 =>{
                         if(msg2.content === "Reset"){
-                            message.reply('Resetting Ban Mesage...')
+                            msg2.reply('Resetting Ban Mesage...')
                             client.banmsg.set('banmsg',"");
                         } 
                         else{
-                            message.reply(`You entered ${msg2.content}. Is that correct?`)
+                            msg2.reply(`You entered ${msg2.content}. Is that correct?`)
                             const collector3 = new Discord.MessageCollector(message.channels, m => m.author.id === message.author.id, {time: 100});
                             collector3.on("collect",msg3 =>{
                                 if(msg3.content === "Yes"){
                                     client.banmsg.set('banmsg',msg2.content)
-                                    return message.reply(`Setting Ban Msg to ${msg2.content}.`)
+                                    return msg3.reply(`Setting Ban Msg to ${msg2.content}.`)
                                 }
                                 else if(msg3.content === "No"){
-                                    return message.reply('Please run the command again.')
+                                    return msg3.reply('Please run the command again.')
                                 }
                             })
                         }
