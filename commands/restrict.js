@@ -50,7 +50,7 @@ module.exports ={
         //If all steps are completed successfully try kick this user
             mentionMember.roles.add(restrictrole)
             .then(() => console.log(`Restricted ${mentionMember.displayName} by ${message.member.displayName}`))
-            mentionMember.send(`You have been Restricted in ${message.channel.guild}. Reason: ${args[1]} To become unrestricted, please DM `)
+            mentionMember.send(`You have been Restricted in ${message.channel.guild}. Reason: ${args[1]} To become unrestricted, please DM <@575252669443211264> and appeal.`)
             message.channel.send(`Sucessfully Restricted ${mentionMember.displayName} for ${args[1]}`)
             channel.send(exampleEmbed)
             .catch(console.error);     
