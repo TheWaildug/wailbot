@@ -50,6 +50,9 @@ client.on('message', message =>{
     else if(command === 'kick'){
         client.Commands.get('kick').execute(message,args,Discord);
     }
+    else if(command === "restrict"){
+        client.Commands.get('restrict').execute(message,args,Discord)
+    }
     else if(command === 'ban'){
             client.Commands.get('ban').execute(message,args,Discord,banmsg)
         }
@@ -75,6 +78,7 @@ client.on('message', message =>{
                        console.log('teqrewewtw')
                         if(newmsg.content!="Reset"){
                             console.log('ere')
+                            console.log(newmsg.content)
                             newmsg.reply(`You entered ${newmsg.content} is this correct?`)
                             const collector3 = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 10000 });
                             collector3.on('collect',evennewer =>{
@@ -90,7 +94,7 @@ client.on('message', message =>{
                         
                         else if(newmsg.content === "Reset"){
                             newmsg.reply("Ban message reset.")
-                                banmsg = "None"
+                                banmsg = "nil"
                             }
                    })
                 }

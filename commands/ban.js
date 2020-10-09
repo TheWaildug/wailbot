@@ -51,7 +51,7 @@ module.exports ={
         //If all steps are comconst channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
         memberto.ban({ days: 7, reason: args[1] })
             .then(() => console.log(`Banned ${mentionMember.displayName}  for ${args[1]} by ${message.member.displayName}`))
-            mentionMember.send(`You have been banned from ${message.channel.guild}. Reason: ${args[1]} ${banmsg}`)
+            mentionMember.send(`You have been banned from ${message.channel.guild}. Reason: ${args[1]}. Info: ${banmsg}`)
             channel.send(exampleEmbed)
             message.channel.send(`Sucessfully Banned ${mentionMember.displayName} for ${args[1]}`)   
     }
