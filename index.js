@@ -62,6 +62,9 @@ client.on('message', message =>{
     else if(command === 'unban'){
         client.Commands.get('unban').execute(message,args,Discord,client); 
     }
+    else if(command === 'dm'){
+        client.Commands.get('dm').execute(message,args)
+    }
     else if(command === 'banmessage'){
         if(!message.member.hasPermission('BAN_MEMBERS')) {
             message.reply('You have no permissions to do that');
