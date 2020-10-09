@@ -5,7 +5,7 @@ const prefix = 'w!';
 
 const ms = require('ms');
 
-var banmsg = ('None.')
+client.banmsg = new Map()
 
 const fs = require('fs');   
 const { setTimeout } = require('timers');
@@ -57,7 +57,7 @@ client.on('message', message =>{
         client.Commands.get('unrestrict').execute(message,args,Discord)
     }
     else if(command === 'ban'){
-            client.Commands.get('ban').execute(message,args,Discord,banmsg)
+            client.Commands.get('ban').execute(message,args,Discord,client)
         }
     else if(command === 'unban'){
         client.Commands.get('unban').execute(message,args,Discord,client); 
@@ -72,7 +72,7 @@ client.on('message', message =>{
             const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 10000 });
             collector.on('collect',msg => {
                 if(msg.content === "See"){
-                    msg.reply(`Your current ban message is: ${banmsg}`) 
+                    msg.reply(`Your current ban message is: ${client.banmsg.get('banmsg')}`) 
                 }
                 else if(msg.content === "Change"){
                    msg.reply('Please reply with the new ban message.')
@@ -86,8 +86,8 @@ client.on('message', message =>{
                             const collector3 = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 10000 });
                             collector3.on('collect',evennewer =>{
                                 if(evennewer.content === "Yes"){
-                                    banmsg = newmsg.content
-                                    console.log(banmsg)
+                                    client.banmsg.set('banmsg',newmsg.content);
+                                    console.log(client.banmsg.get('banmsg'))
                                 }
                                 else if(evennewer.content === "No"){
                                     evennewer.reply('Please use the command again.')
@@ -97,7 +97,7 @@ client.on('message', message =>{
                         
                         else if(newmsg.content === "Reset"){
                             newmsg.reply("Ban message reset.")
-                                banmsg = "nil"
+                                client.banmsg.set('banmsg',"");
                             }
                    })
                 }

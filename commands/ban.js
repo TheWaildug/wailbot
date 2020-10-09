@@ -2,7 +2,7 @@
 module.exports ={
     name: 'ban',
     description: 'bans people',
-    execute(message,args,Discord,banmsg){
+    execute(message,args,Discord,client){
         console.log('ban command send')
         if(!message.member.hasPermission('BAN_MEMBERS')) {
             message.channel.send('You must have the permission "Ban Members".');
@@ -51,7 +51,8 @@ module.exports ={
         //If all steps are comconst channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
         memberto.ban({ days: 7, reason: args[1] })
             .then(() => console.log(`Banned ${mentionMember.displayName}  for ${args[1]} by ${message.member.displayName}`))
-            mentionMember.send(`You have been banned from ${message.channel.guild}. Reason: ${args[1]}. Info: ${banmsg}`)
+            mentionMember.send(`You have been banned from ${message.channel.guild}. Reason: ${args[1]}. Info: ${client.banmsg.get('banmsg')}`)
+            .catch(() => message.reply(`I cannot send a DM to ${mentionMember}.`));   
             channel.send(exampleEmbed)
             message.channel.send(`Sucessfully Banned ${mentionMember.displayName} for ${args[1]}`)   
     }

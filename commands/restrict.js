@@ -51,6 +51,7 @@ module.exports ={
             mentionMember.roles.add(restrictrole)
             .then(() => console.log(`Restricted ${mentionMember.displayName} by ${message.member.displayName} for ${args[1]}.`))
             mentionMember.send(`You have been Restricted in ${message.channel.guild}. Reason: ${args[1]}.  To become unrestricted, please DM <@575252669443211264> and appeal.`)
+            .catch(() => message.reply(`I cannot send a DM to ${mentionMember}.`));           
             message.channel.send(`Sucessfully Restricted ${mentionMember.displayName} for ${args[1]}.`)
             channel.send(exampleEmbed)
             .catch(console.error);     
