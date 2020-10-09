@@ -46,7 +46,7 @@ module.exports ={
         const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
         //If all steps are completed successfully try kick this user
             mentionMember.roles.remove(restrictrole)
-            .then(() => console.log(`UjRestricted ${mentionMember.displayName} by ${message.member.displayName}.`))
+            .then(() => console.log(`UnRestricted ${mentionMember.displayName} by ${message.member.displayName}.`))
         
             message.channel.send(`Sucessfully UnRestricted ${mentionMember.displayName}.`)
             channel.send(exampleEmbed)
