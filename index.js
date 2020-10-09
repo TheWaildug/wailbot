@@ -69,40 +69,38 @@ client.on('message', message =>{
         };
             console.log(`changing ban msg`)
             message.reply("See or Change?")
-            const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 10000 });
+            const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 100 });
             collector.on('collect',msg => {
                 if(msg.content === "See"){
                     msg.reply(`Your current ban message is: ${client.banmsg.get('banmsg')}`) 
                 }
-                else if(msg.content === "Change"){
-                   msg.reply('Please reply with the new ban message.')
-                   const collector2 = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 10000 });
-                   collector2.on('collect',newmsg =>{
-                       console.log('teqrewewtw')
-                        if(newmsg.content!="Reset"){
-                            console.log('ere')
-                            console.log(newmsg.content)
-                            newmsg.reply(`You entered ${newmsg.content} is this correct?`)
-                            const collector3 = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 10000 });
-                            collector3.on('collect',evennewer =>{
-                                if(evennewer.content === "Yes"){
-                                    client.banmsg.set('banmsg',newmsg.content);
-                                    console.log(client.banmsg.get('banmsg'))
+                if(msg.content === "Change"){
+                    msg.reply('Please tell me the new ban message.')
+                    const collector2 = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, {time: 100});
+                    collector2.on('collect',msg2 =>{
+                        if(msg2.content === "Reset"){
+                            message.reply('Resetting Ban Mesage...')
+                            client.banmsg.set('banmsg',"");
+                        } 
+                        else{
+                            message.reply(`You entered ${msg2.content}. Is that correct?`)
+                            const collector3 = new Discord.MessageCollector(message.channels, m => m.author.id === message.author.id, {time: 100});
+                            collector3.on("collect",msg3 =>{
+                                if(msg3.content === "Yes"){
+                                    client.banmsg.set('banmsg',msg2.content)
+                                    return message.reply(`Setting Ban Msg to ${msg2.content}.`)
                                 }
-                                else if(evennewer.content === "No"){
-                                    evennewer.reply('Please use the command again.')
+                                else if(msg3.content === "No"){
+                                    return message.reply('Please run the command again.')
                                 }
                             })
                         }
                         
-                        else if(newmsg.content === "Reset"){
-                            newmsg.reply("Ban message reset.")
-                                client.banmsg.set('banmsg',"");
-                            }
-                   })
+                    })
                 }
             })
-    }
+        }
+    
     else if(command === 'mute'){
        client.Commands.get('mute').execute(message,args,Discord,ms)
     }
@@ -129,5 +127,4 @@ client.on('message', message =>{
  
 client.login(process.env.token);
  
- 
- 
+
