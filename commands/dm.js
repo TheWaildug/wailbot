@@ -33,7 +33,7 @@ module.exports = {
         .catch(console.error);   
         return;
      }
-     else{
+     else if(!mentionMember.send(args(1))){
         return message.reply('I cannot DM this user!')
      }
     }
