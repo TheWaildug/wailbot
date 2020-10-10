@@ -23,13 +23,18 @@ module.exports = {
     };
 
     //Check if your bot can`t kick this user, so that show this error msg 
-    mentionMember.send(args[1])
-        .catch(() => message.reply(`I cannot send a DM to ${mentionMember}.`));   
+    if(mentionMember.send(args[1])){
+
 
 
         console.log(`DMed ${mentionMember.displayName} by ${message.member.displayName}. Message: ${args[1]}`)
         
         message.channel.send(`Sucessfully DMed ${mentionMember.displayName}. Message: ${args[1]}`)
-        .catch(console.error);    
-    } 
+        .catch(console.error);   
+        return;
+     }
+     else{
+        return message.reply('I cannot DM this user!')
+     }
+    }
 }
