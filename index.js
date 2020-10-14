@@ -50,10 +50,11 @@ client.on('voiceStateUpdate', (oldState, newState) => {
     }
     if(oldState.channelID === generalchannel.id){
         console.log('old state correct')
-        const role = oldState.guild.roles.cache.find(r => r.name === "General");
+        const role = newState.guild.roles.cache.find(r => r.name === "General");
         if(!role) return;
         console.log('past role')
-        if(oldState.member.roles.cache.has(role)) oldState.member.roles.remove(roles);
+        if(newState.member.roles.cache.has(role)) {newState.member.roles.remove(roles)};
+        console.log('returning')
         return;
     }
 });
