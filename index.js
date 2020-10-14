@@ -48,7 +48,7 @@ client.on('voiceStateUpdate', (oldState, newState) => {
         if (!newState.member.roles.cache.has(role)) newState.member.roles.add(role); // Add the role to the user if they don't already have it
         return;
     }
-    if(oldState.channelID === newState.id){
+    if(oldState.channelID === generalchannel.id){
         console.log('old state correct')
         const role = oldState.guild.roles.cache.find(r => r.name === "General");
         if(!role) return;
