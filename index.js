@@ -38,12 +38,13 @@ client.on('guildMemberRemove', member =>{
     console.log(`${member.displayName} left the server.`)
     client.Commands.get('goodbye').execute(member,Discord)
 })
-
-client.on('voiceStateUpdate', (oldMember, newMember) => {
-    let newUserChannel = newMember.voice.ChannelID   
-    let oldUserChannel = oldMember.voice.ChannelID
-    console.log(newUserChannel)
-    console.log(oldUserChannel)
+client.on('voiceStateUpdate', (oldState, newState) => {
+    if (!newState.channel || !newState.member) return; // Triggered if the user left a channel
+    const testChannel = newState.guild.channels.cache.find(c => c.name === 'General');
+    if (newState.channelID === testChannel.id) { // Triggered when the user joined the channel we tested for
+        const role = newState.guild.roles.cache.find(r => r.name === 'General');
+        if (!newState.member.roles.cache.has(role)) newState.member.roles.add(role); // Add the role to the user if they don't already have it
+    }
 });
 client.on('message', message =>{
     if(!message.content.startsWith(prefix) || message.author.bot) return;
