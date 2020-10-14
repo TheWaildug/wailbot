@@ -73,8 +73,8 @@ client.on('message', message =>{
         client.Commands.get('dm').execute(message,args)
     }
     else if(command === 'banmessage'){
-        if(!message.member.hasPermission('MANAGE_GUILD')) {
-            message.reply('You must have the permission `MANAGE_SERVER.');
+        if(!message.member.hasPermission('ADMINISTRATOR')) {
+            message.reply('You must have the permission `ADMINISTRATOR`.');
             return;
         };
             console.log(`changing ban msg`)
