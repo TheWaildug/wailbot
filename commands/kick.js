@@ -10,7 +10,7 @@ module.exports = {
 
     //Then check if user have permissions to do that
     if(!message.member.hasPermission('KICK_MEMBERS')) {
-        message.reply('You have no permissions to do that');
+        message.reply('You must have the permission `KICK_MEMBERS`.');
         return;
     };
 

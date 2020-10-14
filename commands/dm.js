@@ -5,7 +5,7 @@ module.exports = {
       console.log('dm command sent')
       //Then check if user have permissions to do that
     if(!message.member.hasPermission('MANAGE_MESSAGES')) {
-        message.reply('You have no permissions to do that.');
+        message.reply('You must have the permission `MANAGE_MESSAGES`.');
         return;
     };
 

@@ -5,7 +5,7 @@ module.exports ={
     execute(message,args,Discord,client){
         console.log('ban command send')
         if(!message.member.hasPermission('BAN_MEMBERS')) {
-            message.channel.send('You must have the permission "Ban Members".');
+            message.channel.send('You must have the permission `Ban Members`.');
             return;
         };
     

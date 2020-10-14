@@ -42,6 +42,8 @@ client.on('guildMemberRemove', member =>{
 client.on('voiceStateUpdate', (oldMember, newMember) => {
     let newUserChannel = newMember.voice.ch
     let oldUserChannel = oldMember.voiceChannelID
+    console.log(newUserChannel)
+    console.log(oldUserChannel)
 });
 client.on('message', message =>{
     if(!message.content.startsWith(prefix) || message.author.bot) return;
@@ -71,8 +73,8 @@ client.on('message', message =>{
         client.Commands.get('dm').execute(message,args)
     }
     else if(command === 'banmessage'){
-        if(!message.member.hasPermission('BAN_MEMBERS')) {
-            message.reply('You have no permissions to do that');
+        if(!message.member.hasPermission('MANAGE_GUILD')) {
+            message.reply('You must have the permission `MANAGE_SERVER.');
             return;
         };
             console.log(`changing ban msg`)
@@ -116,7 +118,7 @@ client.on('message', message =>{
     else if(command === 'unmute'){
         console.log('unmute command sent')
         const mentionMember = message.mentions.members.first();
-        if(!message.member.hasPermission('KICK_MEMBERS')) return message.reply('You do not have permission!')
+        if(!message.member.hasPermission('KICK_MEMBERS')) return message.reply('You must have the permission `KICK_MEMBERS`.')
         if(!mentionMember) return message.reply('You need to mention a member to UnMute!') ;
         const muterole = message.guild.roles.cache.find(role => role.name === "Muted");
         if(!muterole) return message.reply("I couldn't find the mute role!");
@@ -129,7 +131,7 @@ client.on('message', message =>{
     }
     else if(command === 'invite'){
         console.log('invite command sent')
-        if(!message.member.hasPermission('ADMINISTRATOR')) return message.reply('You do not have permission to do this!')
+        if(!message.member.hasPermission('ADMINISTRATOR')) return message.reply('You must have the permission `ADMINISTRATOR`.')
         message.channel.send('Invite the bot to your server! https://discord.com/oauth2/authorize?client_id=755781017889144903&scope=bot&permissions=8')
     }
 });

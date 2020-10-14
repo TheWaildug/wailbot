@@ -5,7 +5,7 @@
       console.log('unban command sent')
    //Then check if user have permissions to do that
    if(!message.member.hasPermission('BAN_MEMBERS')) {
-    message.reply('You have no permission to do this!');
+    message.reply('You must have the permission `BAN_MEMBERS`.');
     return;
 };
 
