@@ -53,7 +53,10 @@ client.on('voiceStateUpdate', (oldState, newState) => {
         const role = newState.guild.roles.cache.find(r => r.name === "General");
         if(!role) return;
         console.log('past role')
-        if(newState.member.roles.cache.has(role)) {newState.member.roles.remove(roles)};
+        if(newState.member.roles.cache.has(role)){ 
+            newState.member.roles.remove(roles)
+            console.log('removed role')
+        };
         console.log('returning')
         return;
     }
