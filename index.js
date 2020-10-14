@@ -40,7 +40,7 @@ client.on('guildMemberRemove', member =>{
 })
 
 client.on('voiceStateUpdate', (oldMember, newMember) => {
-    let newUserChannel = newMember.voice.ch
+    let newUserChannel = newMember.voiceChannelID   
     let oldUserChannel = oldMember.voiceChannelID
     console.log(newUserChannel)
     console.log(oldUserChannel)
