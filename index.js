@@ -38,6 +38,11 @@ client.on('guildMemberRemove', member =>{
     console.log(`${member.displayName} left the server.`)
     client.Commands.get('goodbye').execute(member,Discord)
 })
+
+client.on('voiceStateUpdate', (oldMember, newMember) => {
+    let newUserChannel = newMember.voice.ch
+    let oldUserChannel = oldMember.voiceChannelID
+});
 client.on('message', message =>{
     if(!message.content.startsWith(prefix) || message.author.bot) return;
  
@@ -130,5 +135,3 @@ client.on('message', message =>{
 });
  
 client.login(process.env.token);
- 
-
