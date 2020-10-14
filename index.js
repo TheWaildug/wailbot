@@ -42,13 +42,17 @@ client.on('voiceStateUpdate', (oldState, newState) => {
     const generalchannel = newState.guild.channels.cache.find(c => c.name === 'General');
     if(!generalchannel) return;
     if (newState.channelID === generalchannel.id) { // Triggered when the user joined the channel we tested for
+        console.log('new state correct')
         const role = newState.guild.roles.cache.find(r => r.name === 'General');
+        if(!role) return;
         if (!newState.member.roles.cache.has(role)) newState.member.roles.add(role); // Add the role to the user if they don't already have it
         return;
     }
-    if(oldState.channelID === generalchannel.id){
+    if(oldState.channelID === newState.id){
+        console.log('old state correct')
         const role = oldState.guild.roles.cache.find(r => r.name === "General");
-        if(oldState.member.roles.cache.has(role)) oldState.member.roles.remove(roles);
+        if(!role) return;
+        if(newState.member.roles.cache.has(role)) newState.member.roles.remove(roles);
         return;
     }
 });
