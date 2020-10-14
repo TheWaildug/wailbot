@@ -81,6 +81,7 @@ client.on('message', message =>{
             message.reply("See or Change?")
             const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 1000 });
             collector.on('collect',msg => {
+                console.log('collecting...')
                 if(msg.content === "See"){
                     console.log('see')
                     message.reply(`Your current ban message is: ${client.banmsg.get('banmsg')}`) 
