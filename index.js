@@ -53,7 +53,7 @@ client.on('voiceStateUpdate', (oldState, newState) => {
         console.log('new state correct')
         const role = newState.guild.roles.cache.find(r => r.name === 'General');
         if(!role) return;
-        if (!newState.member.roles.cache.has(role)) newState.member.roles.add(role); // Add the role to the user if they don't already have it
+        if(!newState.member.roles.cache.some(role => role.name === 'General')) newState.member.roles.add(role); // Add the role to the user if they don't already have it
         return;
     }
     if(oldState.channelID === generalchannel.id){
@@ -61,7 +61,8 @@ client.on('voiceStateUpdate', (oldState, newState) => {
         const role2 = newState.guild.roles.cache.find(r => r.name === "General");
         if(!role2) return;
         console.log('past role')
-        if(newState.member.roles.cache.has(role2)){ 
+        if(newState.member.roles.cache.some(role => role.name === 'General')){ 
+            console.log('inside role 2')
             newState.member.roles.remove(role2)
             console.log('removed role')
         };
