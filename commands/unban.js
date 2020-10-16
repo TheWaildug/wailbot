@@ -35,7 +35,7 @@ const banList = message.guild.fetchBans();
 
 
 
-        if(!banList.cache.get(user => user.id === args[0])) return message.reply("User is not banned!")
+        if(!banList.cache.find(user => user.id === args[0])) return message.reply("User is not banned!")
     //If all steps are completed successfully try kick this user
     message.guild.members.unban(args[0])
         .then(() => console.log(`UnBanned ${User.Username} by ${message.member.displayName}`))
