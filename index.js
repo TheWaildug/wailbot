@@ -72,7 +72,7 @@ client.on('message', message =>{
     } 
     if(command === 'membercount'){
         console.log('membercount command sent')
-        message.channel.send('The current member count is' + `${message.guild.memberCount.toLocaleString()}`)
+        message.channel.send('The current member count is ' + `${message.guild.memberCount.toLocaleString()}`)
     }
     else if(command === 'kick'){
         client.Commands.get('kick').execute(message,args,Discord);
