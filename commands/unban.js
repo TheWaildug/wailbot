@@ -29,15 +29,14 @@
     .setTimestamp();
 
     const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
-  
-    if(!message.guild.fetchBan(User)) return message.reply('User is not banned!')
+    
+    const banlist = message.guild.fetchBans()
 
-
-       
+    if(!banlist.get(user => user === User)) return message.reply('User is not banned!')
     //If all steps are completed successfully try kick this user
     message.guild.members.unban(args[0])
-        .then(() => console.log(`UnBanned ${User.Username} by ${message.member.displayName}`))
-        message.channel.send(`Sucessfully UnBanned ${User.Username}`)
+        .then(() => console.log(`UnBanned ${User.displayName} by ${message.member.displayName}`))
+        message.channel.send(`Sucessfully UnBanned ${User.displayName}`)
         channel.send(exampleEmbed)
         .catch(console.error);    
     }
