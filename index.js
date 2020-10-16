@@ -23,6 +23,14 @@ for(const file of commandFiles){
 
 const welcomeChannel = `hi-bye`
 
+client.once('error', () =>{
+    console.log('error!')
+    client.user.setStatus('idle')
+    client.user.setPresence({ activity: {name: 'Crashed.'}})
+    client.login(process.env.token);
+
+    
+});
 client.once('ready', () => {
     console.log('Wail Bot is online!');
     client.user.setStatus('online')
