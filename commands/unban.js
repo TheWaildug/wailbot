@@ -30,9 +30,7 @@
 
     const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
     
-    const banlist = message.guild.fetchBans()
-
-    if(!banlist.find(user => user === User)) return message.reply('User is not banned!')
+  
     //If all steps are completed successfully try kick this user
     message.guild.members.unban(user)
         .then(() => console.log(`UnBanned ${User.displayName} by ${message.member.displayName}`))
