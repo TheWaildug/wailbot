@@ -37,7 +37,7 @@ module.exports = {
                
     
             setTimeout(function(){
-                if(!mentionmember.roles.cache.some(role => role.name === 'Muted'))
+                if(!mentionmember.roles.cache.some(role => role.name === 'Muted')) return;
                 mentionmember.roles.remove(muterole);
                 if(channel){channel.send(`Auto Unmuted ${mentionmember.displayName}`)};
                 console.log(`Auto Unmuted ${mentionmember.displayName}`)
