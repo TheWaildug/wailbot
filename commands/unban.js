@@ -15,16 +15,15 @@
     
 
    
-    const User = Client.users.fetch(args[0]);
-    console.log(User); // Some user object.
-    console.log(User.Username);
+    const User = message.mentions.members.first();
+    console.log(User.displayName);
     
     const exampleEmbed = new Discord.MessageEmbed()
     .setColor('#FF0000')
     .setTitle('Moderation')
     .setDescription("New Unban!")
     .addFields(
-        { name: 'Offender', value: (`${User.Username}`) },
+        { name: 'Offender', value: (`${User.displayName}`) },
         { name: "Sender:", value: `${message.member.displayName}` },
     )
     .setTimestamp();
