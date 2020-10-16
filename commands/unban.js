@@ -32,9 +32,9 @@
     
     const banlist = message.guild.fetchBans()
 
-    if(!banlist.get(user => user === User)) return message.reply('User is not banned!')
+    if(!banlist.find(user => user === User)) return message.reply('User is not banned!')
     //If all steps are completed successfully try kick this user
-    message.guild.members.unban(args[0])
+    message.guild.members.unban(user)
         .then(() => console.log(`UnBanned ${User.displayName} by ${message.member.displayName}`))
         message.channel.send(`Sucessfully UnBanned ${User.displayName}`)
         channel.send(exampleEmbed)
