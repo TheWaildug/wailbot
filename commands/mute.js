@@ -12,7 +12,16 @@ module.exports = {
             if(!mentionmember.kickable) return message.reply('This user cannot be muted!')
             const muterole = message.guild.roles.cache.find(role => role.name === "Muted");
             if(!muterole) return message.reply("I couldn't find the mute role!");
-            
+            const exampleEmbed = new Discord.MessageEmbed()
+            .setColor('#FF0000')
+            .setTitle('Moderation')
+            .setDescription("New Mute!")
+            .addFields(
+                { name: 'Offender', value: `${mentionMember.displayName}` },
+                { name: "Sender:", value: `${message.member.displayName}` },
+                { name: 'Reason: ', value: `${args[1]}`},   
+            )
+            .setTimestamp();
             if(!args[1]) return message.reply('Please have a reason!')
             const time = args[2]
             if(!time) return message.reply('Please specify a time!');
@@ -22,7 +31,7 @@ module.exports = {
             message.channel.send(`Sucessfully muted ${mentionmember.displayName} for ${ms(ms(time))}. Reason: ${args[1]}`)
             mentionmember.send(`You have been muted in ${message.guild.name} for ${ms(ms(time))}. Reason: ${args[1]}`)
             const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
-            if(channel){channel.send(`${mentionmember.displayName} has been muted by ${message.member} for ${time}. Reason: ${args[1]}`)}
+            channel.send(exampleEmbed)
     
             
                
