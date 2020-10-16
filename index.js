@@ -50,11 +50,11 @@ client.on('voiceStateUpdate', (oldState, newState) => {
     }
     if(oldState.channelID === generalchannel.id){
         console.log('old state correct')
-        const role = newState.guild.roles.cache.find(r => r.name === "General");
-        if(!role) return;
+        const role2 = newState.guild.roles.cache.find(r => r.name === "General");
+        if(!role2) return;
         console.log('past role')
-        if(oldState.member.roles.cache.has(role)){ 
-            oldState.member.roles.remove(roles)
+        if(oldState.member.roles.cache.has(role2)){ 
+            oldState.member.roles.remove(role2)
             console.log('removed role')
         };
         console.log('returning')
@@ -70,6 +70,10 @@ client.on('message', message =>{
     if(command === 'ping'){
        client.Commands.get('ping').execute(message,args);
     } 
+    if(command === 'membercount'){
+        console.log('membercount command sent')
+        message.channel.send('The current member count is' + `${guild.memberCount.toLocaleString()}`)
+    }
     else if(command === 'kick'){
         client.Commands.get('kick').execute(message,args,Discord);
     }
