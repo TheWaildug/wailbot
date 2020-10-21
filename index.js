@@ -43,41 +43,41 @@ client.on('guildMemberRemove', member =>{
 client.on('voiceStateUpdate', (oldState, newState) => {
     const generalchannel = newState.guild.channels.cache.find(c => c.name === 'General');
     const musicchannel = newState.guild.channels.cache.find(c  => c.name === 'Music');
-    const role = newState.guild.roles.cache.find(r => r.name === "General");
     const role3 = newState.guild.roles.cache.find(r => r.name === 'Music')
+    const role = newState.guild.roles.cache.find(r => r.name === 'General');
     if(!generalchannel) return;
     if (newState.channelID === generalchannel.id) { // Triggered when the user joined the channel we tested for
         console.log('new general state correct')
-
+        
         if(!role) return;
         if(!newState.member.roles.cache.some(role)) newState.member.roles.add(role); // Add the role to the user if they don't already have it
         return;
     }
     else if(newState.channelID === musicchannel.id){
         console.log('new music state correct')
-      
+       
         if(!role3) return;
-        if(!newState.member.roles.cache.some(role3)) newState.member.roles.add(role3);
+        if(!newState.member.roles.cache.some(role => role.name === 'Music')) newState.member.roles.add(role3);
         return;
     }
     else if(oldState.channelID === musicchannel.id){
         console.log('old music state correct')
         if(!role3) return;
-        if(newState.member.roles.cache.some(role3)){
-             newState.member.roles.remove(role3)
-        }
+        if(newState.member.roles.cache.some(role => role.name === "Music")){
+            newState.member.roles.remove(role3)
+        };
         return;
     }
     if(oldState.channelID === generalchannel.id){
         console.log('old genearl state correct')
-    
+       
         if(!role) return;
-        if(newState.member.roles.cache.some(role)){ 
+        if(newState.member.roles.cache.some(role => role.name === 'General')){ 
         
             newState.member.roles.remove(role)
     
         };
-        return;
+                return;
     }
 });
 client.on('message', message =>{
