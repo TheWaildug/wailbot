@@ -103,7 +103,7 @@ client.on('message', message =>{
         client.Commands.get('unrestrict').execute(message,args,Discord)
     }
     else if(command === 'slowmode'){
-        client.Commands.get('slowmode').execute(mesage,args,Discord)
+        client.Commands.get('slowmode').execute(message,args,Discord)
     }
     else if(command === 'ban'){
             client.Commands.get('ban').execute(message,args,Discord,client)
