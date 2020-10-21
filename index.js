@@ -41,26 +41,26 @@ client.on('guildMemberRemove', member =>{
     client.Commands.get('goodbye').execute(member,Discord)
 })
 client.on('voiceStateUpdate', (oldState, newState) => {
+    console.log(newState.member.displayName)
     const generalchannel = newState.guild.channels.cache.find(c => c.name === 'General');
     const musicchannel = newState.guild.channels.cache.find(c  => c.name === 'Music');
     const role3 = newState.guild.roles.cache.find(r => r.name === 'Music')
     const role = newState.guild.roles.cache.find(r => r.name === 'General');
-    if(!generalchannel) return;
     if (newState.channelID === generalchannel.id) { // Triggered when the user joined the channel we tested for
         console.log('new general state correct')
         
         if(!role) return;
         if(!newState.member.roles.cache.some(role => role.name === "General")) newState.member.roles.add(role); // Add the role to the user if they don't already have it
       
-    }
-    else if(newState.channelID === musicchannel.id){
+    }   
+    if(newState.channelID === musicchannel.id){
         console.log('new music state correct')
        
         if(!role3) return;
         if(!newState.member.roles.cache.some(role => role.name === 'Music')) newState.member.roles.add(role3);
       
     }
-    else if(oldState.channelID === musicchannel.id){
+    if(oldState.channelID === musicchannel.id){
         console.log('old music state correct')
         if(!role3) return;
         if(newState.member.roles.cache.some(role => role.name === "Music")){
