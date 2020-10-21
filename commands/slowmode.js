@@ -9,7 +9,8 @@ module.exports = {
         return;
     };
     if(!args[1]) return;
-        const channel = message.mentions.channels.first()   
+        const mentionchannel = message.mentions.channels.first()   
+        const channel = message.guild.channels.cache.get(mentionchannel.substring(2).substring(0,18))
         if(channel.type === 'text'){
             channel.setRateLimitPerUser(args[1])
         }
