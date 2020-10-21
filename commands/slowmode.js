@@ -9,7 +9,7 @@ module.exports = {
         return;
     };
     if(!args[1]) return;
-        const channel = message.mentions.channel.first()   
+        const channel = message.mentions.channels.first()   
         if(channel.type === 'text'){
             channel.setRateLimitPerUser(args[1])
         }
