@@ -50,15 +50,15 @@ client.on('voiceStateUpdate', (oldState, newState) => {
         console.log('new general state correct')
         
         if(!role) return;
-        if(!newState.member.roles.cache.some(role)) newState.member.roles.add(role); // Add the role to the user if they don't already have it
-        return;
+        if(!newState.member.roles.cache.some(role => role.name === "General")) newState.member.roles.add(role); // Add the role to the user if they don't already have it
+      
     }
     else if(newState.channelID === musicchannel.id){
         console.log('new music state correct')
        
         if(!role3) return;
         if(!newState.member.roles.cache.some(role => role.name === 'Music')) newState.member.roles.add(role3);
-        return;
+      
     }
     else if(oldState.channelID === musicchannel.id){
         console.log('old music state correct')
@@ -66,7 +66,7 @@ client.on('voiceStateUpdate', (oldState, newState) => {
         if(newState.member.roles.cache.some(role => role.name === "Music")){
             newState.member.roles.remove(role3)
         };
-        return;
+      
     }
     if(oldState.channelID === generalchannel.id){
         console.log('old genearl state correct')
@@ -77,7 +77,7 @@ client.on('voiceStateUpdate', (oldState, newState) => {
             newState.member.roles.remove(role)
     
         };
-                return;
+              
     }
 });
 client.on('message', message =>{
