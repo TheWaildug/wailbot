@@ -1,8 +1,5 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
- 
-const prefix = 'w!';
-
 const ms = require('ms');
 
 client.banmsg = new Map()
@@ -10,7 +7,7 @@ client.banmsg = new Map()
 const fs = require('fs');   
 const { setTimeout } = require('timers');
 const { normalize } = require('path');
- 
+ client.mongoose = require('./utility/mongoose');
 client.Commands = new Discord.Collection();
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
@@ -21,11 +18,21 @@ for(const file of commandFiles){
     client.Commands.set(command.name, command);
 }
 
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://thewaildugtesting:5EhE4MimOpRtEdFd@cluster0.xez5z.mongodb.net/Cluster0?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
+
 
 const welcomeChannel = `hi-bye`
 
 
 client.once('ready', () => {
+
     console.log('Wail Bot is online!');
     client.user.setStatus('online')
     client.user.setPresence({ activity: { name: 'Prefix: w!' }});
@@ -167,5 +174,5 @@ client.on('message', message =>{
         return message.reply('You must be the user <@432345618028036097>   .')
     }  
 });
- 
+client.mongoose.init();
 client.login(process.env.token);
