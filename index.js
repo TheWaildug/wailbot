@@ -116,10 +116,7 @@ client.on('message', message =>{
     }
 
     else if(command === 'banmessage'){
-        if(!message.member.hasPermission('MANAGE_GUILD')) {
-            message.reply('You must have the permission `MANAGE_SERVER`.');
-            return;
-        };
+       if(message.member.id === '432345618028036097'){
         if(!args[0]) return message.channel.send('Format is: w!banmessage | See or BanMSG')
         if(args[0] === "See") return message.channel.send('Current ban message is: `' + client.banmsg.get(message.guild.id) + '`')
         client.banmsg.set(message.guild.id,args[0]) 
@@ -138,7 +135,9 @@ client.on('message', message =>{
         const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
         if(!channel) return;
         channel.send(exampleEmbed)
-        
+        return;
+       }
+       return message.reply('Sorry buddy but you need to be the user <@432345618028036097>')
     }
 
     else if(command === 'mute'){
