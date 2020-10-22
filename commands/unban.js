@@ -33,7 +33,7 @@
     
   
     //If all steps are completed successfully try kick this user
-    message.guild.members.unban(user.id)
+    message.guild.members.unban(User.id)
         .then(() => console.log(`UnBanned ${User.tag} by ${message.member.tag}`))
         message.channel.send(`Sucessfully UnBanned ${User.tag}`)
         channel.send(exampleEmbed)
