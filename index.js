@@ -115,6 +115,7 @@ client.on('message', message =>{
         client.Commands.get('dm').execute(message,args)
     }
     else if(command === 'banmessage'){
+        client.banmsg.set('banmsg',"")
         return message.channel.send('It seems this command is not in use currently!')
         if(!message.member.hasPermission('ADMINISTRATOR')) {
             message.reply('You must have the permission `ADMINISTRATOR`.');
