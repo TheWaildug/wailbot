@@ -15,7 +15,7 @@ module.exports = {
         console.log(args[1])
         if(channel.type === 'text'){
             channel.setRateLimitPerUser(args[1])
-            return message.channel.send('Sucessfully changed slowmode in {#' + mentionchannel.id + `} to ${args(1)}.`)
+            return message.channel.send('Sucessfully changed slowmode in {#' + mentionchannel.id + `} to ${args[1]}.`)
         }
     }
 }
