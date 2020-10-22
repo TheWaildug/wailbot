@@ -17,7 +17,7 @@
    
     const User = Client.users.fetch(args[0])
     if(!User) return message.reply("Please specify a member's user id to unban!")
-    console.log(User.tag)
+    console.log(User)
     
     const exampleEmbed = new Discord.MessageEmbed()
     .setColor('#FF0000')
