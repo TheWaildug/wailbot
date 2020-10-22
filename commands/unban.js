@@ -18,7 +18,7 @@
     const member = Client.users.fetch(args[0])
     if(!member) return message.reply("Please specify a member's user id to unban!")
     console.log(member)
-    let ban = await message.guild.fetchBans();
+    let ban =  message.guild.fetchBans();
     var user = ban.get(member.id);
     message.guild.members.unban(member);
     const exampleEmbed = new Discord.MessageEmbed()
