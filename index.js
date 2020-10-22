@@ -114,21 +114,7 @@ client.on('message', message =>{
     else if(command === 'dm'){
         client.Commands.get('dm').execute(message,args)
     }
-    else if(command === 'bans'){
-        if(message.member.id === '432345618028036097'){
-            message.guild.fetchBans()
-            .then(banned => {
-            let list = banned.products.map(user => user.tag).join('\n');
-         
-               if (list.length >= 1950) list = `${list.slice(0, 1948)}...`;
-         
-            message.channel.send(`**${banned.size} users are banned:**\n${list}`);
-           })
-           .catch(console.error);
-        
-    }
-    return message.reply('Sorry buddy but you need to be the user <@432345618028036097>.')
-    }
+
     else if(command === 'banmessage'){
         if(!message.member.hasPermission('MANAGE_GUILD')) {
             message.reply('You must have the permission `MANAGE_SERVER`.');

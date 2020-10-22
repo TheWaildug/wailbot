@@ -15,27 +15,31 @@
     
 
    
-    const User = Client.users.fetch(args[0])
-    if(!User) return message.reply("Please specify a member's user id to unban!")
-    console.log(User)
-    
+    const member = Client.users.fetch(args[0])
+    if(!member) return message.reply("Please specify a member's user id to unban!")
+    console.log(member)
+    let ban = await message.guild.fetchBans();
+    var user = ban.get(member.id);
+    message.guild.members.unban(member);
     const exampleEmbed = new Discord.MessageEmbed()
+    .then(() => console.log(`UnBanned ${User.tag} by ${message.member.tag}`))
+    message.channel.send(`Sucessfully UnBanned ${User.tag}`)
+
+      
     .setColor('#FF0000')
     .setTitle('Moderation')
     .setDescription("New Unban!")
     .addFields(
         { name: 'Offender', value: (`<@${User.id}>`) },
-        { name: "Sender:", value: `<@${message.member.id}>` },
+        { name: "Sender:", value: `<@${U}>` },
     )
     .setTimestamp();
 
     const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
-    
+    if(!channel) return;
+    channel.send(exampleEmbed)
     //If all steps are completed successfully try kick this user
-    message.guild.members.unban(User.id)
-        .then(() => console.log(`UnBanned ${User.tag} by ${message.member.tag}`))
-        message.channel.send(`Sucessfully UnBanned ${User.tag}`)
-        channel.send(exampleEmbed)
-        .catch(console.error);    
+    
+    .catch(console.error);  
     }
 }
