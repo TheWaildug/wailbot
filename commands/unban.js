@@ -15,9 +15,9 @@
     
 
    
-    const User = message.mentions.members.first();
-    if(!User) return message.reply('Please specify a member to unban!')
-    console.log(User.tag);
+    const User = Client.fetchUser(args[0])
+    if(!User) return message.reply("Please specify a member's user id to unban!")
+    console.log(User.tag)
     
     const exampleEmbed = new Discord.MessageEmbed()
     .setColor('#FF0000')
@@ -33,9 +33,9 @@
     
   
     //If all steps are completed successfully try kick this user
-    message.guild.members.unban(user)
-        .then(() => console.log(`UnBanned ${User.displayName} by ${message.member.displayName}`))
-        message.channel.send(`Sucessfully UnBanned ${User.displayName}`)
+    message.guild.members.unban(user.id)
+        .then(() => console.log(`UnBanned ${User.tag} by ${message.member.tag}`))
+        message.channel.send(`Sucessfully UnBanned ${User.tag}`)
         channel.send(exampleEmbed)
         .catch(console.error);    
     }
