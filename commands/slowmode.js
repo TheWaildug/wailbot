@@ -12,6 +12,7 @@ module.exports = {
         const mentionchannel = message.mentions.channels.first()   
         const channel = message.guild.channels.cache.get(mentionchannel.id)
         console.log(channel.name)
+        console.log(args[1])
         if(channel.type === 'text'){
             channel.setRateLimitPerUser(args[1])
         }
