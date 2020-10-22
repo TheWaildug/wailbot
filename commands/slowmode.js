@@ -8,7 +8,7 @@ module.exports = {
         message.reply('You must have the permission `MANAGE_MESSAGES`.');
         return;
     };
-    if(!args[1]) return message.reply('w!slowmode | #channel | {time in seconds}')
+    if(!args[1]) return message.channel.send('Format is: w!slowmode | #channel | {time in seconds}')
         const mentionchannel = message.mentions.channels.first()   
         const channel = message.guild.channels.cache.get(mentionchannel)
       
