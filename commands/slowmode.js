@@ -8,7 +8,7 @@ module.exports = {
         message.reply('You must have the permission `MANAGE_MESSAGES`.');
         return;
     };
-    if(!args[1]) return message.channel.send('Format is: w!slowmode | #channel | {time in seconds}')
+    if(!args[0]) return message.channel.send('Format is: w!slowmode | #channel | {time in seconds}')
         const mentionchannel = message.mentions.channels.first()   
         const channel = message.guild.channels.cache.get(mentionchannel.id)
         console.log(channel.name)
@@ -26,9 +26,9 @@ module.exports = {
             )
             .setTimestamp();
             message.channel.send('Sucessfully changed slowmode in <#' + mentionchannel.id + `> to ${args[1]} seconds.`)
-            const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
-            if(!channel) return;
-            channel.send(exampleEmbed)
+            const mod = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
+            if(!mod) return;
+            mod.send(exampleEmbed)
            
         }
     }

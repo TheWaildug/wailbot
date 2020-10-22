@@ -123,7 +123,7 @@ client.on('message', message =>{
         if(args[0] === "See") return message.channel.send('Current ban message is: `' + client.banmsg.get(message.guild.id) + '`')
         client.banmsg.set(message.guild.id,args[0]) 
         message.reply('Sucessfully changed ban message to `' + client.banmsg.get(message.guild.id) + '`')
-        console.log(client.banmsg.get(message.guild.id))
+        console.log(client.banmsg.get(message.guild.id ))
         console.log(message.author.tag)
         const exampleEmbed = new Discord.MessageEmbed()
         .setColor('#FF0000')
