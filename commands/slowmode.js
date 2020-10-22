@@ -9,9 +9,11 @@ module.exports = {
         return;
     };
     if(!args[0]) return message.channel.send('Format is: w!slowmode | #channel | {time in seconds}')
+   
         const mentionchannel = message.mentions.channels.first()   
         const channel = message.guild.channels.cache.get(mentionchannel.id)
         console.log(channel.name)
+        if(!args[1]) return message.channel.send('Current Slowmode in ' + '<#${mentionchannel.id}>' + '` is ' + channel.RateLimitPerUser + '.')
         console.log(args[1])
         if(channel.type === 'text'){
             channel.setRateLimitPerUser(args[1])
