@@ -42,8 +42,8 @@ module.exports ={
         .setTitle('Moderation')
         .setDescription("New Ban!")
         .addFields(
-            { name: 'Offender', value: `<@${memberto.id}>` },
-            { name: "Sender:", value: `<@${mentionMember.id}>` },
+            { name: 'Offender', value: `<@${mentionMember.id}>` },
+            { name: "Sender:", value: `<@${message.member.id}>` },
             { name: 'Reason: ', value: `${args[1]}`},
         )
         .setTimestamp();
