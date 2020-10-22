@@ -5,7 +5,7 @@ module.exports = {
     execute(message, args, Discord){
       console.log('kick command sent')
 
-     
+    
 
 
     //Then check if user have permissions to do that
@@ -13,7 +13,7 @@ module.exports = {
         message.reply('You must have the permission `KICK_MEMBERS`.');
         return;
     };
-
+    if(args[0]) return message.channel.send('Format is: w!kick | @USER | {reason}')
     //const a member, wich you need yo kick (its fist mention message member)
     let mentionMember = message.mentions.members.first();
     //If user dont mention a member, that show him this error msg

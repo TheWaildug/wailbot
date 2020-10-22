@@ -2,6 +2,7 @@ module.exports ={
     name: 'restrict',
     description: 'restricts people',
     execute(message,args,Discord){
+        return message.channel.send("Whoops! It seems restrict commmand isn't in use currently!")
         console.log('restrict command sent')
 
      

@@ -4,12 +4,13 @@ module.exports ={
     description: 'bans people',
     execute(message,args,Discord,client){
         console.log('ban command send')
+        
         if(!message.member.hasPermission('BAN_MEMBERS')) {
-            message.channel.send('You must have the permission `Ban Members`.');
+            message.channel.send('You must have the permission `BAN_MEMBERS`.');
             return;
         };
     
-    
+        if(!args[0]) return message.channel.send('Format is: w!ban | @USER | {reason}')
         
     
         //const a member, wich you need yo kick (its fist mention message member)

@@ -5,7 +5,7 @@ module.exports ={
         console.log('unrestrict command sent')
 
      
-
+        return message.channel.send("Whoops! It seems restrict commmand isn't in use currently!")
 
         //Then check if user have permissions to do that
         if(!message.member.hasPermission('KICK_MEMBERS')) {

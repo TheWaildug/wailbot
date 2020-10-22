@@ -115,6 +115,7 @@ client.on('message', message =>{
         client.Commands.get('dm').execute(message,args)
     }
     else if(command === 'banmessage'){
+        return message.channel.send('It seems this command is not in use currently!')
         if(!message.member.hasPermission('ADMINISTRATOR')) {
             message.reply('You must have the permission `ADMINISTRATOR`.');
             return;
@@ -162,6 +163,7 @@ client.on('message', message =>{
         console.log('unmute command sent')
         const mentionMember = message.mentions.members.first();
         if(!message.member.hasPermission('KICK_MEMBERS')) return message.reply('You must have the permission `KICK_MEMBERS`.')
+        if(!args[0]) return message.channel.send('Format is: w!unmute | @USER ')
         if(!mentionMember) return message.reply('You need to mention a member to UnMute!') ;
         const muterole = message.guild.roles.cache.find(role => role.name === "Muted");
         if(!muterole) return message.reply("I couldn't find the mute role!");
@@ -178,7 +180,7 @@ client.on('message', message =>{
             message.member.send('Invite the bot to your server! https://discord.com/oauth2/authorize?client_id=755781017889144903&scope=bot&permissions=8')
             return;   
         }
-        return message.reply('You must be <@432345618028036097>   .')
+        return message.reply('You must be the user <@432345618028036097>   .')
     }  
 });
  
