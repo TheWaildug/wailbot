@@ -15,7 +15,21 @@ module.exports = {
         console.log(args[1])
         if(channel.type === 'text'){
             channel.setRateLimitPerUser(args[1])
-            return message.channel.send('Sucessfully changed slowmode in <#' + mentionchannel.id + `> to ${args[1]} seconds.`)
+            const exampleEmbed = new Discord.MessageEmbed()
+            .setColor('#FF0000')
+            .setTitle('Utility')
+            .setDescription("Slowmode Change")
+            .addFields(
+                { name: "Sender:", value: `<@${message.member.id}>` },
+                { name: 'Channel: ', value: `<#${mentionchannel.id}>`},
+                {name: "Slowmode:", value: `${args[1]}`},  
+            )
+            .setTimestamp();
+            message.channel.send('Sucessfully changed slowmode in <#' + mentionchannel.id + `> to ${args[1]} seconds.`)
+            const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
+            if(!channel) return;
+            channel.send(exampleEmbed)
+           
         }
     }
 }

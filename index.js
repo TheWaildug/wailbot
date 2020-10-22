@@ -120,10 +120,10 @@ client.on('message', message =>{
             return;
         };
         if(!args[0]) return message.channel.send('Format is: w!banmessage | See or BanMSG')
-        if(args[0] === "See") return message.channel.send('Current ban message is: `' + client.banmsg.get('banmsg') + '`')
-        client.banmsg.set('banmsg',args[0]) 
-        message.reply('Sucessfully changes ban message to `' + client.banmsg.get('banmsg'))
-        console.log(client.banmsg.get('banmsg'))
+        if(args[0] === "See") return message.channel.send('Current ban message is: `' + client.banmsg.get(message.guild.id) + '`')
+        client.banmsg.set(message.guild.id,args[0]) 
+        message.reply('Sucessfully changed ban message to `' + client.banmsg.get(message.guild.id) + '`')
+        console.log(client.banmsg.get(message.guild.id))
         console.log(message.author.tag)
         const exampleEmbed = new Discord.MessageEmbed()
         .setColor('#FF0000')
@@ -131,9 +131,12 @@ client.on('message', message =>{
         .setDescription("Ban MSG Change")
         .addFields(
             { name: "Sender:", value: `<@${message.member.id}>` },
-            { name: 'New Message: ', value: `${client.banmsg.get('banmsg')}`},   
+            { name: 'New Message: ', value: `${client.banmsg.get(message.guild.id)}`},   
         )
         .setTimestamp();
+        const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
+        if(!channel) return;
+        channel.send(exampleEmbed)
         
     }
 
