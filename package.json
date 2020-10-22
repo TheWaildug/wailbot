@@ -1,18 +1,28 @@
 {
-  "name": "bot",
+  "name": "wailbot",
   "version": "1.0.0",
-  "description": "",
+  "description": "some cool thing",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "discord.js": "^12.4.0",
     "mongoose": "^5.10.9",
     "ms": "^2.1.2",
     "sequelize": "^6.3.5",
     "sqlite3": "^5.0.0"
-  }
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d-bowman159/wailbot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/d-bowman159/wailbot/issues"
+  },
+  "homepage": "https://github.com/d-bowman159/wailbot#readme"
 }
