@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const ms = require('ms');
-
+const prefix = 'w!'
 client.banmsg = new Map()
 
 const fs = require('fs');   
