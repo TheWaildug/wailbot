@@ -31,7 +31,6 @@
 
     const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
     
-  
     //If all steps are completed successfully try kick this user
     message.guild.members.unban(User.id)
         .then(() => console.log(`UnBanned ${User.tag} by ${message.member.tag}`))
