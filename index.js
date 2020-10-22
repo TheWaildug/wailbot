@@ -115,48 +115,28 @@ client.on('message', message =>{
         client.Commands.get('dm').execute(message,args)
     }
     else if(command === 'banmessage'){
-        client.banmsg.set('banmsg',"")
-        return message.channel.send('It seems this command is not in use currently!')
-        if(!message.member.hasPermission('ADMINISTRATOR')) {
-            message.reply('You must have the permission `ADMINISTRATOR`.');
+        if(!message.member.hasPermission('MANAGE_GUILD')) {
+            message.reply('You must have the permission `MANAGE_SERVER`.');
             return;
         };
-            console.log(`changing ban msg`)
-            message.reply("See or Change?")
-            const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 1000 });
-            collector.on('collect',msg => {
-                console.log('collecting...')
-                if(msg.content === "See"){
-                    console.log('see')
-                    message.reply(`Your current ban message is: ${client.banmsg.get('banmsg')}`) 
-                }
-                if(msg.content === "Change"){
-                    message.reply('Please tell me the new ban message.')
-                    const collector2 = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, {time: 1000});
-                    collector2.on('collect',msg2 =>{
-                        if(msg2.content === "Reset"){
-                            msg2.reply('Resetting Ban Mesage...')
-                            client.banmsg.set('banmsg',"");
-                        } 
-                        else{
-                            msg2.reply(`You entered ${msg2.content}. Is that correct?`)
-                            const collector3 = new Discord.MessageCollector(message.channels, m => m.author.id === message.author.id, {time: 1000});
-                            collector3.on("collect",msg3 =>{
-                                if(msg3.content === "Yes"){
-                                    client.banmsg.set('banmsg',msg2.content)
-                                    return msg3.reply(`Setting Ban Msg to ${msg2.content}.`)
-                                }
-                                else if(msg3.content === "No"){
-                                    return msg3.reply('Please run the command again.')
-                                }
-                            })
-                        }
-                        
-                    })
-                }
-            })
-        }
-    
+        if(!args[0]) return message.channel.send('Format is: w!banmessage | See or BanMSG')
+        if(args[0] === "See") return message.channel.send('Current ban message is: `' + client.banmsg.get('banmsg') + '`')
+        client.banmsg.set('banmsg',args[0]) 
+        message.reply('Sucessfully changes ban message to `' + client.banmsg.get('banmsg'))
+        console.log(client.banmsg.get('banmsg'))
+        console.log(message.author.tag)
+        const exampleEmbed = new Discord.MessageEmbed()
+        .setColor('#FF0000')
+        .setTitle('Utility')
+        .setDescription("Ban MSG Change")
+        .addFields(
+            { name: "Sender:", value: `<@${message.member.id}>` },
+            { name: 'New Message: ', value: `${client.banmsg.get('banmsg')}`},   
+        )
+        .setTimestamp();
+        
+    }
+
     else if(command === 'mute'){
        client.Commands.get('mute').execute(message,args,Discord,ms)
     }
