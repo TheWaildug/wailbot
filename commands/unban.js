@@ -9,22 +9,23 @@
     return;
 };
 
-     if(!args[0]) return message.reply('You need to mention a user to unban!')
+     if(!args[0]) return message.channel.send('Format is: w!unban | @USER')
 
  
     
 
    
     const User = message.mentions.members.first();
-    console.log(User.displayName);
+    if(!User) return message.reply('Please specify a member to unban!')
+    console.log(User.tag);
     
     const exampleEmbed = new Discord.MessageEmbed()
     .setColor('#FF0000')
     .setTitle('Moderation')
     .setDescription("New Unban!")
     .addFields(
-        { name: 'Offender', value: (`${User.displayName}`) },
-        { name: "Sender:", value: `${message.member.displayName}` },
+        { name: 'Offender', value: (`<@${User.id}>`) },
+        { name: "Sender:", value: `<@${message.member.id}>` },
     )
     .setTimestamp();
 
