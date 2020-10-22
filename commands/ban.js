@@ -51,11 +51,11 @@ module.exports ={
         const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
         //If all steps are comconst channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
         memberto.ban({ days: 7, reason: args[1] })
-            .then(() => console.log(`Banned ${mentionMember.displayName}  for ${args[1]} by ${message.member.displayName}`))
+            .then(() => console.log(`Banned ${mentionMember.tag}  for ${args[1]} by ${message.member.tag}`))
             mentionMember.send(`You have been banned from ${message.channel.guild}. Reason: ${args[1]}. Info: ${client.banmsg.get(message.guild.id)}.`)
-            .catch(() => message.reply(`I cannot send a DM to ${mentionMember}.`));   
+            .catch(() => message.reply(`I cannot send a DM to ${mentionMember.tag}.`));   
             channel.send(exampleEmbed)
-            message.channel.send(`Sucessfully Banned ${mentionMember.displayName} for ${args[1]}`)   
+            message.channel.send(`Sucessfully Banned ${mentionMember.tag} for ${args[1]}`)   
     }
 
 }
