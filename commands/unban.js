@@ -9,7 +9,7 @@
     return;
 };
 
-     if(!args[0]) return message.channel.send('Format is: w!unban | @USER')
+     if(!args[0]) return message.channel.send('Format is: w!unban | UserID')
 
  
     
