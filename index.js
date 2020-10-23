@@ -117,11 +117,20 @@ client.on('message', message =>{
     else if(command === 'banmessage'){
        if(message.member.id === '432345618028036097'){
         if(!args[0]) return message.channel.send('Format is: w!banmessage | See or BanMSG')
+        async function func(){
         if(args[0] === "See") return message.channel.send('Current ban message is: `' + await keyv.get(message.guild.id) + '`')
-        keyv.set(message.guild.id,args[0]) 
+        }
+        async function func(){
+        await keyv.set(message.guild.id,args[0]) 
+        }
+        async function func(){
         message.reply('Sucessfully changed ban message to `' + await keyv.get(message.guild.id) + '`')
-        console.log(await keyv.get(message.guild.id ))
+        }
+        async function func(){
+        console.log(await keyv.get(message.guild.id))
+        }
         console.log(message.author.tag)
+        async function func(){
         const exampleEmbed = new Discord.MessageEmbed()
         .setColor('#FF0000')
         .setTitle('Utility')
@@ -131,6 +140,7 @@ client.on('message', message =>{
             { name: 'New Message: ', value: `${await keyv.get(message.guild.id)}`},   
         )
         .setTimestamp();
+        }
         const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
         if(!channel) return;
         channel.send(exampleEmbed)
