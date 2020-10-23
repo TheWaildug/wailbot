@@ -115,13 +115,13 @@ client.on('message', message =>{
     }
 
     else if(command === 'banmessage'){
-        
+        console.log('banmsg')
        if(message.member.id === '432345618028036097'){
         if(!args[0]) return message.channel.send('Format is: w!banmessage | See or BanMSG')
         async function func(){
         if(args[0] === "See") return message.channel.send('Current ban message is: `' + await keyv.get(message.guild.id) + '`')
         
-        
+        console.log('await')
         await keyv.set(message.guild.id,args[0]) 
         
         
@@ -146,8 +146,7 @@ client.on('message', message =>{
         if(!channel) return;
         channel.send(exampleEmbed)
         return;
-       }
-       return message.reply('Sorry buddy but you need to be the user <@432345618028036097>')
+       } else return message.reply('Sorry buddy but you need to be the user <@432345618028036097>')
     }}
 
     else if(command === 'mute'){
