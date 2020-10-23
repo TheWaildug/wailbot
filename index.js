@@ -3,11 +3,13 @@ const client = new Discord.Client();
 const ms = require('ms');
 const prefix = 'w!'
 
-const Keyv = require('keyv');
+const Endb = require('endb');
+const endb = new Endb('sqlite://thewaldugbot.sqlite')
+
 const fs = require('fs');   
 const { setTimeout } = require('timers');
 const { normalize } = require('path');
-const keyv = new Keyv();
+
 client.Commands = new Discord.Collection();
 keyv.on('error', err => console.error('Keyv connection error:', err));
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
@@ -116,24 +118,22 @@ client.on('message', message =>{
 
     else if(command === 'banmessage'){
         console.log('banmsg')
+
        if(message.member.id === '432345618028036097'){
 
         if(!args[0]) return message.channel.send('Format is: w!banmessage | See or BanMSG')
-        var current
-        async function func(){
+       var current = endb.get(message.guild.id)
             console.log('current await')
-            current = await keyv.get(message.guild.id)
-        } 
+          
         if(args[0] === "See") return message.channel.send('Current ban message is: `' + current + '`')
-        
+        console.log(args[0])
         console.log('await')
-        async function func2(){
-          await keyv.set(message.guild.id,args[0]) 
-        } 
-        async function func3(){
+        
+        endb.set(message.guild.id,args[0])
+        current = endb.get(message.guild.id)
             console.log('current await')
-            current = await keyv.get(message.guild.id)
-        } 
+     
+        
         message.reply('Sucessfully changed ban message to `' + current + '`')
         
        
