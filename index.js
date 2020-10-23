@@ -119,9 +119,10 @@ client.on('message', message =>{
        if(message.member.id === '432345618028036097'){
 
         if(!args[0]) return message.channel.send('Format is: w!banmessage | See or BanMSG')
+        var current
         async function func(){
             console.log('current await')
-            var current = await keyv.get(message.guild.id)
+            current = await keyv.get(message.guild.id)
         } 
         if(args[0] === "See") return message.channel.send('Current ban message is: `' + current + '`')
         
