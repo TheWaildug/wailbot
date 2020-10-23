@@ -127,11 +127,14 @@ client.on('message', message =>{
         if(args[0] === "See") return message.channel.send('Current ban message is: `' + current + '`')
         
         console.log('await')
-        
-          keyv.set(message.guild.id,args[0]) 
-          
-        
-        message.reply('Sucessfully changed ban message to `' + args[0] + '`')
+        async function func2(){
+          await keyv.set(message.guild.id,args[0]) 
+        } 
+        async function func3(){
+            console.log('current await')
+            current = await keyv.get(message.guild.id)
+        } 
+        message.reply('Sucessfully changed ban message to `' + current + '`')
         
        
         console.log(current)
@@ -144,7 +147,7 @@ client.on('message', message =>{
         .setDescription("Ban MSG Change")
         .addFields(
             { name: "Sender:", value: `<@${message.member.id}>` },
-            { name: 'New Message: ', value: `${args[0]}`},   
+            { name: 'New Message: ', value: `${current}`},   
         )
         .setTimestamp();
         
