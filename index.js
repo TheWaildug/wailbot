@@ -128,14 +128,12 @@ client.on('message', message =>{
         console.log('await')
         
           keyv.set(message.guild.id,args[0]) 
-          async function func(){
-            var newone = await(keyv.get(message.guild.id))
-        }   
+          
         
-        message.reply('Sucessfully changed ban message to `' + newone + '`')
+        message.reply('Sucessfully changed ban message to `' + args[0] + '`')
         
        
-        console.log(newone)
+        console.log(current)
         
         console.log(message.author.tag)
        
@@ -145,7 +143,7 @@ client.on('message', message =>{
         .setDescription("Ban MSG Change")
         .addFields(
             { name: "Sender:", value: `<@${message.member.id}>` },
-            { name: 'New Message: ', value: `${newone}`},   
+            { name: 'New Message: ', value: `${args[0]}`},   
         )
         .setTimestamp();
         
