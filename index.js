@@ -117,18 +117,25 @@ client.on('message', message =>{
     else if(command === 'banmessage'){
         console.log('banmsg')
        if(message.member.id === '432345618028036097'){
+
         if(!args[0]) return message.channel.send('Format is: w!banmessage | See or BanMSG')
         async function func(){
-        if(args[0] === "See") return message.channel.send('Current ban message is: `' + await keyv.get(message.guild.id) + '`')
+            console.log('current await')
+            var current = await keyv.get(message.guild.id)
+        } 
+        if(args[0] === "See") return message.channel.send('Current ban message is: `' + current + '`')
         
         console.log('await')
-        await keyv.set(message.guild.id,args[0]) 
+        
+          keyv.set(message.guild.id,args[0]) 
         
         
         message.reply('Sucessfully changed ban message to `' + await keyv.get(message.guild.id) + '`')
         
-       
-        console.log(await keyv.get(message.guild.id))
+        async function func(){
+            var newone = await(keyv.get(message.guild.id))
+        }   
+        console.log(newone)
         
         console.log(message.author.tag)
        
@@ -138,7 +145,7 @@ client.on('message', message =>{
         .setDescription("Ban MSG Change")
         .addFields(
             { name: "Sender:", value: `<@${message.member.id}>` },
-            { name: 'New Message: ', value: `${await keyv.get(message.guild.id)}`},   
+            { name: 'New Message: ', value: `${newone}`},   
         )
         .setTimestamp();
         
@@ -146,7 +153,7 @@ client.on('message', message =>{
         if(!channel) return;
         channel.send(exampleEmbed)
         return
-       } }
+       } 
        else {return message.reply('Sorry buddy but you need to be the user <@432345618028036097>')}
     }
 
