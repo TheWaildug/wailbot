@@ -145,9 +145,10 @@ client.on('message', message =>{
         const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
         if(!channel) return;
         channel.send(exampleEmbed)
-        return;
-       } else return message.reply('Sorry buddy but you need to be the user <@432345618028036097>')
-    }}
+        return
+       } }
+       else {return message.reply('Sorry buddy but you need to be the user <@432345618028036097>')}
+    }
 
     else if(command === 'mute'){
        client.Commands.get('mute').execute(message,args,Discord,ms)
