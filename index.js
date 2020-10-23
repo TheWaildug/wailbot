@@ -10,7 +10,7 @@ const { setTimeout } = require('timers');
 const { normalize } = require('path');
 
 client.Commands = new Discord.Collection();
-keyv.on('error', err => console.error('Keyv connection error:', err));
+
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 
 for(const file of commandFiles){
