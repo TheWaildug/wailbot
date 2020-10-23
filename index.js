@@ -2,14 +2,14 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const ms = require('ms');
 const prefix = 'w!'
-client.banmsg = new Map()
 
+const Keyv = require('keyv');
 const fs = require('fs');   
 const { setTimeout } = require('timers');
 const { normalize } = require('path');
- client.mongoose = require('./utility/mongoose');
+const keyv = new Keyv('mongodb://TheWaildug:5EhE4MimOpRtEdFd@localhost:27017/Cluster0');
 client.Commands = new Discord.Collection();
-
+keyv.on('error', err => console.error('Keyv connection error:', err));
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 
 for(const file of commandFiles){
@@ -18,14 +18,6 @@ for(const file of commandFiles){
     client.Commands.set(command.name, command);
 }
 
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://thewaildugtesting:5EhE4MimOpRtEdFd@cluster0.xez5z.mongodb.net/Cluster0?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true });
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
-});
 
 
 const welcomeChannel = `hi-bye`
@@ -113,7 +105,7 @@ client.on('message', message =>{
         client.Commands.get('slowmode').execute(message,args,Discord)
     }
     else if(command === 'ban'){
-            client.Commands.get('ban').execute(message,args,Discord,client)
+            client.Commands.get('ban').execute(message,args,Discord,keyv)
         }
     else if(command === 'unban'){
         client.Commands.get('unban').execute(message,args,Discord,client); 
@@ -125,10 +117,10 @@ client.on('message', message =>{
     else if(command === 'banmessage'){
        if(message.member.id === '432345618028036097'){
         if(!args[0]) return message.channel.send('Format is: w!banmessage | See or BanMSG')
-        if(args[0] === "See") return message.channel.send('Current ban message is: `' + client.banmsg.get(message.guild.id) + '`')
-        client.banmsg.set(message.guild.id,args[0]) 
-        message.reply('Sucessfully changed ban message to `' + client.banmsg.get(message.guild.id) + '`')
-        console.log(client.banmsg.get(message.guild.id ))
+        if(args[0] === "See") return message.channel.send('Current ban message is: `' + keyv.get(message.guild.id) + '`')
+        keyv.set(message.guild.id,args[0]) 
+        message.reply('Sucessfully changed ban message to `' + keyv.get(message.guild.id) + '`')
+        console.log(keyv.get(message.guild.id ))
         console.log(message.author.tag)
         const exampleEmbed = new Discord.MessageEmbed()
         .setColor('#FF0000')
@@ -136,7 +128,7 @@ client.on('message', message =>{
         .setDescription("Ban MSG Change")
         .addFields(
             { name: "Sender:", value: `<@${message.member.id}>` },
-            { name: 'New Message: ', value: `${client.banmsg.get(message.guild.id)}`},   
+            { name: 'New Message: ', value: `${keyv.get(message.guild.id)}`},   
         )
         .setTimestamp();
         const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
@@ -174,5 +166,5 @@ client.on('message', message =>{
         return message.reply('You must be the user <@432345618028036097>   .')
     }  
 });
-client.mongoose.init();
+
 client.login(process.env.token);
