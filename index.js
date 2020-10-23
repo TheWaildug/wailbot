@@ -183,8 +183,9 @@ client.on('message', message =>{
             message.member.send('Invite the bot to your server! https://discord.com/oauth2/authorize?client_id=755781017889144903&scope=bot&permissions=8')
             return;   
         }
-        return message.reply('You must be the user <@432345618028036097>   .')
-    }  
+
+        
+    }  else {return message.reply('You must be the user <@432345618028036097>   .')}
 });
 
 client.login(process.env.token);
