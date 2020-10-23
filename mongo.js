@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const { mongPpath } = require('./config.json')
+const { mongPath } = require('./config.json')
 module.exports = async () =>{
-    await mongoose.connect(mongopath)
+    await mongoose.connect(mongoPath)
     return mongoose
 }
