@@ -3,8 +3,7 @@ const client = new Discord.Client();
 const ms = require('ms');
 const prefix = 'w!'
 
-const Endb = require('endb');
-const endb = new Endb('sqlite://thewaldugbot.sqlite')
+const mongo = require('./mongo')
 
 const fs = require('fs');   
 const { setTimeout } = require('timers');
@@ -25,11 +24,19 @@ for(const file of commandFiles){
 const welcomeChannel = `hi-bye`
 
 
-client.once('ready', () => {
+client.on('ready', async () => {
 
     console.log('Wail Bot is online!');
     client.user.setStatus('online')
     client.user.setPresence({ activity: { name: 'Prefix: w!' }});
+
+    await mongo().then(mongoose =>{
+        try {
+            console.log('Connected to mongo!')
+        } finally {
+            mongoose.connection.close()
+        }
+    })
 });
 
 client.on('guildMemberAdd', member =>{
@@ -118,11 +125,11 @@ client.on('message', message =>{
 
     else if(command === 'banmessage'){
         console.log('banmsg')
-
+        return;
        if(message.member.id === '432345618028036097'){
 
         if(!args[0]) return message.channel.send('Format is: w!banmessage | See or BanMSG')
-       var current = endb.get(message.guild.id)
+      
             console.log('current await')
           
         if(args[0] === "See") return message.channel.send('Current ban message is: `' + current + '`')
