@@ -7,7 +7,7 @@ const Keyv = require('keyv');
 const fs = require('fs');   
 const { setTimeout } = require('timers');
 const { normalize } = require('path');
-const keyv = new Keyv('mongodb://TheWaildug:5EhE4MimOpRtEdFd@localhost:27017/Cluster0');
+const keyv = new Keyv();
 client.Commands = new Discord.Collection();
 keyv.on('error', err => console.error('Keyv connection error:', err));
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
