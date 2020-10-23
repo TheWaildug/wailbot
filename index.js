@@ -128,13 +128,13 @@ client.on('message', message =>{
         console.log('await')
         
           keyv.set(message.guild.id,args[0]) 
-        
-        
-        message.reply('Sucessfully changed ban message to `' + await keyv.get(message.guild.id) + '`')
-        
-        async function func(){
+          async function func(){
             var newone = await(keyv.get(message.guild.id))
         }   
+        
+        message.reply('Sucessfully changed ban message to `' + newone + '`')
+        
+       
         console.log(newone)
         
         console.log(message.author.tag)
