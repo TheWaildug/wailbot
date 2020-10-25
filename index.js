@@ -3,7 +3,7 @@ const client = new Discord.Client();
 const ms = require('ms');
 const prefix = 'w!'
 
-const mongo = require('./mongo')
+
 
 const fs = require('fs');   
 const { setTimeout } = require('timers');
@@ -30,13 +30,7 @@ client.on('ready', async () => {
     client.user.setStatus('online')
     client.user.setPresence({ activity: { name: 'Prefix: w!' }});
 
-    await mongo().then(mongoose =>{
-        try {
-            console.log('Connected to mongo!')
-        } finally {
-            mongoose.connection.close()
-        }
-    })
+    
 });
 
 client.on('guildMemberAdd', member =>{
