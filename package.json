@@ -4,7 +4,7 @@
   "description": "some cool thing",
   "main": "index.js",
   "engines": {
-    "node": "14.15.0"
+    "node": "14.x"
   },
   "dependencies": {
     "discord.js": "^12.4.0",
