@@ -189,4 +189,4 @@ client.on('message', message =>{
     }  else {return message.reply('You must be the user <@432345618028036097>   .')}
 });
 
-client.login(process.env.token);
+client.login(process.env.TOKEN);
