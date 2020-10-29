@@ -4,18 +4,15 @@
   "description": "some cool thing",
   "main": "index.js",
   "engines": {
-    "node": "14.5.0"
+    "node": "15.0.1"
   },
   "dependencies": {
-    "@keyv/mongo": "^1.1.0",
     "discord.js": "^12.4.0",
     "endb": "^1.3.0",
-    "keyv": "^4.0.3",
-    "mongodb": "^3.6.2",
-    "mongoose": "^5.10.9",
     "ms": "^2.1.2",
     "sequelize": "^6.3.5"
   },
+"contributors": "Nobody",
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -26,7 +23,7 @@
     "url": "git+https://github.com/d-bowman159/wailbot.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "TheWaildug",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/d-bowman159/wailbot/issues"
