@@ -14,9 +14,7 @@
     "mongodb": "^3.6.2",
     "mongoose": "^5.10.9",
     "ms": "^2.1.2",
-    "sequelize": "^6.3.5",
-    "sql": "^0.78.0",
-    "sqlite3": "^5.0.0"
+    "sequelize": "^6.3.5"
   },
   "devDependencies": {},
   "scripts": {
