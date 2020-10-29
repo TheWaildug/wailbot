@@ -119,7 +119,7 @@ client.on('message', message =>{
 
     else if(command === 'banmessage'){
         console.log('banmsg')
-        return;
+        return message.reply("Sorry but this command isn't in use.")
        if(message.member.id === '432345618028036097'){
 
         if(!args[0]) return message.channel.send('Format is: w!banmessage | See or BanMSG')

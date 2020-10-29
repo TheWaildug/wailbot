@@ -5,7 +5,7 @@ module.exports = {
         console.log(`mute command sent.`)
         if(!message.member.hasPermission('KICK_MEMBERS')) return message.reply('You must have the permission `KICK_MEMBERS`.')
         const mentionmember = message.mentions.members.first();
-        if(!args[0]) return message.channel.send('Format is: w!mute | @USER | {reason} | 1m {s = seconds, m = minutes, h = hours')
+        if(!args[0]) return message.channel.send('Format is: w!mute | @USER | {reason} | 1m {s = seconds, m = minutes, h = hours}')
        
     
             if(!mentionmember)return message.reply('You need to mention a member to mute!') ;
