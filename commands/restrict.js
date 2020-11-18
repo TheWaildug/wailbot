@@ -1,8 +1,13 @@
+ async function getmember(guild,id){
+        let member = await guild.members.fetch(id);
+        return member
+  }
+
 module.exports ={
     name: 'restrict',
     description: 'restricts people',
-    execute(message,args,Discord){
-        return message.channel.send("Whoops! It seems the restrict commmand isn't in use currently!")
+    async execute(message,args,Discord){
+       return;
         console.log('restrict command sent')
 
      
@@ -13,22 +18,26 @@ module.exports ={
             message.reply('You must have the permission `KICK_MEMBERS`.');
             return;
         };
-    
-        //const a member, wich you need yo kick (its fist mention message member)
-        let mentionMember = message.mentions.members.first();
-        //If user dont mention a member, that show him this error msg
-        if(!mentionMember) {
-            message.reply('You need to mention a member to restrict!');
-            return;
-        }
+    var memberto
+      if(message.mentions.members.first()){
+      memberto = message.mentions.members.first()
+    }else if(!message.mentions.members.first()){
+      console.log(args[0])
+      memberto = await getmember(message.channel.guild,args[0])
+
+    }
+    console.log(memberto)
+    if(!memberto){
+      return message.reply('Please specify a user or their id.')
+    }
     
         if(!args[1]){
             message.reply('Please have a reason!');
             return;
         };
-    
+    console.log(memberto.kickable)
         //Check if your bot can`t kick this user, so that show this error msg 
-        if(!mentionMember.kickable) {
+        if(!memberto.kickable) {
             message.reply('I have no permissions to restrict this user.');
             return;
         };
@@ -40,20 +49,23 @@ module.exports ={
             .setTitle('Moderation')
             .setDescription("New Restrict!")
             .addFields(
-                { name: 'Offender', value: `${mentionMember.displayName}` },
-                { name: "Sender:", value: `${message.member.displayName}` },
+                { name: 'Offender', value: `<@${memberto.id}>` },
+                { name: "Sender:", value: `<@${message.member.id}>` },
                 { name: 'Reason: ', value: `${args[1]}`},   
             )
             .setTimestamp();
             const restrictrole = message.guild.roles.cache.find(role => role.name === "Restricted");
             if(!restrictrole) return message.reply("I couldn't find the restricted role!");
-        const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
+        const channel = message.guild.channels.cache.find(channel => channel.name === "staff-logs")
         //If all steps are completed successfully try kick this user
-            mentionMember.roles.add(restrictrole)
-            .then(() => console.log(`Restricted ${mentionMember.displayName} by ${message.member.displayName} for ${args[1]}.`))
-            mentionMember.send(`You have been Restricted in ${message.channel.guild}. Reason: ${args[1]}.  To become unrestricted, please DM <@575252669443211264> and appeal.`)
-            .catch(() => message.reply(`I cannot send a DM to ${mentionMember}.`));           
-            message.channel.send(`Sucessfully Restricted ${mentionMember.displayName} for ${args[1]}.`)
+         if(memberto.roles.cache.find(r => r.name === "Restricted")){
+          return message.reply('This user is already restricted!')
+        }
+            memberto.roles.add(restrictrole,`Restricted by ${message.member.displayName} with the reason ${args[1]}.`)
+            .then(() => console.log(`Restricted ${memberto.displayName} by ${message.member.displayName} for ${args[1]}.`))
+            memberto.send(`You have been Restricted in ${message.channel.guild}. Reason: ${args[1]}.  To become unrestricted, please DM <@575252669443211264> and appeal.`)
+            .catch(() => message.reply(`I cannot send a DM to ${memberto}.`));           
+            message.channel.send(`Sucessfully Restricted ${memberto.displayName} for ${args[1]}.`)
             channel.send(exampleEmbed)
             .catch(console.error);     
     }

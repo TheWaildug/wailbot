@@ -1,8 +1,12 @@
+ async function getmember(guild,id){
+        let member = await guild.members.fetch(id);
+        return member
+  }
 
 module.exports = {
     name: 'kick',
     description: 'This command kicks the player;',
-    execute(message, args, Discord){
+    async execute(message, args, Discord,client){
       console.log('kick command sent')
 
     
@@ -13,15 +17,28 @@ module.exports = {
         message.reply('You must have the permission `KICK_MEMBERS`.');
         return;
     };
-    if(args[0]) return message.channel.send('Format is: w!kick | @USER | {reason}')
+    if(!args[0]) return message.channel.send('Format is: w!kick | @USER | {reason}')
     //const a member, wich you need yo kick (its fist mention message member)
-    let mentionMember = message.mentions.members.first();
-    //If user dont mention a member, that show him this error msg
-    if(!mentionMember) {
-        message.reply('You need to mention a member to kick!');
-        return;
-    }
+    var mentionMember
+    var cont
+      if(message.mentions.members.first()){
+      mentionMember = message.mentions.members.first()
+    }else if(!message.mentions.members.first()){
+      console.log(args[0])
+      mentionMember = await getmember(message.channel.guild,args[0]).catch(error => {
+        console.warn("Error " + error);
+        cont = false
+        return message.reply("Something went wrong! `" + error + "`");
+      })
 
+    }
+    console.log(mentionMember)
+    if(!mentionMember){
+      return message.reply('Please specify a user or their id.')
+    }
+    if(cont != true){
+      return
+    }
     if(!args[1]){
         message.reply('Please have a reason!');
         return;
@@ -40,18 +57,18 @@ module.exports = {
         .setTitle('Moderation')
         .setDescription("New Kick!")
         .addFields(
-            { name: 'Offender', value: `${mentionMember.displayName}` },
-            { name: "Sender:", value: `${message.member.displayName}` },
+            { name: 'Offender', value: `<@${mentionMember.id}>` },
+            { name: "Sender:", value: `<@${message.member.id}>` },
             { name: 'Reason: ', value: `${args[1]}`},   
         )
         .setTimestamp();
-    const channel = message.guild.channels.cache.find(channel => channel.name === "mod-logs")
+    const channel = message.guild.channels.cache.find(channel => channel.name === "staff-logs")
     //If all steps are completed successfully try kick this user
     mentionMember.kick(args[1])
         .then(() => console.log(`Kicked ${mentionMember.displayName} by ${message.member.displayName}`))
         mentionMember.send(`You have been kicked from ${message.channel.guild}. Reason: ${args[1]}`)
-        .catch(() => message.reply(`I cannot send a DM to ${mentionMember}.`));   
-        message.channel.send(`Sucessfully Kicked ${mentionMember.displayName} for ${args[1]}`)
+        .catch(() => console.log(`I cannot send a DM to ${mentionMember.displayName}.`));   
+        message.channel.send(`Sucessfully Kicked ${mentionMember} for the reason ${args[1]}`)
         channel.send(exampleEmbed)
         .catch(console.error);    
     }

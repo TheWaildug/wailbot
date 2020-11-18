@@ -4,7 +4,8 @@ module.exports = {
     execute(member, Discord ){
       console.log(`${member.displayName} has left the server thing.`)
       const channel = member.guild.channels.cache.find(channel => channel.name === "hi-bye")
-      channel.send(`It's sad to see you go, ${member}.`)
+      if(channel){
+      channel.send(`It's sad to see you go, ${member}.`)}
       const exampleEmbed = new Discord.MessageEmbed()
         .setColor('#FF0000')
         .setTitle('Member Logs')
@@ -14,6 +15,8 @@ module.exports = {
         )
         .setTimestamp();
        const memberlogs = member.guild.channels.cache.find(channel => channel.name === 'member-logs')
+       if(memberlogs){
        memberlogs.send(exampleEmbed)
+       }
     } 
 }
