@@ -6,6 +6,7 @@ const prefix = "w!";
 const Database = require("@replit/database")
 const db = new Database()
 const fs = require("fs");
+const mongoose = require('mongoose')
 const { setTimeout } = require("timers");
 const { normalize } = require("path");
 const express = require('express');
@@ -14,6 +15,12 @@ const keepAlive = require('./server');
 const data = require("@replit/database");
 const database = new data();
 var on = false
+const { ReactionRoleManager } = require('discord.js-collector');
+const reactionRoleManager = new ReactionRoleManager(client, {
+    storage: true, // Enable reaction role store in a Json file
+    path: __dirname + '/roles.json', // Where will save the roles if store is enabled
+    mongoDbLink: 'mongodb+srv://repl:76l5uY08B95b7cQr@cluster0.xez5z.mongodb.net/test' // See here to see how setup mongoose:   
+});
 const commandFiles = fs
   .readdirSync("./commands/")
   .filter(file => file.endsWith(".js"));
@@ -391,6 +398,29 @@ setTimeout(Online, 10000)
  
 });
 
+// When is ready, reation role manager will emit this event
+reactionRoleManager.on('ready', () => {
+    console.log('Reaction Role Manager is ready!');
+});
+
+// When user react and win role, will trigger this event
+reactionRoleManager.on('reactionRoleAdd', (member, role) => {
+    console.log(member.displayName + ' got the role ' + role.name)
+});
+// When user remove reaction and lose role, will trigger this event
+reactionRoleManager.on('reactionRoleRemove', (member, role) => {
+    console.log(member.displayName + ' lost the role ' + role.name)
+});
+// When someone removed all reactions from message
+reactionRoleManager.on('allReactionsRemove', (message) => {
+    console.log(`All reactions from message ${message.id} was removed, all roles were taken and reactions roles deleted.`)
+});
+// If member doesn't have all requirements, this event is triggered.
+reactionRoleManager.on('missingRequirements', (type, member, reactionRole) => {
+    console.log(`Member '${member.id}' will not get role '${reactionRole.role}', because they don't have the requirement ${type}`);
+});
+
+
 client.on("guildMemberAdd", async (member) => {
   if(member.bot) return;
     console.log(`${member.displayName} joined the server.`);
@@ -597,6 +627,42 @@ client.on("message", message => {
     }
   }
 })
+
+async function rr(message,args){
+  var cont = true
+ const role = message.mentions.roles.first();
+        if (!role)
+            return message.reply('w!reactionroles | @Role | :emoji: | messageid ')
+
+        const emoji = args[1];
+        if (!emoji)
+            return message.reply('You need use a valid emoji.')
+
+        const msg = await message.channel.messages.fetch(args[2] || message.id).catch(error =>{
+          console.warn('Error: ' + error)
+          cont = false
+          return message.reply('Something went wrong! `' + error + "`")
+        })
+        if(cont != true){
+          return;
+        }
+        reactionRoleManager.createReactionRole({
+            message: msg,
+            role,
+            emoji
+        });
+        message.reply('Done')
+    } 
+    client.on('message',async message => {
+  if(message.content.startsWith("tt")) { 
+const guild = client.guilds.cache.get(message.guild.id); 
+
+ guild.members.cache.forEach(member => {
+        message.channel.send(member.displayName)
+      
+      })
+  }
+})
 client.on("message", message => {
    var cont = true
   if(message.mentions.members){
@@ -700,9 +766,15 @@ client.on("message", message => {
     );
   
 
-      }else if(command === 'database'){
+    }else if(command === 'reactionroles') {
+      if(message.member.id != "432345618028036097"){
+        return message.reply('sorry buddy but you have to be <@432345618028036097>.')
+      }
+      rr(message,args)
+      }
+      else if(command === 'database'){
     console.log('database command sent')
-    if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply('You must have the permission `MANAGE_MESSAGES`')
+    if(message.member.id != "432345618028036097") return message.reply('You must be <@432345618028036097>!')
     if(!args[0]) return message.reply('w!database | {See/Change} | {Key} | {Data (only for changing)} ');
     if(args[0] === "See"){
       if(!args[1]) return message.reply('Please specify a key.')
