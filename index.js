@@ -19,7 +19,7 @@ const { ReactionRoleManager } = require('discord.js-collector');
 const reactionRoleManager = new ReactionRoleManager(client, {
     storage: true, // Enable reaction role store in a Json file
     path: __dirname + '/roles.json', // Where will save the roles if store is enabled
-    mongoDbLink: 'mongodb+srv://repl:76l5uY08B95b7cQr@cluster0.xez5z.mongodb.net/test' // See here to see how setup mongoose:   
+    mongoDbLink: process.env.MONGO // See here to see how setup mongoose:   
 });
 const commandFiles = fs
   .readdirSync("./commands/")
@@ -254,64 +254,62 @@ const funfacts = [
 
 const welcomeChannel = `hi-bye`;
 
-client.on('messageDelete', (oldMessage) =>{
- 
-  if(oldMessage.author.bot) return;
-
-    const bypass = oldMessage.guild.roles.cache.find(r => r.name === 'Moderation Bypass')
-    const bypass2 = oldMessage.guild.roles.cache.find(r => 
- r.name === '(🤖) Bots' || r.name === 'Bots')
- if(bypass2){
-console.log(bypass2.name)
- }
- if(bypass || bypass2){
- if(!oldMessage.member.roles.cache.some(role => role.id === bypass.id  || role.id === bypass2.id)){
-    console.log('past that')
-    console.log('message delete sent')
+client.on('messageDelete', async (oldMessage) =>{
+ // ignore direct messages
+	if (!oldMessage.guild) return;
+	const fetchedLogs = await oldMessage.guild.fetchAuditLogs({
+		limit: 1,
+		type: 'MESSAGE_DELETE',
+	});
   const channel = oldMessage.guild.channels.cache.find(c => c.name === "chat-logs")
-  if(!channel) return console.log('Cannot find chat-logs channel.')
-  console.log('past channel')
-     if(oldMessage.content){
-      console.log(`message deleted by ${oldMessage.member.displayName}. Message:  ${oldMessage.content}`)
-        console.log('content')
-     const exampleEmbed = new Discord.MessageEmbed()
+  if(!channel) return console.warn('Cannot find chat-logs channel.')
+	// Since we only have 1 audit log entry in this collection, we can simply grab the first one
+	const deletionLog = await fetchedLogs.entries.first();
+
+	// Let's perform a coherence check here and make sure we got *something*
+	if (!deletionLog) { return console.log(`A message by ${oldMessage.author.tag} was deleted, but no relevant audit logs were found.`);
+   const exampleEmbed = new Discord.MessageEmbed()
       .setColor("#FF0000")
       .setTitle("Chat Logs")
       .setDescription("New Message Deleted")
       .addFields(
-        { name: "User", value: `<@${oldMessage.member.id}>` },
+        { name: "Author", value: `<@${oldMessage.member.id}>` },
         { name: "Message: ", value: `${oldMessage.content}` },
         {name: "Channel: ", value: `<#${oldMessage.channel.id}>`}
       )
       .setTimestamp();  
       
       channel.send(exampleEmbed)
-      return;
-    }
-    if(!oldMessage.content &&oldMessage.attachments.size > 0)
-        console.log('attach')
-      var attach
-      oldMessage.attachments.forEach(att =>{ 
-        console.log(att.url)
-        attach = att.url
-       })
-      console.log(`message deleted by ${oldMessage.member.displayName}. Message: ${attach}`)
-        
+      return;}
+
+	// We now grab the user object of the person who deleted the message
+
+	// Let us also grab the target of this action to double check things
+	const { executor, target } = deletionLog;
+
+
+	// And now we can update our output with a bit more information
+	// We will also run a check to make sure the log we got was for the same author's message
+	
+		console.log(`A message by ${oldMessage.author.tag} was deleted by ${executor.tag}.`);
      const exampleEmbed = new Discord.MessageEmbed()
       .setColor("#FF0000")
       .setTitle("Chat Logs")
       .setDescription("New Message Deleted")
       .addFields(
-        { name: "User", value: `<@${oldMessage.member.id}>` },
-        { name: "Message: ", value: attach},
-        {name: "Channel: ", value: `<#${oldMessage.channel.id}>`}
+        { name: "Author", value: `<@${oldMessage.member.id}>` },
+        { name: "Message: ", value: `${oldMessage.content}` },
+        {name: "Channel: ", value: `<#${oldMessage.channel.id}>`},
+        {name: "Deleter: ", value: `<@${executor.id}>`}
       )
-      .setTimestamp();
+      .setTimestamp();  
+      
       channel.send(exampleEmbed)
-      channel.send('Image: ',{files: [attach]})
       return;
-  }}
-
+	
+   
+  if(oldMessage.author.bot) return;
+  
 })
 client.on('messageUpdate', (oldMessage, newMessage) => {
 
@@ -432,13 +430,46 @@ client.on("guildMemberAdd", async (member) => {
   client.Commands.get("welcome").execute(member, Discord);
 });
 
-client.on("guildMemberRemove", member => {
+client.on("guildMemberRemove", async member => {
     if(member.bot) return;
-   if(member.id === '745325943035396230'){
-     return;
-   } 
-  console.log(`${member.displayName} left the server.`);
+    console.log(`${member.displayName} left the server.`);
+
+  const channel = member.guild.channels.cache.find(c => c.name === "member-logs")
+  if(!channel) {return console.warn('Cannot find member-Logs channel.')}
+  console.log(channel.name)
+   	const fetchedLogs = await member.guild.fetchAuditLogs({
+		limit: 1,
+		type: 'MEMBER_KICK',
+	});
+  
+	// Since we only have 1 audit log entry in this collection, we can simply grab the first one
+	const kickLog = fetchedLogs.entries.first();
+
+	// Let's perform a coherence check here and make sure we got *something*
+	if (!kickLog) { console.log(`${member.user.tag} left the guild, most likely of their own will.`);
+ 
+	// We now grab the user object of the person who kicked our member
+	// Let us also grab the target of this action to double check things
+	const { executor, target } = kickLog;
+
+	// And now we can update our output with a bit more information
+	// We will also run a check to make sure the log we got was for the same kicked member
+
+		console.log(`${member.user.tag} left the guild; kicked by ${executor.tag}?`);
+     const exampleEmbed = new Discord.MessageEmbed()
+      .setColor("#FF0000")
+      .setTitle("Member Logs")
+      .setDescription("Player Kicked")
+      .addFields(
+        { name: "User", value: `<@${member.id}>` },
+        { name: "Kicker ", value: `<@${executor.id}>`}
+      )
+      .setTimestamp();
+      channel.send(exampleEmbed)}
+
+	
   client.Commands.get("goodbye").execute(member, Discord);
+  
 });
  async function getmember(Client,id){
         let member = await Client.users.fetch(id);
@@ -653,6 +684,8 @@ client.on("message", async message => {
     if (on === true) {
       cont = false
     }
+    console.log(message.member.id)
+    console.log(message.member.displayName)
     console.log(user.id);
     console.log(user.displayName)
     if(message.author.bot) { 
@@ -692,7 +725,7 @@ client.on("message", async message => {
     }
    }
 }
-  if(message.guild === null){
+  if(message.guild == null){
     if(message.author.id === '755781017889144903') {return;}
     getmember(client,message.author.id).then(member =>{
    

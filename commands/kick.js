@@ -20,7 +20,7 @@ module.exports = {
     if(!args[0]) return message.channel.send('Format is: w!kick | @USER | {reason}')
     //const a member, wich you need yo kick (its fist mention message member)
     var mentionMember
-    var cont
+    var cont = true
       if(message.mentions.members.first()){
       mentionMember = message.mentions.members.first()
     }else if(!message.mentions.members.first()){
@@ -32,7 +32,7 @@ module.exports = {
       })
 
     }
-    console.log(mentionMember)
+    console.log(mentionMember.displayName)
     if(!mentionMember){
       return message.reply('Please specify a user or their id.')
     }
