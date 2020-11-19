@@ -8,7 +8,7 @@ module.exports = {
 
     if (!args[0])
       return message.channel.send(
-        "Format is: w!slowmode | #channel | {time in seconds}"
+        "Format is: w!slowmode #channel {time in seconds}"
       );
     var channel,mentionchannel
 

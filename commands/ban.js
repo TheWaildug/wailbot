@@ -15,7 +15,7 @@ module.exports = {
     }
 
     if (!args[0])
-      return message.channel.send("Format is: w!ban | @USER | {reason}");
+      return message.channel.send("Format is: w!ban @USER  {reason}");
 
     //const a member, wich you need yo kick (its fist mention message member)
    var mentionMember,memberto
@@ -51,7 +51,15 @@ module.exports = {
     }
     //Check if your bot can`t kick this user, so that show this error msg
    
-   
+      var i
+    var e = ""
+   for (i = 0; i < args.length; i++) {
+  if(i >= "1"){
+    e = e + args[i] + " "
+  }
+}
+args[1] = e
+console.log(args[1])
     if (!args[1]) {
       message.reply("Please have a reason!");
       return;
@@ -90,7 +98,7 @@ module.exports = {
     
 
     message.channel.send(
-      `Sucessfully Banned ${mentionMember.displayName} for ${args[1]}`
+      `Sucessfully Banned ${mentionMember} for ${args[1]}`
     )
     }); 
   }

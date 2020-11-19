@@ -38,18 +38,6 @@ async function getData(key){
   return data
 }
 
-async function GetMember(guild,id){
-  var cont = true
-        let member = await guild.members.fetch(id).catch(error => {
-        console.warn("Error " + error);
-        cont = false
-        return false
-      })
-      if(cont != false){
-    return member
-      }
-    
-}
 
 async function blacklist(message,args){
    if(message.mentions.members.first()){
@@ -97,7 +85,7 @@ async function makeSuggestion(message){
             collector2.on('collect', async (mg) =>{
               console.log("collect 2 " + mg.content)
              
-                  if(mg.content === "Yes"){
+                  if(mg.content.toLowerCase() === "yes"){
                     mg.reply('attemping to send suggestion.')
                     suggestion = msg.content
   console.log('suggestion function sent')
@@ -128,7 +116,7 @@ async function makeSuggestion(message){
     sentEmbed.react("👎")
     setData('SuggestionId',suggestionId + 1)
 })
-              }else if(mg.content === "No")
+              }else if(mg.content.toLowerCase() === "no")
               return mg.reply('run this command again.')
       
            
@@ -424,22 +412,22 @@ reactionRoleManager.on('missingRequirements', (type, member, reactionRole) => {
 client.on("guildMemberAdd", async (member) => {
   if(member.bot) return;
     console.log(`${member.displayName} joined the server.`);
- 
-  if(member.id === '745325943035396230'){
-    const role = member.guild.roles.cache.find(r => r.name === 'Testing Account')
-    const role2 = member.guild.roles.cache.find(r => r.name === "Verified")
-   if(await IsMuted(member.id,member.guild.id)){
+ if(await IsMuted(member.id,member.guild.id)){
      const muted = member.guild.roles.cache.find(r => r.name === "Muted")
      if(muted){
        member.roles.add(muted,"Member was muted before they left.")
      }
    }
+  if(member.id === '745325943035396230'){
+    const role = member.guild.roles.cache.find(r => r.name === 'Testing Account')
+    const role2 = member.guild.roles.cache.find(r => r.name === "Verified")
+   
     if(!role && !role2) return;
     if(role){
     member.roles.add(role,'User is CoolGuy1146 which is a testing account.');}
     if(role2){
     member.roles.add(role2,'User is CoolGuy1146 which is a testing account.')}
-     return;
+
   }
   client.Commands.get("welcome").execute(member, Discord);
 });
@@ -500,7 +488,7 @@ client.on("voiceStateUpdate", (oldState, newState) => {
   }
 });
 
-client.on("message", message =>{
+client.on("message", async message =>{
   
   var cont = true
   for (var i = 0; i < slurs.length; i++) {
@@ -566,10 +554,10 @@ client.on("message", message =>{
   }
 })
 
-client.on("message", message => {
+client.on("message", async  message => {
    if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-  const args = message.content.slice(prefix.length).split(" | ");
+  const args = message.content.slice(prefix.length).split(" ");
   const command = args.shift().toLowerCase();
   if(command === "announcement"){
     console.log('announcement command')
@@ -632,7 +620,7 @@ async function rr(message,args){
   var cont = true
  const role = message.mentions.roles.first();
         if (!role)
-            return message.reply('w!reactionroles | @Role | :emoji: | messageid ')
+            return message.reply('w!reactionroles @Role :emoji: messageid ')
 
         const emoji = args[1];
         if (!emoji)
@@ -653,17 +641,8 @@ async function rr(message,args){
         });
         message.reply('Done')
     } 
-    client.on('message',async message => {
-  if(message.content.startsWith("tt")) { 
-const guild = client.guilds.cache.get(message.guild.id); 
-
- guild.members.cache.forEach(member => {
-        message.channel.send(member.displayName)
-      
-      })
-  }
-})
-client.on("message", message => {
+  
+client.on("message", async message => {
    var cont = true
   if(message.mentions.members){
 
@@ -752,7 +731,7 @@ client.on("message", message => {
 }
   if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-  const args = message.content.slice(prefix.length).split(" | ");
+  const args = message.content.slice(prefix.length).split(" ");
   const command = args.shift().toLowerCase();
 
   if (command === "ping") {
@@ -775,7 +754,7 @@ client.on("message", message => {
       else if(command === 'database'){
     console.log('database command sent')
     if(message.member.id != "432345618028036097") return message.reply('You must be <@432345618028036097>!')
-    if(!args[0]) return message.reply('w!database | {See/Change} | {Key} | {Data (only for changing)} ');
+    if(!args[0]) return message.reply('w!database See/Change} {Key} {Data (only for changing)} ');
     if(args[0] === "See"){
       if(!args[1]) return message.reply('Please specify a key.')
       console.log(args[1])
@@ -795,7 +774,156 @@ client.on("message", message => {
     }
   
     
-    } else if(command === 'invite'){
+      }else if(command === "lockdown"){
+        var channelslocked = 0
+        if(!message.member.hasPermission("MANAGE_CHANNELS")){
+          return message.reply('You must have the permission `MANAGE_CHANNELS`')
+        }
+        console.log('lockdown command sent.')
+
+      const channels = message.guild.channels.cache.filter(c => c.type=='text');
+
+    
+
+      var i
+      var e = ""
+    for (i = 0; i < args.length; i++) {
+    if(i >= "0"){
+      e = e + args[i] + " "
+    }
+  }
+  args[1] = e
+    
+
+  console.log(args[1])
+      const everyone = message.guild.roles.cache.find(r => r.name === "@everyone")
+      if(!args[1]){
+        args[1] = "This channel has been locked. You cannot chat here."
+      }
+    
+var perhaps = false
+  channels.forEach(channel =>{
+    var cont = true
+  let canchat = channel.permissionsFor(everyone).serialize();
+    if(canchat.SEND_MESSAGES == false){
+      cont = false
+        return console.log("can't chat here already")
+      }
+      if(cont != true){
+        return;
+      }      console.log('idk man')
+
+      channel
+        .updateOverwrite(everyone, {
+
+          SEND_MESSAGES: false,
+        },`This has been changed by ${message.member.displayName} with the w!lockdown command.`)
+        .catch(error => {
+          console.warn("Error " + error);
+          cont = false;
+          return message.reply("Something went wrong! `" + error + "`");
+        }).then(() =>{
+           channelslocked = channelslocked + 1
+      console.log('Succes sfully locked the channel ' + channel.name)
+        const embed = new Discord.MessageEmbed()
+        .setTitle("This channel has been locked.")
+        .setColor(0xff0000)
+        .setDescription(args[1]);
+        channel.send(embed)
+        console.log(channelslocked)
+     message.channel.send("Locked 1 more channel <#" + channel + ">. There's now " + channelslocked + " channels locked.")
+     perhaps = true
+  })
+      })
+    if(perhaps == false){
+      return message.reply('I cannot lock any current channels. Try to unlock some before running this again.')
+    }
+      }else if(command === "guilds"){
+       
+    if(message.member.id != "432345618028036097"){
+      return message.reply("I don't think I'm going to let you do this. This will seriously flood the chat.")
+    }
+    const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 10000 });
+    message.reply('Are you 100% sure you want to flood the chat?')
+    collector.on("collect", msg => {
+      if(msg.content.toLowerCase() == "yes"){
+         collector.on('end', collected => {
+	console.log(`Collected ${collected.size} items`)});
+        const guilds = client.guilds
+     guilds.cache.forEach(guild => {
+       console.log(guild.name)
+     message.channel.send(guild.name)
+   })
+      }else if(msg.content.toLowerCase() == "no"){
+        collector.on('end', collected => {
+	console.log(`Collected ${collected.size} items`)});
+        message.reply('good choice.')
+      }
+    })
+    }else if(command === "message"){
+      console.log('message command sent')
+       if(!message.member.id == "432345618028036097" ){
+      return message.reply("I don't think I'm going to let you do this.")}
+       var channel,mentionchannel
+
+    var cont = true;
+    if (message.mentions.channels.first()) {
+      channel = mentionchannel = message.mentions.channels.first();
+    } else {
+      channel = mentionchannel = message.channel.guild.channels.cache.find(
+        r => r.id === args[0]
+      );
+    }
+    if (!channel && mentionchannel) {
+      message.reply("please # a channel or enter its ID .");
+      cont = false;
+    }
+    if (cont == false) {
+      return;
+    }
+    console.log(channel.name);
+    var i
+    var e = ""
+   for (i = 0; i < args.length; i++) {
+  if(i == "0"){
+    
+  }
+  if(i >= "1"){
+    e = e + " " + args[i]
+  }
+}
+    
+    const msg = e
+    if(!msg){
+      return message.reply('bro I need a message!')
+    }
+    console.log(msg)
+    channel.send(msg)
+    message.reply('Successfully sent a message to <#' + channel.id + '>')
+    }else if(command === "members"){
+      
+    if(message.member.id != "432345618028036097"){
+      return message.reply("I don't think I'm going to let you do this. This will seriously flood the chat.")
+    }
+    const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 10000 });
+    message.reply('Are you 100% sure you want to flood the chat?')
+    collector.on("collect", msg => {
+      if(msg.content.toLowerCase() == "yes"){
+         collector.on('end', collected => {
+	console.log(`Collected ${collected.size} items`)});
+        const guild = client.guilds.cache.fetch(message.guild.id)
+     guild.members.cache.forEach(member => {
+       console.log(member.displayName)
+     message.channel.send(member.displayName)
+   })
+      }else if(msg.content.toLowerCase() == "no"){
+        collector.on('end', collected => {
+	console.log(`Collected ${collected.size} items`)});
+        message.reply('good choice.')
+      }
+    })
+     
+    }else if(command === 'invite'){
     if(message.member.id === '432345618028036097'){
       console.log('invite command sent ')
       return message.member.send("Here's the invite Mr. Frog. https://discord.com/oauth2/authorize?client_id=755781017889144903&scope=bot&permissions=8")
@@ -807,6 +935,157 @@ client.on("message", message => {
     message.reply('Here is the bot support server: https://discord.gg/nfMfna3')
     }else if(command === 'fact'){
 client.Commands.get('fact').execute(message,funfacts,Discord)
+  } else if (command === "lock") {
+    
+    console.log("lock em down");
+    var channel;
+
+    var cont = true;
+    if (message.mentions.channels.first()) {
+      channel = message.mentions.channels.first();
+    } else {
+      channel = message.channel.guild.channels.cache.find(
+        r => r.id === args[0]
+      );
+    }
+    if (!channel) {
+      message.reply("please # a channel or enter its ID .");
+      cont = false;
+    }
+    if (cont == false) {
+      return;
+    }
+    console.log(channel.name);
+     var i
+    var e = ""
+   for (i = 0; i < args.length; i++) {
+  if(i >= "1"){
+    e = e + args[i] + " "
+  }
+}
+args[1] = e
+     var yes = false
+console.log(args[1])
+    const everyone = message.guild.roles.cache.find(r => r.name === "@everyone")
+    if(!args[1]){
+      args[1] = "This channel has been locked. You cannot chat here."
+    }
+     let canchat = channel.permissionsFor(everyone).serialize();
+    if(!canchat.SEND_MESSAGES){
+      yes = false
+      cont = false
+      return message.reply("bro they already can't chat here.")
+    }
+       const perms = message.member.permissionsIn(channel).toArray()
+
+    perms.forEach(function(item, index, array) {
+  console.log(item, index)
+  if(item === "MANAGE_MESSAGES"){
+    console.log('idk man')
+    yes = true
+     const everyone = message.channel.guild.roles.cache.find(
+      r => r.name === "@everyone"
+    );
+    channel
+      .updateOverwrite(everyone, {
+
+        SEND_MESSAGES: false,
+      },`This has been changed by ${message.member.displayName}`)
+      .catch(error => {
+        console.warn("Error " + error);
+        cont = false;
+        return message.reply("Something went wrong! `" + error + "`");
+      }).then(() =>{
+      message.reply('successfully locked the channel <#' + channel.id + '>')
+      const embed = new Discord.MessageEmbed()
+      .setTitle("This channel has been locked.")
+      .setColor(0xff0000)
+      .setDescription(args[1]);
+      channel.send(embed)
+    })
+  }
+})
+    if(yes === false){
+      return message.reply('dude you cannot do this!')
+    }
+  }else if (command === "unlock") {
+    
+    console.log("unlock em down");
+    var channel;
+
+    var cont = true;
+     var yes = true
+    if (message.mentions.channels.first()) {
+      channel = message.mentions.channels.first();
+    } else {
+      channel = message.channel.guild.channels.cache.find(
+        r => r.id === args[0]
+      );
+    }
+    if (!channel) {
+      message.reply("please # a channel or enter its ID .");
+      cont = false;
+    }
+    if (cont == false) {
+      return;
+    }
+    console.log(channel.name);
+       var i
+    var e = ""
+   for (i = 0; i < args.length; i++) {
+  if(i >= "1"){
+    e = e + args[i] + " "
+  }
+}
+args[1] = e
+console.log(args[1])
+    const everyone = message.guild.roles.cache.find(r => r.name === "@everyone")
+    if(!args[1]){
+      args[1] = "This channel has been unlocked. You can now chat here."
+    }
+      let canchat = channel.permissionsFor(everyone).serialize();
+    if(canchat.SEND_MESSAGES == null || canchat.SEND_MESSAGES == true){
+      yes = false
+      cont = false
+      return message.reply("bro they already can chat here.")
+    }
+    const perms = message.member.permissionsIn(channel).toArray()
+if(cont == false){
+  return;
+}
+    perms.forEach(function(item, index, array) {
+      if(yes === false){
+return;      }
+  if(item === "MANAGE_MESSAGES"){
+    console.log('perhaps')
+    yes = false
+     const everyone = message.channel.guild.roles.cache.find(
+      r => r.name === "@everyone"
+    );
+    channel
+      .updateOverwrite(everyone, {
+
+        SEND_MESSAGES: null,
+      },`This has been changed by ${message.member.displayName}`)
+      .catch(error => {
+        console.warn("Error " + error);
+        cont = false;
+        return message.reply("Something went wrong! `" + error + "`");
+      }).then(() =>{
+      message.reply('successfully unlocked the channel <#' + channel.id + '>')
+      const embed = new Discord.MessageEmbed()
+      .setTitle("This channel has been unlocked.")
+      .setColor(0xff0000)
+      .setDescription(args[1]);
+      channel.send(embed)
+      return;
+    })  
+  }
+})  
+    if(yes == true){
+      console.log('just no')
+      return message.reply('dude you cannot do this! ')
+    }
   } else if(command === 'quote'){
       console.log('quote command')
     client.Commands.get('quote').execute(message,quotes,Discord)
@@ -844,7 +1123,7 @@ client.Commands.get('random').execute(message,args,Discord)
     console.log(`mute command sent.`)
         if(!message.member.hasPermission('KICK_MEMBERS')) return message.reply('You must have the permission `KICK_MEMBERS`.')
         const mentionmember = message.mentions.members.first();
-        if(!args[0]) return message.channel.send('Format is: w!mute | @USER | {reason} | 1m {s = seconds, m = minutes, h = hours}')
+        if(!args[0]) return message.channel.send('Format is: w!mute @USER TIMEM {s = seconds, m = minutes, h = hours {reason} }')
 
     
             if(!mentionmember)return message.reply('You need to mention a member to mute!') ;
@@ -860,20 +1139,29 @@ client.Commands.get('random').execute(message,args,Discord)
             .addFields(
                 { name: 'Offender', value: `<@${mentionmember.id}>` },
                 { name: "Sender:", value: `<@${message.member.id}>` },
-                { name: 'Reason: ', value: `${args[1]}`},   
-                { name: 'Time: ', value: `${args[2]}`}  
+                { name: 'Reason: ', value: `${args[2]}`},   
+                { name: 'Time: ', value: `${args[1]}`}  
             )
             .setTimestamp()
             .setColor('ff0000');
             if(!args[1]) return message.reply('Please have a reason!')
-            const time = args[2]
+             var i
+    var e = ""
+   for (i = 0; i < args.length; i++) {
+  if(i >= "2"){
+    e = e + " " + args[i]
+  }
+}
+args[2] = e
+console.log(args[2])
+            const time = args[1]
             if(!time) return message.reply('Please specify a time!');
             if(mentionmember.roles.cache.some(role => role.name === 'Muted')) return message.reply("This user is already muted!");
-            mentionmember.roles.add(muterole,`Muted by ${message.member.displayName} with the reason ${args[1]} for ${args[2]}`)
+            mentionmember.roles.add(muterole,`Muted by ${message.member.displayName} with the reason ${args[2]} for ${args[1]}`)
              setData(`Guild-${message.channel.guild.id}-IsMuted-${mentionmember.id}`,"True")
-            console.log(`Muted ${mentionmember.displayName}  for ${ms(ms(time))} by ${message.member.displayName} Reason: ${args[1]}`)
-            message.channel.send(`Sucessfully muted <@${mentionmember.id}> for ${ms(ms(time))}. Reason: ${args[1]}`)
-            mentionmember.send(`You have been muted in ${message.guild.name} for ${ms(ms(time))}. Reason: ${args[1]}`)
+            console.log(`Muted ${mentionmember.displayName}  for ${ms(ms(time))} by ${message.member.displayName} Reason: ${args[2]}`)
+            message.channel.send(`Sucessfully muted <@${mentionmember.id}> for ${ms(ms(time))}. Reason: ${args[2]}`)
+            mentionmember.send(`You have been muted in ${message.guild.name} for ${ms(ms(time))}. Reason: ${args[2]}`)
             const channel = message.guild.channels.cache.find(channel => channel.name === "staff-logs")
             if(channel){
             channel.send(exampleEmbed)
@@ -881,11 +1169,13 @@ client.Commands.get('random').execute(message,args,Discord)
             
                var id = mentionmember.id
     
-            setTimeout(function(){
-              if(GetMember(message.channel.guild,id) === true){
-                if(!mentionmember.roles.cache.some(role => role.name === 'Muted')) return;
+            setTimeout(async function(){
+              
+              if(message.guild.members.cache.find(m => m.id === id)){
+                console.log('Trueeeee')
+                
                 mentionmember.roles.remove(muterole,"Auto Unmute");
-             
+                
               
             }
                   removeData(`Guild-${message.channel.guild.id}-IsMuted-${id}`)
@@ -899,9 +1189,9 @@ client.Commands.get('random').execute(message,args,Discord)
     const mentionMember = message.mentions.members.first();
     if (!message.member.hasPermission("KICK_MEMBERS"))
       return message.reply("You must have the permission `KICK_MEMBERS`.");
-    if (!args[0]) return message.channel.send("Format is: w!unmute | @USER ");
+    if (!args[0]) return message.channel.send("Format is: w!unmute @USER ");
     if (!mentionMember)
-      return message.reply("You need to mention a member to UnMute!");
+      return message.reply("You need to mention a member to Unmute!");
     const muterole = message.guild.roles.cache.find(
       role => role.name === "Muted"
     );
@@ -911,7 +1201,7 @@ client.Commands.get('random').execute(message,args,Discord)
        const exampleEmbed = new Discord.MessageEmbed()
             .setColor('#FF0000')
             .setTitle('Moderation')
-            .setDescription("New UnMute!")
+            .setDescription("New Unmute!")
             .addFields(
                 { name: 'Offender', value: `<@${mentionMember.id}>` },
                 { name: "Sender:", value: `<@${message.member.id}>` },
@@ -919,13 +1209,13 @@ client.Commands.get('random').execute(message,args,Discord)
             .setTimestamp();
              const channel = message.guild.channels.cache.find(channel => channel.name === "staff-logs")
     mentionMember.roles
-      .remove(muterole,"UnMute")
+      .remove(muterole,"Unmute by " + message.member.displayName)
      removeData(`Guild-${message.channel.guild.id}-IsMuted-${mentionMember.id}`)
         console.log(
-          `UnMuted ${mentionMember.displayName} by ${message.member.displayName}`
+          `Unmuted ${mentionMember.displayName} by ${message.member.displayName}`
         )
   
-    message.channel.send(`Sucessfully unmuted ${mentionMember.displayName}`);
+    message.channel.send(`Sucessfully unmuted ${mentionMember}`);
     if(channel){
       return channel.send(exampleEmbed)
     }

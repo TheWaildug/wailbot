@@ -23,7 +23,15 @@
         message.reply('You need to mention a member to dm!');
         return;
     }
-
+  var i
+    var e = ""
+   for (i = 0; i < args.length; i++) {
+  if(i >= "1"){
+    e = e + args[i] + " "
+  }
+}
+args[1] = e
+console.log(args[1])
     if(!args[1]){
         message.reply('Please have a message!');
         return;

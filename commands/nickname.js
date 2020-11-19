@@ -17,7 +17,30 @@
         message.reply('You need to mention a member to change!');
         return;
     }
-
+  var i
+    var e = ""
+    var reason = ""
+    var contrea = false  
+   for (i = 0; i < args.length; i++) {
+     console.log(args[i])
+     if(contrea == true){
+    reason = reason + " " + args[i]
+  }
+  if(args[i].toLowerCase() == "reason:"){
+    contrea = true
+  }
+  if(i >= "1" && contrea == false){
+    e = e + args[i] + " "
+  }
+  
+}
+args[1] = e
+  args[2] = reason
+console.log(reason)
+console.log(args[1])
+if(!args[2]){
+  args[2] = "Nickname Change by " + message.member.displayName + "."
+}
     if(!args[1]){
         message.reply('Please have a nickname!');
         return;
