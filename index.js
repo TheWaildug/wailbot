@@ -213,6 +213,17 @@ const slurs = [
   "n!ggas",
   "n!gger",
 ]
+
+const asked = [
+ "who asked",
+ "nobody asked",
+ "who tf asked",
+ "i don't remember asking",
+ "i dont remember asking",
+ "did i ask",
+ "dont remember asking",
+  "don't remember asking" 
+]
       const quotes = [
   ' “Live as if you were to die tomorrow. Learn as if you were to live forever. – Mahatma Gandhi”',
   '“Be who you are and say what you feel, because those who mind don’t matter and those who matter don’t mind.” – Bernard M. Baruch',
@@ -268,6 +279,9 @@ client.on('messageDelete', async (oldMessage) =>{
 
 	// Let's perform a coherence check here and make sure we got *something*
 	if (!deletionLog) { return console.log(`A message by ${oldMessage.author.tag} was deleted, but no relevant audit logs were found.`);
+  if(!oldMessage.content){
+    return;
+  }
    const exampleEmbed = new Discord.MessageEmbed()
       .setColor("#FF0000")
       .setTitle("Chat Logs")
@@ -287,11 +301,15 @@ client.on('messageDelete', async (oldMessage) =>{
 	// Let us also grab the target of this action to double check things
 	const { executor, target } = deletionLog;
 
-
+console.log(executor.user.tag)
+console.log(target.user.tag)
 	// And now we can update our output with a bit more information
 	// We will also run a check to make sure the log we got was for the same author's message
 	
 		console.log(`A message by ${oldMessage.author.tag} was deleted by ${executor.tag}.`);
+    if(!oldMessage.content){
+    return;
+  }
      const exampleEmbed = new Discord.MessageEmbed()
       .setColor("#FF0000")
       .setTitle("Chat Logs")
@@ -429,48 +447,13 @@ client.on("guildMemberAdd", async (member) => {
   }
   client.Commands.get("welcome").execute(member, Discord);
 });
-
-client.on("guildMemberRemove", async member => {
-    if(member.bot) return;
+client.on('guildMemberRemove', async member => {
+  if(member.bot) return;
     console.log(`${member.displayName} left the server.`);
-
-  const channel = member.guild.channels.cache.find(c => c.name === "member-logs")
-  if(!channel) {return console.warn('Cannot find member-Logs channel.')}
-  console.log(channel.name)
-   	const fetchedLogs = await member.guild.fetchAuditLogs({
-		limit: 1,
-		type: 'MEMBER_KICK',
-	});
-  
-	// Since we only have 1 audit log entry in this collection, we can simply grab the first one
-	const kickLog = fetchedLogs.entries.first();
-
-	// Let's perform a coherence check here and make sure we got *something*
-	if (!kickLog) { console.log(`${member.user.tag} left the guild, most likely of their own will.`);
- 
-	// We now grab the user object of the person who kicked our member
-	// Let us also grab the target of this action to double check things
-	const { executor, target } = kickLog;
-
-	// And now we can update our output with a bit more information
-	// We will also run a check to make sure the log we got was for the same kicked member
-
-		console.log(`${member.user.tag} left the guild; kicked by ${executor.tag}?`);
-     const exampleEmbed = new Discord.MessageEmbed()
-      .setColor("#FF0000")
-      .setTitle("Member Logs")
-      .setDescription("Player Kicked")
-      .addFields(
-        { name: "User", value: `<@${member.id}>` },
-        { name: "Kicker ", value: `<@${executor.id}>`}
-      )
-      .setTimestamp();
-      channel.send(exampleEmbed)}
-
-	
-  client.Commands.get("goodbye").execute(member, Discord);
+client.Commands.get("goodbye").execute(member, Discord);
   
 });
+
  async function getmember(Client,id){
         let member = await Client.users.fetch(id);
         return member
@@ -519,6 +502,16 @@ client.on("voiceStateUpdate", (oldState, newState) => {
   }
 });
 
+
+client.on("message", async message =>{
+ 
+
+  for (var i = 0; i < asked.length; i++) {
+  if (message.content.toLowerCase().includes(asked[i])){
+      message.channel.send(`<@${message.member.id}>`,{files: ["https://cdn.discordapp.com/attachments/772633298060181514/779072849088479252/Demoman_does_not_care_if_you_didnt_ask.mp4"]} )
+      break;
+  }}
+})
 client.on("message", async message =>{
   
   var cont = true
@@ -826,7 +819,9 @@ client.on("message", async message => {
     }
   }
   args[1] = e
-    
+    if(!args[1]){
+      args[1] = "This channel has been locked. You cannot chat here."
+    }
 
   console.log(args[1])
       const everyone = message.guild.roles.cache.find(r => r.name === "@everyone")
@@ -840,7 +835,6 @@ var perhaps = false
   let canchat = channel.permissionsFor(everyone).serialize();
     if(canchat.SEND_MESSAGES == false){
       cont = false
-        return console.log("can't chat here already")
       }
       if(cont != true){
         return;
@@ -856,8 +850,9 @@ var perhaps = false
           cont = false;
           return message.reply("Something went wrong! `" + error + "`");
         }).then(() =>{
+          perhaps = true
            channelslocked = channelslocked + 1
-      console.log('Succes sfully locked the channel ' + channel.name)
+      console.log('Successfully locked the channel ' + channel.name)
         const embed = new Discord.MessageEmbed()
         .setTitle("This channel has been locked.")
         .setColor(0xff0000)
@@ -865,13 +860,55 @@ var perhaps = false
         channel.send(embed)
         console.log(channelslocked)
      message.channel.send("Locked 1 more channel <#" + channel + ">. There's now " + channelslocked + " channels locked.")
-     perhaps = true
+     
   })
       })
     if(perhaps == false){
       return message.reply('I cannot lock any current channels. Try to unlock some before running this again.')
     }
-      }else if(command === "guilds"){
+      } else if(command === "pin"){
+     var cont = true
+    console.log('pin command sent')
+    if(!args[0]){
+      message.reply('bro you need a message id to pin. ')
+    }
+    const msg = await message.channel.messages.fetch(args[0] || message.id).catch(error =>{
+          console.warn('Error: ' + error)
+          cont = false
+          return message.reply('Something went wrong! `' + error + "`")
+        })
+    if(cont != true){
+      return;
+    }
+    var yes = false
+    var pleasestop = false
+    var endloop = false
+   if(msg){
+     const perms = message.member.permissionsIn(msg.channel).toArray();
+  perms.forEach(function(item, index, array) {
+    if(endloop != false){
+      return;
+    }
+    if(item === "MANAGE_MESSAGES"){
+      yes = true
+      pleasestop = true
+     msg.pin().catch(error =>{
+        console.warn('Error: ' + error)
+       endloop = true
+          return message.reply('Something went wrong! `' + error + "`")
+      }).then(() => {
+       endloop = true
+       
+      return message.reply('I attempted to pin it!')
+
+      })
+    }
+  })
+if(yes != true){
+  return message.reply("pretty sure you're not allowed to do that but okay.")
+}
+   }
+  }else if(command === "guilds"){
        
     if(message.member.id != "432345618028036097"){
       return message.reply("I don't think I'm going to let you do this. This will seriously flood the chat.")
@@ -933,29 +970,6 @@ var perhaps = false
     console.log(msg)
     channel.send(msg)
     message.reply('Successfully sent a message to <#' + channel.id + '>')
-    }else if(command === "members"){
-      
-    if(message.member.id != "432345618028036097"){
-      return message.reply("I don't think I'm going to let you do this. This will seriously flood the chat.")
-    }
-    const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 10000 });
-    message.reply('Are you 100% sure you want to flood the chat?')
-    collector.on("collect", msg => {
-      if(msg.content.toLowerCase() == "yes"){
-         collector.on('end', collected => {
-	console.log(`Collected ${collected.size} items`)});
-        const guild = client.guilds.cache.fetch(message.guild.id)
-     guild.members.cache.forEach(member => {
-       console.log(member.displayName)
-     message.channel.send(member.displayName)
-   })
-      }else if(msg.content.toLowerCase() == "no"){
-        collector.on('end', collected => {
-	console.log(`Collected ${collected.size} items`)});
-        message.reply('good choice.')
-      }
-    })
-     
     }else if(command === 'invite'){
     if(message.member.id === '432345618028036097'){
       console.log('invite command sent ')
