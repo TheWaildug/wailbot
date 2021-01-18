@@ -1,0 +1,26 @@
+const swears = [
+  "boob",
+  "slut",
+  "whore",
+  "sex",
+  "cum",
+  "penis",
+  "pussy",
+  "vagina",
+  "pen!is",
+  "pen is",
+  "sperm",
+  "cunt",
+  "pusy",
+  "pusi",
+  "pussi",
+  "cock",
+  "kock",
+  "c0ck",
+  "k0ck",
+  "porn",
+  "phub",
+  'p e n i s',
+  'secks',]
+
+  module.exports = swears

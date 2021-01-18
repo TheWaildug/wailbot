@@ -10,8 +10,7 @@ const mongoose = require('mongoose')
 const { setTimeout } = require("timers");
 const { normalize } = require("path");
 const express = require('express');
-client.Commands = new Discord.Collection();
-const keepAlive = require('./server');
+const keepAlive = require('./server');  
 const data = require("@replit/database");
 const database = new data();
 var on = false
@@ -21,14 +20,13 @@ const reactionRoleManager = new ReactionRoleManager(client, {
     path: __dirname + '/roles.json', // Where will save the roles if store is enabled
     mongoDbLink: process.env.MONGO // See here to see how setup mongoose:   
 });
-const commandFiles = fs
-  .readdirSync("./commands/")
-  .filter(file => file.endsWith(".js"));
+client.Commands = new Discord.Collection();
+
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
-  const command = require(`./commands/${file}`);
-
-  client.Commands.set(command.name, command);
+	const command = require(`./commands/${file}`);
+	client.Commands.set(command.name, command);
 }
 async function getData(key){
   console.log('async data get function recieved')
@@ -37,9 +35,18 @@ async function getData(key){
   console.log(data)
   return data
 }
-
-
+const roles = require("./roles")
+function isbypasses(user) {
+ for (var i = 0; i < roles.length; i++) {
+  
+   if(user.roles.cache.find(r => r.id == roles[i])){
+     return true
+   }
+ }
+ return false
+}
 async function blacklist(message,args){
+  let user
    if(message.mentions.members.first()){
       user = message.mentions.members.first()
     }else if(!message.mentions.members.first()){
@@ -114,7 +121,7 @@ async function makeSuggestion(message){
      channel.send(exampleEmbed).then(sentEmbed => {
     sentEmbed.react("👍")
     sentEmbed.react("👎")
-    setData('SuggestionId',suggestionId + 1)
+    setData('SuggestionId',Number(suggestionId) + 1)
 })
               }else if(mg.content.toLowerCase() === "no")
               return mg.reply('run this command again.')
@@ -148,7 +155,7 @@ async function IsMuted(user,guild){
   console.log(muted)
   if(muted != null){
     return true
-  } else if(!muted == null){
+  } else if(muted == null){
     return false
   }
 }
@@ -177,218 +184,18 @@ async function setData(key,data,message){
  run2(key,message)
 }
 
-const swears = [
-  "boob",
-  "slut",
-  "whore",
-  "sex",
-  "cum",
-  "penis",
-  "pussy",
-  "vagina",
-  "pen!is",
-  "pen is",
-  "sperm",
-  "tit",
-  "cunt",
-  "pusy",
-  "pusi",
-  "pussi",
-  "cock",
-  "dick",
-  "let's fuck",
-  "lets fuck"
-];
-const slurs = [
-  "n1ggas",
-  "nigga",
-  "nigger",
-  "niggers",
-  "niggas",
-  "negger",
-  "neggers",
-  "nigeria",
-  "n!gga",
-  "n!ggers",
-  "n!ggas",
-  "n!gger",
-]
+const swears = require("./swears")
+const slurs = require("./slurs")
+const asked = require('./asked')
 
-const asked = [
- "who asked",
- "nobody asked",
- "who tf asked",
- "i don't remember asking",
- "i dont remember asking",
- "did i ask",
- "dont remember asking",
-  "don't remember asking" 
-]
-      const quotes = [
-  ' “Live as if you were to die tomorrow. Learn as if you were to live forever. – Mahatma Gandhi”',
-  '“Be who you are and say what you feel, because those who mind don’t matter and those who matter don’t mind.” – Bernard M. Baruch',
-  '“Be yourself; everyone else is already taken.” – Oscar Wilde',
-  '“If you cannot do great things, do small things in a great way.”– Napoleon Hill',
-  '“If opportunity doesn’t knock, build a door.” – Milton Berle',
-]
-const funfacts = [
-  'Banging your head against a wall for one hour burns 150 calories.',
-  'In Switzerland it is illegal to own just one guinea pig. This is because guinea pigs are social animals, and they are considered victims of abuse if they are alone. Why isn’t this a law everywhere?!',
-  'Pteronophobia is the fear of being tickled by feathers.',
-  'Snakes can help predict earthquakes.',
-  'Crows can hold grudges against specific individual people.',
-  'The oldest “your mom” joke was discovered on a 3,500 year old Babylonian tablet.',
-  'McDonald’s once made bubblegum-flavored broccoli.',
-  'The first oranges weren’t orange.',
-  'The Barbie doll’s full name is Barbara Millicent Roberts.',
-  'Three presidents, all Founding Fathers—John Adams, Thomas Jefferson, and James Monroe—died on July 4.',
-  'The tallest man ever recorded was American giant Robert Wadlow, who stood 8 feet 11 inches.',
-  'The tallest living man is 37-year-old Sultan Kosen, from Turkey, who is 8 feet, 2.8 inches.',
-  'Did you know that if you subscribe to TheWaildug on YouTube you will become god',
-  'Experiments in universities have actually been carried out to figure out how many licks it takes to get to the center of a Tootsie Pop, both with machine and human lickers. The results ranged from 252 to 411.',
-  'The Four Corners is the only spot in the US where you can stand in four states at once: Utah, Colorado, Arizona and New Mexico. ',
-  'Canada is south of Detroit (just look at a map).',
-  '29th May is officially “Put a Pillow on Your Fridge Day”.',
-  '7% of American adults believe that chocolate milk comes from brown cows.',
-  'Most Korean people don’t have armpit odor.',
-  'During your lifetime, you will produce enough saliva to fill two swimming pools. Gross 🤮',
-  'If Pinocchio says “My Nose Will Grow Now”, it would cause a paradox.',
-  'Movie trailers were originally shown after the movie, which is why they were called “trailers”.',
-  'The smallest bone in your body is in your ear.',
-  'Tennis players are not allowed to swear when they are playing in Wimbledon. Because of this, line judges have to learn curse words in every language so they know when a player has violated the rules.',
-  'The top six foods that make your fart are beans, corn, bell peppers, cauliflower, cabbage and milk. I wish I never did this fact.',
-  'The longest English word is 189,819 letters long.',
-  'A day in Mercury lasts approximately long as 59 days on Earth.',
-  'No number before 1,000 contains the letter A.'
-]
+      const quotes = require("./quotes")
+const funfacts = require("./facts")
 
 
 const welcomeChannel = `hi-bye`;
 
-client.on('messageDelete', async (oldMessage) =>{
- // ignore direct messages
-	if (!oldMessage.guild) return;
-	const fetchedLogs = await oldMessage.guild.fetchAuditLogs({
-		limit: 1,
-		type: 'MESSAGE_DELETE',
-	});
-  const channel = oldMessage.guild.channels.cache.find(c => c.name === "chat-logs")
-  if(!channel) return console.warn('Cannot find chat-logs channel.')
-	// Since we only have 1 audit log entry in this collection, we can simply grab the first one
-	const deletionLog = await fetchedLogs.entries.first();
 
-	// Let's perform a coherence check here and make sure we got *something*
-	if (!deletionLog) { return console.log(`A message by ${oldMessage.author.tag} was deleted, but no relevant audit logs were found.`);
-  if(!oldMessage.content){
-    return;
-  }
-   const exampleEmbed = new Discord.MessageEmbed()
-      .setColor("#FF0000")
-      .setTitle("Chat Logs")
-      .setDescription("New Message Deleted")
-      .addFields(
-        { name: "Author", value: `<@${oldMessage.member.id}>` },
-        { name: "Message: ", value: `${oldMessage.content}` },
-        {name: "Channel: ", value: `<#${oldMessage.channel.id}>`}
-      )
-      .setTimestamp();  
-      
-      channel.send(exampleEmbed)
-      return;}
 
-	// We now grab the user object of the person who deleted the message
-
-	// Let us also grab the target of this action to double check things
-	const { executor, target } = deletionLog;
-
-console.log(executor.user.tag)
-console.log(target.user.tag)
-	// And now we can update our output with a bit more information
-	// We will also run a check to make sure the log we got was for the same author's message
-	
-		console.log(`A message by ${oldMessage.author.tag} was deleted by ${executor.tag}.`);
-    if(!oldMessage.content){
-    return;
-  }
-     const exampleEmbed = new Discord.MessageEmbed()
-      .setColor("#FF0000")
-      .setTitle("Chat Logs")
-      .setDescription("New Message Deleted")
-      .addFields(
-        { name: "Author", value: `<@${oldMessage.member.id}>` },
-        { name: "Message: ", value: `${oldMessage.content}` },
-        {name: "Channel: ", value: `<#${oldMessage.channel.id}>`},
-        {name: "Deleter: ", value: `<@${executor.id}>`}
-      )
-      .setTimestamp();  
-      
-      channel.send(exampleEmbed)
-      return;
-	
-   
-  if(oldMessage.author.bot) return;
-  
-})
-client.on('messageUpdate', (oldMessage, newMessage) => {
-
-  if(oldMessage.author.bot || newMessage.author.bot) return;
-    const bypass = newMessage.guild.roles.cache.find(r => r.name === 'Moderation Bypass')
-    const bypass2 = newMessage.guild.roles.cache.find(r => 
- r.name === '(🤖) Bots' || r.name === 'Bots')
- if(bypass2){
-console.log(bypass2.name)
- }
- if(bypass || bypass2){
- if(!newMessage.member.roles.cache.some(role => role.id === bypass.id  || role.id === bypass2.id)){
-    console.log('past that')
-      console.log('message update sent')
-  const channel = newMessage.guild.channels.cache.find(c => c.name === "chat-logs")
-  if(!channel) return console.log('Cannot find chat-logs channel.')
-  console.log('past channel')
-     if(oldMessage.content && newMessage.content){
-      console.log(`message updated by ${oldMessage.member.displayName}. old message:  ${oldMessage.content} New Message: ${newMessage.content}`)
-        console.log('content')
-     const exampleEmbed = new Discord.MessageEmbed()
-      .setColor("#FF0000")
-      .setTitle("Chat Logs")
-      .setDescription("New Message Edited")
-      .addFields(
-        { name: "User", value: `<@${oldMessage.member.id}>` },
-        { name: "Old Message: ", value: `${oldMessage.content}` },
-        {name: "New Message:", value: `${newMessage.content}` },
-        {name: "Channel: ", value: `<#${newMessage.channel.id}>`}
-      )
-      .setTimestamp();
-      
-      channel.send(exampleEmbed)
-      return;
-    }
-    if(newMessage.content && !oldMessage.content &&oldMessage.attachments.size > 0)
-        console.log('attach')
-      var attach
-      oldMessage.attachments.forEach(att =>{ 
-        console.log(att.url)
-        attach = att.url
-       })
-      console.log(`message updated by ${oldMessage.member.displayName}. old message: ${attach} New Message: ${newMessage.content}`)
-        console.log('content')
-     const exampleEmbed = new Discord.MessageEmbed()
-      .setColor("#FF0000")
-      .setTitle("Chat Logs")
-      .setDescription("New Message Edited")
-      .addFields(
-        { name: "User", value: `<@${oldMessage.member.id}>` },
-        { name: "Old Message: ", value: attach},
-        {name: "New Message:", value: `${newMessage.content}` },
-        {name: "Channel: ", value: `<#${newMessage.channel.id}>`}
-      )
-      .setTimestamp();
-      channel.send(exampleEmbed)
-    channel.send('Image: ',{files: [attach]})
-      return;
-  }}
-
-});
 
 function Online(){
  console.log("Wail Bot is online!")
@@ -424,7 +231,76 @@ reactionRoleManager.on('missingRequirements', (type, member, reactionRole) => {
     console.log(`Member '${member.id}' will not get role '${reactionRole.role}', because they don't have the requirement ${type}`);
 });
 
+client.on("messageUpdate", (oldMessage, message) => {
+  if(oldMessage.guild == null){
+  return;
+}
+    if(oldMessage.content == message.content){
+      return;
+    }
 
+    if(message.author.bot){
+      return;
+    }
+    if(oldMessage.content && message.content){
+      console.log(`Message updated by ${message.member.user.tag} in the channel ${oldMessage.channel.name}. Old Message ${oldMessage.content}. New Message ${message.content}.`)
+  for (var i = 0; i < slurs.length; i++) {
+      if (message.content.toLowerCase().includes(slurs[i])) {
+   
+        if (isbypasses(message.member)) {
+          return console.log("this dude is important");
+        }
+        if (message.member.bot) {
+          return console.log("boobies bot");
+        }
+             console.log(message.content)
+        console.log("this man said a naughty slur!");
+        console.log(message.member.user.tag);
+        console.log(slurs[i]);
+        console.log(message.content);
+        const embed = new Discord.MessageEmbed()
+          .setTitle(`You're not allowed to say that!`)
+          .setColor(FF000)
+          .setDescription(
+            `Slurs are not allowed here. Your message has just been sent to Server Staff and will be acted upon shortly.`
+          );
+        message.channel.send(`<@${message.member.id}>`,embed);
+        
+        message.delete();
+        break;
+      }
+    }
+  }
+  if(!oldMessage.content && message.content){
+    console.log(`Message Update by ${message.member.user.tag}. Old Message could not be found or is an image. New Message ${message.content}`)
+     for (var i = 0; i < slurs.length; i++) {
+      if (message.content.toLowerCase().includes(slurs[i])) {
+       
+        if (isbypasses(message.member)) {
+          return console.log("this dude is important");
+        }
+        if (message.member.bot) {
+          return console.log("boobies bot");
+        }
+            console.log(message.content)
+        console.log("this man said a naughty slur!");
+        console.log(message.member.user.tag);
+        console.log(slurs[i]);
+        console.log(message.content);
+        const embed = new Discord.MessageEmbed()
+          .setTitle(`You're not allowed to say that!`)
+          .setColor(FF000)
+          .setDescription(
+            `Slurs are not allowed here. Your message has just been sent to Server Staff and will be acted upon shortly.`
+          );
+        message.channel.send(`<@${message.member.id}>`,embed);
+        
+        message.delete();
+        break;
+      }
+    }
+  }
+});
 client.on("guildMemberAdd", async (member) => {
   if(member.bot) return;
     console.log(`${member.displayName} joined the server.`);
@@ -639,7 +515,25 @@ client.on("message", async  message => {
     }
   }
 })
+async function rrremove(message,args){
+    if(message.member.id != "432345618028036097"){
+   return message.reply("bro no just no.")
+  }
+       const emoji = args[0];
+        if (!emoji)
+            return message.reply('You need use a valid emoji.')
 
+        const msg = await message.channel.messages.fetch(args[1]).catch(error =>{
+          console.warn('Error: ' + error)
+          cont = false
+          return message.reply('Something went wrong! `' + error + "`")
+        })
+        if (!msg)
+            return message.reply('Message not found! ')
+
+        await reactionRoleManager.deleteReactionRole({message: msg, emoji})
+        message.reply('I tried to remove it. You will have to manually remove the emoji though.')
+}
 async function rr(message,args){
   var cont = true
  const role = message.mentions.roles.first();
@@ -684,6 +578,14 @@ client.on("message", async message => {
     if(message.author.bot) { 
       console.log('this a bot bro')
       cont = false}
+      if(cont == true){
+getData(`Guild-${message.guild.id}-IsAfk-${user.id}`).then(afk => {
+    if(afk != null){
+        message.reply(user.user.tag + ' is AFK with the AFK `' + afk + '`')
+      }
+      })
+      }
+     
     const role = message.channel.guild.roles.cache.find(r => r.name === 'Moderation Bypass')
     const role2 = message.channel.guild.roles.cache.find(r => r.name === 'I can ping TheWaildug!')
     if(role2){
@@ -777,7 +679,9 @@ client.on("message", async message => {
       }
       rr(message,args)
       }
-      else if(command === 'database'){
+      else if(command === "rrremove"){
+        rrremove(message,args)
+      }else if(command === 'database'){
     console.log('database command sent')
     if(message.member.id != "432345618028036097") return message.reply('You must be <@432345618028036097>!')
     if(!args[0]) return message.reply('w!database See/Change} {Key} {Data (only for changing)} ');
@@ -1055,7 +959,26 @@ console.log(args[1])
     if(yes === false){
       return message.reply('dude you cannot do this!')
     }
-  }else if (command === "unlock") {
+  }else if(command == "afk"){
+   console.log('afk command sent')
+    var e = "";
+    for (var i = 0; i < args.length; i++) {
+      
+        e = e + args[i] + " ";
+  
+    }
+    if(!e){
+      e = "AFK"
+    }
+    args[0] = e;
+    console.log(args[0]);
+    message.member.setNickname(`[AFK] ${message.member.displayName}`).catch(error =>{
+      console.log('Something went wrong! Error: ' + error)
+    }).then(() => {
+      message.reply("I set your AFK `" + args[0] + "`")
+      setData(`Guild-${message.guild.id}-IsAfk-${message.member.id}`,args[0])
+    })
+ }else if (command === "unlock") {
     
     console.log("unlock em down");
     var channel;
@@ -1151,7 +1074,7 @@ client.Commands.get('random').execute(message,args,Discord)
     console.log('pee pee poo poo')
     client.Commands.get('nickname').execute(message,args,Discord)
   } else if(command === 'blacklist'){
-    var user
+    let user
     console.log('blacklist command sent')
     if(!message.member.hasPermission('MANAGE_MESSAGES')){
       return message.reply('You must have the permission `MANAGE_MESSAGES`.')
@@ -1204,7 +1127,7 @@ console.log(args[2])
             const time = args[1]
             if(!time) return message.reply('Please specify a time!');
             if(mentionmember.roles.cache.some(role => role.name === 'Muted')) return message.reply("This user is already muted!");
-            mentionmember.roles.add(muterole,`Muted by ${message.member.displayName} with the reason ${args[2]} for ${args[1]}`)
+            mentionmember.roles.add(muterole,`Muted by ${message.member.displayName} with the reason ${args[2]} for ${args[1]}`).then(() =>{})
              setData(`Guild-${message.channel.guild.id}-IsMuted-${mentionmember.id}`,"True")
             console.log(`Muted ${mentionmember.displayName}  for ${ms(ms(time))} by ${message.member.displayName} Reason: ${args[2]}`)
             message.channel.send(`Sucessfully muted <@${mentionmember.id}> for ${ms(ms(time))}. Reason: ${args[2]}`)

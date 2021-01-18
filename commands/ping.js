@@ -5,7 +5,7 @@ module.exports = {
     name: 'ping',
     description: 'This is a ping command',
     execute(message, args,facts,quote,Discord){
-       var which =  randomIntFromIntervalmax()
+        var which =  randomIntFromIntervalmax()
       console.log(which)
     if(which === 1){
       var randomfact =  facts[Math.floor(Math.random() * facts.length)];
@@ -19,10 +19,10 @@ module.exports = {
         .addFields(
             { name: 'Fun Fact', value: `${randomfact}` },
         )
-        .setFooter('If you have a fact for the bot, do w!suggest and follow the prompts.')
+        
         .setTimestamp();
        
-    message.reply(exampleEmbed);   
+    message.channel.send("<@" + message.member.id + ">",exampleEmbed);   
     }  else if(which === 2){
       var randomquote =  quote[Math.floor(Math.random() * quote.length)];
 
@@ -35,10 +35,11 @@ module.exports = {
         .addFields(
             { name: 'Fun Quote', value: `${randomquote}` },
         )
-        .setFooter('If you have a quote for the bot, do w!suggest and follow the prompts.')
+      
         .setTimestamp();
        
-    message.reply(exampleEmbed);   
-    }
+    message.channel.send("<@" + message.member.id + ">",exampleEmbed);   
+    
+  }
     }
 }

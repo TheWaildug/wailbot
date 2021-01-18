@@ -6,7 +6,7 @@ module.exports = {
     description: 'This is a random command',
     execute(message,args,Discord){
     console.log('random')
-    if(!args[0]) return message.channel.send('Format is: w!random | MAXIMUM')
+    if(!args[0]) return message.channel.send('Format is: w!random | AXIMUM')
    
       var randomnumber =  randomIntFromIntervalmax(args[0])
   
